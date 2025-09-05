@@ -344,9 +344,9 @@ export default function TriglavTourPage() {
                 className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.01] border-0 shadow-lg overflow-hidden"
               >
                 <div className="md:flex">
-                  <div className="md:w-1/3 overflow-hidden">
+                  <div className="md:w-1/3 overflow-hidden m-4 rounded-xl">
                     <div
-                      className="h-64 md:h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700"
+                      className="h-64 md:h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700 rounded-xl"
                       style={{
                         backgroundImage: `url('/day---day-day--norwegian-mountain-hiking-adventure.jpg')`,
                       }}
@@ -407,38 +407,34 @@ export default function TriglavTourPage() {
       <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
-          <div className="space-y-4">
+          <div className="space-y-1">
             {faqData.map((faq, index) => (
-              <Card
+              <div
                 key={index}
-                className="border-0 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                className="border border-border/50 rounded-lg overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-md"
               >
                 <button className="w-full text-left" onClick={() => setOpenFaq(openFaq === index ? null : index)}>
-                  <CardHeader className="hover:bg-muted/50 transition-all duration-300 hover:translate-x-1">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-primary text-lg hover:text-accent transition-colors duration-300">
-                        {faq.question}
-                      </CardTitle>
-                      <ChevronDown
-                        className={`h-5 w-5 text-muted-foreground transition-all duration-500 ease-out ${
-                          openFaq === index ? "rotate-180 text-accent" : "hover:text-primary"
-                        }`}
-                      />
-                    </div>
-                  </CardHeader>
+                  <div className="flex items-center justify-between py-3 px-4 hover:bg-muted/30 transition-all duration-300">
+                    <h3 className="text-primary text-base font-medium hover:text-accent transition-colors duration-300 pr-4">
+                      {faq.question}
+                    </h3>
+                    <ChevronDown
+                      className={`h-4 w-4 text-muted-foreground transition-all duration-700 ease-out flex-shrink-0 ${
+                        openFaq === index ? "rotate-180 text-accent" : "hover:text-primary"
+                      }`}
+                    />
+                  </div>
                 </button>
                 <div
-                  className={`transition-all duration-500 ease-out overflow-hidden ${
-                    openFaq === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  className={`transition-all duration-700 ease-out overflow-hidden ${
+                    openFaq === index ? "max-h-96 opacity-100 border-t border-border/30" : "max-h-0 opacity-0"
                   }`}
                 >
-                  <CardContent className="pt-0 pb-6 animate-in slide-in-from-top-2 duration-300">
-                    <div className="transform transition-transform duration-300 delay-100">
-                      <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
-                    </div>
-                  </CardContent>
+                  <div className="px-4 py-3 bg-muted/20">
+                    <p className="text-muted-foreground text-sm leading-relaxed">{faq.answer}</p>
+                  </div>
                 </div>
-              </Card>
+              </div>
             ))}
           </div>
         </div>
