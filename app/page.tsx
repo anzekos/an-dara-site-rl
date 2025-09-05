@@ -1,0 +1,519 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import {
+  MapPin,
+  Mountain,
+  Camera,
+  Play,
+  ChevronRight,
+  Clock,
+  TrendingUp,
+  Users,
+  ChevronDown,
+  Mail,
+  Instagram,
+  Facebook,
+  Linkedin,
+} from "lucide-react"
+
+export default function TriglavTourPage() {
+  const [activeTab, setActiveTab] = useState("highlights")
+  const [isVisible, setIsVisible] = useState(false)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+
+  useEffect(() => {
+    setIsVisible(true)
+  }, [])
+
+  const highlights = [
+    {
+      icon: Mountain,
+      title: "Circle Slovenia's highest mountain",
+      description: "100 km trekking route around Mount Triglav (2,864 m)",
+    },
+    {
+      icon: Camera,
+      title: "Crystal-clear alpine lakes",
+      description: "Triglav Lakes, emerald Soča River, and Lake Jasna",
+    },
+    {
+      icon: MapPin,
+      title: "Best alternative to Tour du Mont Blanc",
+      description: "Hidden gem in the heart of Slovenian Alps",
+    },
+  ]
+
+  const included = [
+    "Detailed maps & route description",
+    "Handpicked alpine huts & guesthouses",
+    "Daily luggage transfers",
+    "Breakfast & dinner included",
+    "Local Slovenian cuisine",
+    "24/7 support",
+    "Emergency assistance",
+    "Digital guidebook",
+  ]
+
+  const itinerary = [
+    {
+      day: 1,
+      title: "Bohinj → Prehodavci",
+      description:
+        "Starting from Planina Blato, the trail winds across alpine pastures and through the valley of the Triglav Lakes. Step by step, the horizon opens until Prehodavci greets you with your first true touch of the high mountains.",
+      stats: "6-8 hours | ~14 km | +1,150 m | –220 m",
+      difficulty: "Demanding",
+      mapLink:
+        "https://www.google.com/maps/dir/Ob%C4%8Dina+Bohinj/Zasavska+ko%C4%8Da+na+Prehodavcih,+5232+So%C4%8Da/@46.3150527,13.7919491,12z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x477a8d690162778d:0x400f81c823fec60!2m2!1d13.9563992!2d46.2715959!1m5!1m1!1s0x477a8a0b2e8da561:0x2c49e12588417d5b!2m2!1d13.7922622!2d46.3585131!3e2?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
+    },
+    {
+      day: 2,
+      title: "Prehodavci → Bovec",
+      description:
+        "A long descent through the enchanting Trenta Valley brings you closer to the emerald Soča. Towering cliffs and alpine meadows guide the way, until the friendly town of Bovec welcomes you at day's end.",
+      stats: "5-7 hours | ~10 km | +150 m | –1,400 m",
+      difficulty: "Moderate",
+      mapLink:
+        "https://www.google.com/maps/dir/Zasavska+ko%C4%8Da+na+Prehodavcih,+5232+So%C4%8Da/Bovec/@46.3346884,13.591115,12z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x477a8a0b2e8da561:0x2c49e12588417d5b!2m2!1d13.7922622!2d46.3585131!1m5!1m1!1s0x477a683c5d0fdefb:0x5d345816713d53fd!2m2!1d13.5516829!2d46.3376387!3e2?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
+    },
+    {
+      day: 3,
+      title: "Bovec → Vršič",
+      description:
+        "Following the Soča upstream, the path climbs steadily toward the legendary Vršič Pass. Serpentine trails and a short detour across Špička reveal panoramas that reward every step.",
+      stats: "6-8 hours | ~12 km | +1,200 m | –250 m",
+      difficulty: "Demanding",
+      mapLink:
+        "https://www.google.com/maps/dir/Bovec/Vr%C5%A1i%C4%8D,+5232+So%C4%8Da/@46.383106,13.5649735,12z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x477a683c5d0fdefb:0x5d345816713d53fd!2m2!1d13.5516829!2d46.3376387!1m5!1m1!1s0x477a639e901fe117:0x62434b431f29ec06!2m2!1d13.7430709!2d46.432897!3e2?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
+    },
+    {
+      day: 4,
+      title: "Vršič → Kranjska Gora",
+      description:
+        "A gentle descent opens into the crystal-clear Jasna Valley, leading you into Kranjska Gora. This alpine village is perfect for slowing down, exploring, and soaking in the mountain spirit.",
+      stats: "~12 km | +100 m | –850 m",
+      difficulty: "Easy–moderate",
+      mapLink:
+        "https://www.google.com/maps/dir/Vr%C5%A1i%C4%8D,+5232+So%C4%8Da/Kranjska+Gora,+4280/@46.4593832,13.7252755,13z/data=!3m1!4b1!4m6!3m5!1s0x477a7ce5980f8af5:0xdc10e282bbdf9dde!8m2!3d46.485884!4d13.7898423!16zL20vMHE5X2w?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
+    },
+    {
+      day: 5,
+      title: "Rest Day in Kranjska Gora",
+      description:
+        "A day to recover or explore at your own pace. Take a relaxed walk, cycle to nearby lakes, or climb surrounding peaks for wide-open views. Optional activities include Vitranc peak or cycling to Italian lakes.",
+      stats: "Optional activities available",
+      difficulty: "Flexible",
+      mapLink:
+        "https://www.google.com/maps/place/4280+Kranjska+Gora/@46.4603615,13.6883718,12z/data=!3m1!4b1!4m6!3m5!1s0x477a7ce5980f8af5:0xdc10e282bbdf9dde!8m2!3d46.485884!4d13.7898423!16zL20vMHE5X2w?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
+    },
+    {
+      day: 6,
+      title: "Kranjska Gora → Mojstrana",
+      description:
+        "Begin with a hike to the hidden Martuljek waterfalls, sparkling gems in the forest. Later, a short bus transfer takes you to Mojstrana, the welcoming gateway to the Vrata Valley.",
+      stats: "3-4 hours | ~8 km | +200m | –200m",
+      difficulty: "Easy",
+      mapLink:
+        "https://www.google.com/maps/dir/Kranjska+Gora,+4280/Mojstrana,+4281/@46.4774508,13.817046,12.74z/data=!4m14!4m13!1m5!1m1!1s0x477a7ce5980f8af5:0xdc10e282bbdf9dde!2m2!1d13.7898423!2d46.485884!1m5!1m1!1s0x477a86744015ed1d:0xa00f81eceaab6f0!2m2!1d13.9395387!2d46.461301!3e2?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
+    },
+    {
+      day: 7,
+      title: "Mojstrana → Bled",
+      description:
+        "The journey culminates in the Vrata Valley beneath the mighty north face of Triglav. A final transfer brings you to Bled, where lake and castle complete this alpine fairy tale.",
+      stats: "3-4 hours | ~8 km | +200m | –200m",
+      difficulty: "Easy",
+      mapLink:
+        "https://www.google.com/maps/dir/Mojstrana,+4281/Bled,+4260/@46.4139546,13.9561348,12z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x477a86744015ed1d:0xa00f81eceaab6f0!2m2!1d13.9395387!2d46.461301!1m5!1m1!1s0x477a8e1dd7139961:0x400f81c823fec50!2m2!1d14.1145798!2d46.3683266!3e2?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
+    },
+  ]
+
+  const faqData = [
+    {
+      question: "What type of accommodation is provided?",
+      answer:
+        "Our carefully selected alpine huts and guesthouses offer a warm atmosphere, welcoming hosts, and beautiful locations. Private rooms are planned for your stay, with two exceptions where only shared accommodation is available.",
+    },
+    {
+      question: "How does luggage transport work?",
+      answer:
+        "We will transfer your luggage from cabin to cabin, so you only need to carry a daypack. The only exception is Day 1, when you'll need to bring extra clothes, as the cabin is located in the heart of the mountains with no road access.",
+    },
+    {
+      question: "What meals are included?",
+      answer:
+        "During your stay, breakfast and dinner are included, each prepared with fresh local ingredients that showcase the rich traditions of Slovenian cuisine. Along the trail, you'll also find plenty of huts offering tasty lunch options.",
+    },
+    {
+      question: "What is the route information and maps?",
+      answer:
+        "You'll receive detailed route descriptions, GPS tracks, and comprehensive maps covering the entire Triglav circuit. Our digital guidebook includes waypoints, alternative routes, and important safety information.",
+    },
+    {
+      question: "How difficult is the Triglav Tour?",
+      answer:
+        "The Triglav Tour features demanding terrain with long ascents and descents, typically 6–8 hours of hiking per day. Routes may include stream crossings and require good orientation skills. Prior hiking experience and good physical condition are essential.",
+    },
+    {
+      question: "What equipment do I need?",
+      answer:
+        "Essential gear includes sturdy hiking boots, weather-appropriate clothing layers, rain gear, headlamp, and basic first aid supplies. We provide a detailed packing list upon booking. Trekking poles are highly recommended for the demanding terrain.",
+    },
+  ]
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20 transition-all duration-700 ease-out"
+          style={{
+            backgroundImage: `url('/dramatic-mountain-landscape-with-hikers-on-ridge-p.jpg')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div className="absolute inset-0 bg-black/30" />
+
+        <div
+          className={`relative z-10 text-center text-white max-w-4xl mx-auto px-6 transition-all duration-1200 ease-out ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
+        >
+          <div className="mb-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
+            <img
+              src="/andara-logo-new.png"
+              alt="Andara - Queen of the Alps"
+              className="mx-auto max-w-2xl w-full h-auto hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <ChevronRight className="h-6 w-6 text-white rotate-90" />
+        </div>
+      </section>
+
+      {/* Quick Info Cards */}
+      <section className="py-16 px-6 bg-muted/50">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Highlights */}
+            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] border-0 shadow-lg">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-primary text-xl group-hover:text-accent transition-colors duration-300">
+                  Tour Highlights
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {highlights.map((highlight, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start gap-3 group-hover:translate-x-1 transition-transform duration-300"
+                    style={{ transitionDelay: `${index * 100}ms` }}
+                  >
+                    <highlight.icon className="h-5 w-5 text-accent mt-1 flex-shrink-0 group-hover:scale-110 transition-transform duration-300" />
+                    <div>
+                      <p className="font-medium text-sm">{highlight.title}</p>
+                      <p className="text-muted-foreground text-xs">{highlight.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Including */}
+            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] border-0 shadow-lg">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-primary text-xl group-hover:text-accent transition-colors duration-300">
+                  What's Included
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2">
+                  {included.map((item, index) => (
+                    <li
+                      key={index}
+                      className="flex items-center gap-2 text-sm group-hover:translate-x-1 transition-transform duration-300"
+                      style={{ transitionDelay: `${index * 50}ms` }}
+                    >
+                      <div className="h-1.5 w-1.5 bg-accent rounded-full flex-shrink-0 group-hover:scale-150 transition-transform duration-300" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+
+            {/* Season & Price */}
+            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] border-0 shadow-lg bg-gradient-to-br from-primary/5 to-accent/5 hover:from-primary/10 hover:to-accent/10">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-primary text-xl group-hover:text-accent transition-colors duration-300">
+                  Tour Details
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300">
+                  <Clock className="h-4 w-4 text-accent group-hover:rotate-12 transition-transform duration-300" />
+                  <div>
+                    <p className="font-medium text-sm">Duration</p>
+                    <p className="text-muted-foreground text-sm">7 days, 100 km route</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300 delay-100">
+                  <TrendingUp className="h-4 w-4 text-accent group-hover:scale-110 transition-transform duration-300" />
+                  <div>
+                    <p className="font-medium text-sm">Difficulty</p>
+                    <p className="text-muted-foreground text-sm">Demanding terrain</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300 delay-200">
+                  <Users className="h-4 w-4 text-accent group-hover:scale-110 transition-transform duration-300" />
+                  <div>
+                    <p className="font-medium text-sm">Group Size</p>
+                    <p className="text-muted-foreground text-sm">Self-guided</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Video Section */}
+      <section className="py-16 px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl group cursor-pointer">
+            <div
+              className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 transition-all duration-700 group-hover:from-primary/30 group-hover:to-accent/30"
+              style={{
+                backgroundImage: `url('/aerial-view-of-norwegian-mountain-lake-with-hiking.jpg')`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            />
+            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-all duration-500" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="bg-white/90 rounded-full p-6 group-hover:scale-125 group-hover:bg-white transition-all duration-500 shadow-xl group-hover:shadow-2xl">
+                <Play className="h-12 w-12 text-primary ml-1 group-hover:scale-110 transition-transform duration-300" />
+              </div>
+            </div>
+            <div className="absolute bottom-6 left-6 text-white transform group-hover:translate-y-[-4px] transition-transform duration-300">
+              <h3 className="text-2xl font-bold mb-2">Triglav Tour Slovenia</h3>
+              <p className="text-white/90">Experience the Queen of the Alps</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Description */}
+      <section className="py-16 px-6 bg-muted/30">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-12 text-balance">
+            More Than Mountains — It's About Moments
+          </h2>
+          <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed">
+            <p className="text-xl mb-6">
+              Embark on a self-guided hiking adventure in Slovenia through the stunning Triglav National Park Hiking
+              Tour. This trail offers more than just breathtaking Alpine scenery — it's about unforgettable moments
+              along the way.
+            </p>
+            <p className="mb-6">
+              Towering peaks, crystal-clear lakes, hidden mountain villages, warm encounters with locals, and timeless
+              Alpine traditions make this journey a true hidden gem. If you've completed the Tour du Mont Blanc, the
+              Triglav Slovenia Hike is the best alternative to TMB.
+            </p>
+            <p className="mb-6">
+              Nestled in the heart of the Slovenian Alps, this 100 km trekking route circles Slovenia's highest
+              mountain, Mount Triglav (2,864 m). Recognized as one of Europe's classic multi-day treks, it belongs on
+              every serious hiker's bucket list.
+            </p>
+            <p>
+              On this self-guided Alps hiking Slovenia experience, everything is arranged from day one: detailed maps of
+              the entire route, handpicked accommodation in charming alpine huts and guesthouses, hearty local cuisine,
+              and seamless daily luggage transfers. That means you can enjoy the trail with just a light daypack —
+              leaving you free to savor every step, every view, and every moment of your Slovenia hiking adventure.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Day by Day Itinerary */}
+      <section className="py-16 px-6 bg-muted/30">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-12">Day by Day Itinerary</h2>
+          <div className="space-y-8">
+            {itinerary.map((day, index) => (
+              <Card
+                key={index}
+                className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.01] border-0 shadow-lg overflow-hidden"
+              >
+                <div className="md:flex">
+                  <div className="md:w-1/3 overflow-hidden">
+                    <div
+                      className="h-64 md:h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700"
+                      style={{
+                        backgroundImage: `url('/day---day-day--norwegian-mountain-hiking-adventure.jpg')`,
+                      }}
+                    />
+                  </div>
+                  <div className="md:w-2/3 p-8">
+                    <div className="flex items-center gap-4 mb-4">
+                      <Badge className="bg-primary text-white group-hover:bg-accent transition-colors duration-300">
+                        Day {day.day}
+                      </Badge>
+                      <h3 className="text-2xl font-bold group-hover:text-primary transition-colors duration-300">
+                        {day.title}
+                      </h3>
+                    </div>
+                    <p className="text-muted-foreground mb-4 leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
+                      {day.description}
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                      <div className="group-hover:translate-x-1 transition-transform duration-300">
+                        <p className="text-sm font-medium text-primary">Stats</p>
+                        <p className="text-sm text-muted-foreground">{day.stats}</p>
+                      </div>
+                      <div className="group-hover:translate-x-1 transition-transform duration-300 delay-100">
+                        <p className="text-sm font-medium text-primary">Difficulty</p>
+                        <Badge
+                          variant="outline"
+                          className={`text-xs transition-all duration-300 group-hover:scale-105 ${
+                            day.difficulty === "Demanding"
+                              ? "border-red-500 text-red-600"
+                              : day.difficulty === "Moderate"
+                                ? "border-yellow-500 text-yellow-600"
+                                : "border-green-500 text-green-600"
+                          }`}
+                        >
+                          {day.difficulty}
+                        </Badge>
+                      </div>
+                    </div>
+                    <a
+                      href={day.mapLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300 p-2 rounded-lg hover:bg-muted/30"
+                    >
+                      <MapPin className="h-4 w-4 flex-shrink-0" />
+                      <span className="font-medium">Map:</span>
+                      <span className="hover:underline">{day.title} route</span>
+                    </a>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-16 px-6">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            {faqData.map((faq, index) => (
+              <Card
+                key={index}
+                className="border-0 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              >
+                <button className="w-full text-left" onClick={() => setOpenFaq(openFaq === index ? null : index)}>
+                  <CardHeader className="hover:bg-muted/50 transition-all duration-300 hover:translate-x-1">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-primary text-lg hover:text-accent transition-colors duration-300">
+                        {faq.question}
+                      </CardTitle>
+                      <ChevronDown
+                        className={`h-5 w-5 text-muted-foreground transition-all duration-500 ease-out ${
+                          openFaq === index ? "rotate-180 text-accent" : "hover:text-primary"
+                        }`}
+                      />
+                    </div>
+                  </CardHeader>
+                </button>
+                <div
+                  className={`transition-all duration-500 ease-out overflow-hidden ${
+                    openFaq === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <CardContent className="pt-0 pb-6 animate-in slide-in-from-top-2 duration-300">
+                    <div className="transform transition-transform duration-300 delay-100">
+                      <p className="text-muted-foreground leading-relaxed">{faq.answer}</p>
+                    </div>
+                  </CardContent>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Information */}
+      <section className="py-20 px-6 bg-gradient-to-br from-primary to-accent text-white relative">
+        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-balance text-white">
+            Ready for Your Alpine Adventure?
+          </h2>
+          <p className="text-xl mb-8 text-pretty leading-relaxed text-white">
+            Contact us to book your unforgettable self-guided journey through Slovenia's most spectacular mountain
+            landscapes
+          </p>
+
+          <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 mb-8 hover:bg-black/30 transition-all duration-300 hover:scale-[1.02]">
+            <h3 className="text-2xl font-bold mb-6 text-white">Get in Touch</h3>
+            <div className="flex flex-col items-center gap-4">
+              <div className="flex items-center gap-3 hover:scale-105 transition-transform duration-300">
+                <Mail className="h-6 w-6 text-white" />
+                <a
+                  href="mailto:info@andara-tours.com"
+                  className="text-xl hover:text-yellow-200 transition-colors duration-200 text-white"
+                >
+                  info@andara-tours.com
+                </a>
+              </div>
+              <p className="text-white/90">Send us an email for booking and inquiries</p>
+            </div>
+          </div>
+
+          <div className="flex justify-center gap-6">
+            <a
+              href="#"
+              className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-6"
+              aria-label="Follow us on Instagram"
+            >
+              <Instagram className="h-6 w-6 text-white" />
+            </a>
+            <a
+              href="#"
+              className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:-rotate-6"
+              aria-label="Follow us on Facebook"
+            >
+              <Facebook className="h-6 w-6 text-white" />
+            </a>
+            {/* LinkedIn icon */}
+            <a
+              href="#"
+              className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-6"
+              aria-label="Follow us on LinkedIn"
+            >
+              <Linkedin className="h-6 w-6 text-white" />
+            </a>
+            {/* TikTok icon as custom SVG */}
+            <a
+              href="#"
+              className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:-rotate-6"
+              aria-label="Follow us on TikTok"
+            >
+              <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
