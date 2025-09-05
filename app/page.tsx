@@ -8,7 +8,6 @@ import {
   Mountain,
   Camera,
   Play,
-  ChevronRight,
   Clock,
   TrendingUp,
   Users,
@@ -166,7 +165,7 @@ export default function TriglavTourPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20 transition-all duration-700 ease-out"
           style={{
@@ -182,16 +181,11 @@ export default function TriglavTourPage() {
         >
           <div className="mb-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
             <img
-              src="/andara-logo-new.png"
+              src="/andara-logo-final.png"
               alt="Andara - Queen of the Alps"
               className="mx-auto max-w-2xl w-full h-auto hover:scale-105 transition-transform duration-500"
             />
           </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ChevronRight className="h-6 w-6 text-white rotate-90" />
         </div>
       </section>
 
