@@ -358,12 +358,12 @@ export default function TriglavTourPage() {
                                 : day.day === 4
                                   ? `url('/vrsic-pass.jpeg')`
                                   : day.day === 5
-                                    ? `url('/kranjska-gora.jpg')`
+                                    ? `url('/Kranjska_Gora,_Slovenia_(49547008976).jpg')`
                                     : day.day === 6
-                                      ? `url('/mojstrana-sunset.jpg')`
+                                      ? `url('/Mojstrana_sunset.jpg')`
                                       : day.day === 7
-                                        ? `url('/lake-bled-2021.jpg')`
-                                        : `url('/day---day-day--norwegian-mountain-hiking-adventure.jpg')`,
+                                        ? `url('/Lake_bled_2021.jpg')`
+                                        : undefined,
                       }}
                     />
                   </div>
