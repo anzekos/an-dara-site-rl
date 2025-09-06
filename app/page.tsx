@@ -357,7 +357,13 @@ export default function TriglavTourPage() {
                                 ? `url('/soca-valley-bovec.png')`
                                 : day.day === 4
                                   ? `url('/vrsic-pass.jpeg')`
-                                  : `url('/day---day-day--norwegian-mountain-hiking-adventure.jpg')`,
+                                  : day.day === 5
+                                    ? `url('/kranjska-gora.jpg')`
+                                    : day.day === 6
+                                      ? `url('/mojstrana-sunset.jpg')`
+                                      : day.day === 7
+                                        ? `url('/lake-bled-2021.jpg')`
+                                        : `url('/day---day-day--norwegian-mountain-hiking-adventure.jpg')`,
                       }}
                     />
                   </div>
@@ -520,7 +526,7 @@ export default function TriglavTourPage() {
           <h3 className="text-lg font-medium text-center mb-4 text-muted-foreground">Image Credits</h3>
           <div className="text-center text-sm text-muted-foreground space-y-1">
             <p>
-              Slika1:{" "}
+              Image1:{" "}
               <a
                 href="https://commons.wikimedia.org/wiki/File:Triglav_y_Valle_de_Vrata_%2814202569306%29_%282%29.jpg"
                 target="_blank"
@@ -531,7 +537,7 @@ export default function TriglavTourPage() {
               </a>
             </p>
             <p>
-              Slika2:{" "}
+              Image2:{" "}
               <a
                 href="https://commons.wikimedia.org/wiki/File:Slovenia%27s_Lake_Bohinj,_facing_south.jpg"
                 target="_blank"
@@ -542,7 +548,7 @@ export default function TriglavTourPage() {
               </a>
             </p>
             <p>
-              Slika3:{" "}
+              Image3:{" "}
               <a
                 href="https://commons.wikimedia.org/wiki/File:Zasavska_ko%C4%8Da_na_Prehodavcih.jpg"
                 target="_blank"
@@ -553,7 +559,7 @@ export default function TriglavTourPage() {
               </a>
             </p>
             <p>
-              Slika4:{" "}
+              Image4:{" "}
               <a
                 href="https://commons.wikimedia.org/wiki/File:So%C4%8Da_in_Bovec.jpg"
                 target="_blank"
@@ -564,7 +570,7 @@ export default function TriglavTourPage() {
               </a>
             </p>
             <p>
-              Slika5:{" "}
+              Image5:{" "}
               <a
                 href="https://commons.wikimedia.org/wiki/File:Vr%C5%A1i%C4%8D_%289782808046%29.jpg"
                 target="_blank"
@@ -572,6 +578,39 @@ export default function TriglavTourPage() {
                 className="hover:text-primary transition-colors duration-200 underline"
               >
                 Vršič Pass - Wikimedia Commons
+              </a>
+            </p>
+            <p>
+              Image6:{" "}
+              <a
+                href="https://commons.wikimedia.org/wiki/File:Kranjska_Gora,_Slovenia_%2849547008976%29.jpg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors duration-200 underline"
+              >
+                Kranjska Gora, Slovenia - Wikimedia Commons
+              </a>
+            </p>
+            <p>
+              Image7:{" "}
+              <a
+                href="https://commons.wikimedia.org/wiki/File:Mojstrana_sunset.jpg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors duration-200 underline"
+              >
+                Mojstrana sunset - Wikimedia Commons
+              </a>
+            </p>
+            <p>
+              Image8:{" "}
+              <a
+                href="https://commons.wikimedia.org/wiki/File:Lake_bled_2021.jpg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors duration-200 underline"
+              >
+                Lake Bled - Wikimedia Commons
               </a>
             </p>
           </div>
