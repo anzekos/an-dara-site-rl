@@ -169,7 +169,7 @@ export default function TriglavTourPage() {
         <div
           className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20 transition-all duration-700 ease-out"
           style={{
-            backgroundImage: `url('/dramatic-mountain-landscape-with-hikers-on-ridge-p.jpg')`,
+            backgroundImage: `url('/triglav-mountain-landscape.jpeg')`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -348,7 +348,16 @@ export default function TriglavTourPage() {
                     <div
                       className="h-64 md:h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700 rounded-xl"
                       style={{
-                        backgroundImage: `url('/day---day-day--norwegian-mountain-hiking-adventure.jpg')`,
+                        backgroundImage:
+                          day.day === 1
+                            ? `url('/lake-bohinj.png')`
+                            : day.day === 2
+                              ? `url('/zasavska-koca.png')`
+                              : day.day === 3
+                                ? `url('/soca-valley-bovec.png')`
+                                : day.day === 4
+                                  ? `url('/vrsic-pass.jpeg')`
+                                  : `url('/day---day-day--norwegian-mountain-hiking-adventure.jpg')`,
                       }}
                     />
                   </div>
@@ -501,6 +510,70 @@ export default function TriglavTourPage() {
                 <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
               </svg>
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Image Credits Section */}
+      <section className="py-8 px-6 bg-muted/20 border-t border-border/30">
+        <div className="max-w-4xl mx-auto">
+          <h3 className="text-lg font-medium text-center mb-4 text-muted-foreground">Image Credits</h3>
+          <div className="text-center text-sm text-muted-foreground space-y-1">
+            <p>
+              Slika1:{" "}
+              <a
+                href="https://commons.wikimedia.org/wiki/File:Triglav_y_Valle_de_Vrata_%2814202569306%29_%282%29.jpg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors duration-200 underline"
+              >
+                Triglav y Valle de Vrata - Wikimedia Commons
+              </a>
+            </p>
+            <p>
+              Slika2:{" "}
+              <a
+                href="https://commons.wikimedia.org/wiki/File:Slovenia%27s_Lake_Bohinj,_facing_south.jpg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors duration-200 underline"
+              >
+                Slovenia's Lake Bohinj, facing south - Wikimedia Commons
+              </a>
+            </p>
+            <p>
+              Slika3:{" "}
+              <a
+                href="https://commons.wikimedia.org/wiki/File:Zasavska_ko%C4%8Da_na_Prehodavcih.jpg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors duration-200 underline"
+              >
+                Zasavska koča na Prehodavcih - Wikimedia Commons
+              </a>
+            </p>
+            <p>
+              Slika4:{" "}
+              <a
+                href="https://commons.wikimedia.org/wiki/File:So%C4%8Da_in_Bovec.jpg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors duration-200 underline"
+              >
+                Soča in Bovec - Wikimedia Commons
+              </a>
+            </p>
+            <p>
+              Slika5:{" "}
+              <a
+                href="https://commons.wikimedia.org/wiki/File:Vr%C5%A1i%C4%8D_%289782808046%29.jpg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors duration-200 underline"
+              >
+                Vršič Pass - Wikimedia Commons
+              </a>
+            </p>
           </div>
         </div>
       </section>
