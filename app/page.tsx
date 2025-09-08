@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import {
   MapPin,
@@ -128,6 +129,28 @@ export default function TriglavTourPage() {
         "https://www.google.com/maps/dir/Mojstrana,+4281/Bled,+4260/@46.4139546,13.9561348,12z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x477a86744015ed1d:0xa00f81eceaab6f0!2m2!1d13.9395387!2d46.461301!1m5!1m1!1s0x477a8e1dd7139961:0x400f81c823fec50!2m2!1d14.1145798!2d46.3683266!3e2?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
     },
   ]
+
+  const [currentDayIndex, setCurrentDayIndex] = useState(0)
+  const [touchStart, setTouchStart] = useState(0)
+  const [touchEnd, setTouchEnd] = useState(0)
+  
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+  
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+  
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 50) {
+      // swipe left
+      setCurrentDayIndex(prev => Math.min(prev + 1, itinerary.length - 1))
+    } else if (touchEnd - touchStart > 50) {
+      // swipe right
+      setCurrentDayIndex(prev => Math.max(prev - 1, 0))
+    }
+  }
 
   const faqData = [
     {
@@ -333,90 +356,163 @@ export default function TriglavTourPage() {
         </div>
       </section>
 
+      
       {/* Day by Day Itinerary */}
       <section className="py-16 px-6 bg-muted/30">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12">Day by Day Itinerary</h2>
-          <div className="space-y-8">
-            {itinerary.map((day, index) => (
-              <Card
-                key={index}
-                className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.01] border-0 shadow-lg overflow-hidden"
+          
+          {/* Slider Container */}
+          <div className="relative">
+            {/* Navigation Arrows - Desktop */}
+            <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 left-0 right-0 z-10 justify-between pointer-events-none">
+              <button
+                onClick={() => setCurrentDayIndex(prev => Math.max(prev - 1, 0))}
+                disabled={currentDayIndex === 0}
+                className="bg-background/80 backdrop-blur-sm p-3 rounded-full shadow-lg pointer-events-auto hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed -translate-x-4"
+                aria-label="Previous day"
               >
-                <div className="md:flex">
-                  <div className="md:w-1/3 overflow-hidden m-4 rounded-xl">
-                    <div
-                      className="h-64 md:h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700 rounded-xl"
-                      style={{
-                        backgroundImage:
-                          day.day === 1
-                            ? `url('/lake-bohinj.png')`
-                            : day.day === 2
-                              ? `url('/zasavska-koca.png')`
-                              : day.day === 3
-                                ? `url('/soca-valley-bovec.png')`
-                                : day.day === 4
-                                  ? `url('/vrsic-pass.jpeg')`
-                                  : day.day === 5
-                                    ? `url('/Kranjska_Gora,_Slovenia_(49547008976).jpg')`
-                                    : day.day === 6
-                                      ? `url('/Mojstrana_sunset.jpg')`
-                                      : day.day === 7
-                                        ? `url('/Lake_bled_2021.jpg')`
-                                        : undefined,
-                      }}
-                    />
-                  </div>
-                  <div className="md:w-2/3 p-8">
-                    <div className="flex items-center gap-4 mb-4">
-                      <Badge className="bg-primary text-white group-hover:bg-accent transition-colors duration-300">
-                        Day {day.day}
-                      </Badge>
-                      <h3 className="text-2xl font-bold group-hover:text-primary transition-colors duration-300">
-                        {day.title}
-                      </h3>
-                    </div>
-                    <p className="text-muted-foreground mb-4 leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
-                      {day.description}
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                      <div className="group-hover:translate-x-1 transition-transform duration-300">
-                        <p className="text-sm font-medium text-primary">Stats</p>
-                        <p className="text-sm text-muted-foreground">{day.stats}</p>
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              <button
+                onClick={() => setCurrentDayIndex(prev => Math.min(prev + 1, itinerary.length - 1))}
+                disabled={currentDayIndex === itinerary.length - 1}
+                className="bg-background/80 backdrop-blur-sm p-3 rounded-full shadow-lg pointer-events-auto hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed translate-x-4"
+                aria-label="Next day"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </div>
+      
+            {/* Slider */}
+            <div 
+              className="overflow-hidden rounded-xl"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              <div 
+                className="flex transition-transform duration-300 ease-out"
+                style={{ transform: `translateX(-${currentDayIndex * 100}%)` }}
+              >
+                {itinerary.map((day, index) => (
+                  <div key={index} className="w-full flex-shrink-0 px-2">
+                    <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.01] border-0 shadow-lg overflow-hidden">
+                      <div className="md:flex">
+                        <div className="md:w-1/3 overflow-hidden m-4 rounded-xl">
+                          <div
+                            className="h-64 md:h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700 rounded-xl"
+                            style={{
+                              backgroundImage:
+                                day.day === 1
+                                  ? `url('/lake-bohinj.png')`
+                                  : day.day === 2
+                                    ? `url('/zasavska-koca.png')`
+                                    : day.day === 3
+                                      ? `url('/soca-valley-bovec.png')`
+                                      : day.day === 4
+                                        ? `url('/vrsic-pass.jpeg')`
+                                        : day.day === 5
+                                          ? `url('/Kranjska_Gora,_Slovenia_(49547008976).jpg')`
+                                          : day.day === 6
+                                            ? `url('/Mojstrana_sunset.jpg')`
+                                            : day.day === 7
+                                              ? `url('/Lake_bled_2021.jpg')`
+                                              : undefined,
+                            }}
+                          />
+                        </div>
+                        <div className="md:w-2/3 p-8">
+                          <div className="flex items-center gap-4 mb-4">
+                            <Badge className="bg-primary text-white group-hover:bg-accent transition-colors duration-300">
+                              Day {day.day}
+                            </Badge>
+                            <h3 className="text-2xl font-bold group-hover:text-primary transition-colors duration-300">
+                              {day.title}
+                            </h3>
+                          </div>
+                          <p className="text-muted-foreground mb-4 leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
+                            {day.description}
+                          </p>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            <div className="group-hover:translate-x-1 transition-transform duration-300">
+                              <p className="text-sm font-medium text-primary">Stats</p>
+                              <p className="text-sm text-muted-foreground">{day.stats}</p>
+                            </div>
+                            <div className="group-hover:translate-x-1 transition-transform duration-300 delay-100">
+                              <p className="text-sm font-medium text-primary">Difficulty</p>
+                              <Badge
+                                variant="outline"
+                                className={`text-xs transition-all duration-300 group-hover:scale-105 ${
+                                  day.difficulty === "Demanding"
+                                    ? "border-red-500 text-red-600"
+                                    : day.difficulty === "Moderate"
+                                      ? "border-yellow-500 text-yellow-600"
+                                      : "border-green-500 text-green-600"
+                                }`}
+                              >
+                                {day.difficulty}
+                              </Badge>
+                            </div>
+                          </div>
+                          <a
+                            href={day.mapLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300 p-2 rounded-lg hover:bg-muted/30"
+                          >
+                            <MapPin className="h-4 w-4 flex-shrink-0" />
+                            <span className="font-medium">Map:</span>
+                            <span className="hover:underline">{day.title} route</span>
+                          </a>
+                        </div>
                       </div>
-                      <div className="group-hover:translate-x-1 transition-transform duration-300 delay-100">
-                        <p className="text-sm font-medium text-primary">Difficulty</p>
-                        <Badge
-                          variant="outline"
-                          className={`text-xs transition-all duration-300 group-hover:scale-105 ${
-                            day.difficulty === "Demanding"
-                              ? "border-red-500 text-red-600"
-                              : day.difficulty === "Moderate"
-                                ? "border-yellow-500 text-yellow-600"
-                                : "border-green-500 text-green-600"
-                          }`}
-                        >
-                          {day.difficulty}
-                        </Badge>
-                      </div>
-                    </div>
-                    <a
-                      href={day.mapLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300 p-2 rounded-lg hover:bg-muted/30"
-                    >
-                      <MapPin className="h-4 w-4 flex-shrink-0" />
-                      <span className="font-medium">Map:</span>
-                      <span className="hover:underline">{day.title} route</span>
-                    </a>
+                    </Card>
                   </div>
-                </div>
-              </Card>
-            ))}
+                ))}
+              </div>
+            </div>
+      
+            {/* Day Indicators */}
+            <div className="flex justify-center mt-8 space-x-2">
+              {itinerary.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentDayIndex(index)}
+                  className={`h-3 rounded-full transition-all duration-300 ${
+                    currentDayIndex === index 
+                      ? 'bg-primary w-8' 
+                      : 'bg-muted-foreground/30 w-3 hover:bg-primary/50'
+                  }`}
+                  aria-label={`Go to day ${index + 1}`}
+                />
+              ))}
+            </div>
+      
+            {/* Mobile Navigation */}
+            <div className="flex md:hidden justify-center mt-6 space-x-4">
+              <button
+                onClick={() => setCurrentDayIndex(prev => Math.max(prev - 1, 0))}
+                disabled={currentDayIndex === 0}
+                className="bg-primary text-white p-3 rounded-full shadow-lg hover:bg-accent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Previous day"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={() => setCurrentDayIndex(prev => Math.min(prev + 1, itinerary.length - 1))}
+                disabled={currentDayIndex === itinerary.length - 1}
+                className="bg-primary text-white p-3 rounded-full shadow-lg hover:bg-accent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Next day"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
           </div>
         </div>
       </section>
+
+
 
       {/* FAQ Section */}
       <section className="py-16 px-6">
