@@ -133,6 +133,8 @@ export default function TriglavTourPage() {
   const [currentDayIndex, setCurrentDayIndex] = useState(0)
   const [touchStart, setTouchStart] = useState(0)
   const [touchEnd, setTouchEnd] = useState(0)
+  const [showImageCredits, setShowImageCredits] = useState(false)
+
   
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX)
@@ -619,96 +621,115 @@ export default function TriglavTourPage() {
       {/* Image Credits Section */}
       <section className="py-8 px-6 bg-muted/20 border-t border-border/30">
         <div className="max-w-4xl mx-auto">
-          <h3 className="text-lg font-medium text-center mb-4 text-muted-foreground">Image Credits</h3>
-          <div className="text-center text-sm text-muted-foreground space-y-1">
-            <p>
-              Image1:{" "}
-              <a
-                href="https://commons.wikimedia.org/wiki/File:Triglav_y_Valle_de_Vrata_%2814202569306%29_%282%29.jpg"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors duration-200 underline"
-              >
-                Triglav y Valle de Vrata - Wikimedia Commons
-              </a>
-            </p>
-            <p>
-              Image2:{" "}
-              <a
-                href="https://commons.wikimedia.org/wiki/File:Slovenia%27s_Lake_Bohinj,_facing_south.jpg"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors duration-200 underline"
-              >
-                Slovenia's Lake Bohinj, facing south - Wikimedia Commons
-              </a>
-            </p>
-            <p>
-              Image3:{" "}
-              <a
-                href="https://commons.wikimedia.org/wiki/File:Zasavska_ko%C4%8Da_na_Prehodavcih.jpg"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors duration-200 underline"
-              >
-                Zasavska koča na Prehodavcih - Wikimedia Commons
-              </a>
-            </p>
-            <p>
-              Image4:{" "}
-              <a
-                href="https://commons.wikimedia.org/wiki/File:So%C4%8Da_in_Bovec.jpg"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors duration-200 underline"
-              >
-                Soča in Bovec - Wikimedia Commons
-              </a>
-            </p>
-            <p>
-              Image5:{" "}
-              <a
-                href="https://commons.wikimedia.org/wiki/File:Vr%C5%A1i%C4%8D_%289782808046%29.jpg"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors duration-200 underline"
-              >
-                Vršič Pass - Wikimedia Commons
-              </a>
-            </p>
-            <p>
-              Image6:{" "}
-              <a
-                href="https://commons.wikimedia.org/wiki/File:Kranjska_Gora,_Slovenia_%2849547008976%29.jpg"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors duration-200 underline"
-              >
-                Kranjska Gora, Slovenia - Wikimedia Commons
-              </a>
-            </p>
-            <p>
-              Image7:{" "}
-              <a
-                href="https://commons.wikimedia.org/wiki/File:Mojstrana_sunset.jpg"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors duration-200 underline"
-              >
-                Mojstrana sunset - Wikimedia Commons
-              </a>
-            </p>
-            <p>
-              Image8:{" "}
-              <a
-                href="https://commons.wikimedia.org/wiki/File:Lake_bled_2021.jpg"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-primary transition-colors duration-200 underline"
-              >
-                Lake Bled - Wikimedia Commons
-              </a>
-            </p>
+          <button
+            onClick={() => setShowImageCredits(!showImageCredits)}
+            className="flex items-center justify-center w-full gap-2 text-lg font-medium text-muted-foreground hover:text-primary transition-colors duration-300 mb-4"
+            aria-expanded={showImageCredits}
+            aria-label="Toggle image credits"
+          >
+            <span>Image Credits</span>
+            <ChevronDown
+              className={`h-5 w-5 transition-transform duration-500 ease-out ${
+                showImageCredits ? "rotate-180 text-accent" : ""
+              }`}
+            />
+          </button>
+          
+          <div
+            className={`transition-all duration-700 ease-out overflow-hidden ${
+              showImageCredits ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            <div className="text-center text-sm text-muted-foreground space-y-1">
+              <p>
+                Image1:{" "}
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Triglav_y_Valle_de_Vrata_%2814202569306%29_%282%29.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors duration-200 underline"
+                >
+                  Triglav y Valle de Vrata - Wikimedia Commons
+                </a>
+              </p>
+              <p>
+                Image2:{" "}
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Slovenia%27s_Lake_Bohinj,_facing_south.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors duration-200 underline"
+                >
+                  Slovenia's Lake Bohinj, facing south - Wikimedia Commons
+                </a>
+              </p>
+              <p>
+                Image3:{" "}
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Zasavska_ko%C4%8Da_na_Prehodavcih.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors duration-200 underline"
+                >
+                  Zasavska koča na Prehodavcih - Wikimedia Commons
+                </a>
+              </p>
+              <p>
+                Image4:{" "}
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:So%C4%8Da_in_Bovec.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors duration-200 underline"
+                >
+                  Soča in Bovec - Wikimedia Commons
+                </a>
+              </p>
+              <p>
+                Image5:{" "}
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Vr%C5%A1i%C4%8D_%289782808046%29.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors duration-200 underline"
+                >
+                  Vršič Pass - Wikimedia Commons
+                </a>
+              </p>
+              <p>
+                Image6:{" "}
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Kranjska_Gora,_Slovenia_%2849547008976%29.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors duration-200 underline"
+                >
+                  Kranjska Gora, Slovenia - Wikimedia Commons
+                </a>
+              </p>
+              <p>
+                Image7:{" "}
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Mojstrana_sunset.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors duration-200 underline"
+                >
+                  Mojstrana sunset - Wikimedia Commons
+                </a>
+              </p>
+              <p>
+                Image8:{" "}
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Lake_bled_2021.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors duration-200 underline"
+                >
+                  Lake Bled - Wikimedia Commons
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </section>
