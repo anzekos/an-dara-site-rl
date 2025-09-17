@@ -1,9 +1,9 @@
-
 "use client"
 
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import {
   MapPin,
   Trees,
@@ -23,10 +23,31 @@ import {
 export default function DayTripsPage() {
   const [isVisible, setIsVisible] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [currentTripIndex, setCurrentTripIndex] = useState(0)
+  const [touchStart, setTouchStart] = useState(0)
+  const [touchEnd, setTouchEnd] = useState(0)
 
   useEffect(() => {
     setIsVisible(true)
   }, [])
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+  
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+  
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 50) {
+      // swipe left
+      setCurrentTripIndex(prev => Math.min(prev + 1, dayTrips.length - 1))
+    } else if (touchEnd - touchStart > 50) {
+      // swipe right
+      setCurrentTripIndex(prev => Math.max(prev - 1, 0))
+    }
+  }
 
   const dayTrips = [
     {
@@ -38,7 +59,8 @@ export default function DayTripsPage() {
       duration: "5–6 hours",
       difficulty: "Easy",
       groupSize: "2–4",
-      image: "/roznik-forest.jpg"
+      image: "/roznik-forest.jpg",
+      mapLink: "https://goo.gl/maps/example"
     },
     {
       id: 2,
@@ -49,7 +71,8 @@ export default function DayTripsPage() {
       duration: "6 hours",
       difficulty: "Moderate",
       groupSize: "2–4",
-      image: "/iska-canyon.jpg"
+      image: "/iska-canyon.jpg",
+      mapLink: "https://goo.gl/maps/example"
     },
     {
       id: 3,
@@ -60,7 +83,8 @@ export default function DayTripsPage() {
       duration: "7 hours",
       difficulty: "Moderate",
       groupSize: "2–4",
-      image: "/velika-planina.jpg"
+      image: "/velika-planina.jpg",
+      mapLink: "https://goo.gl/maps/example"
     },
     {
       id: 4,
@@ -71,7 +95,8 @@ export default function DayTripsPage() {
       duration: "7 hours",
       difficulty: "Easy to Moderate",
       groupSize: "2–4",
-      image: "/vipava-valley.jpg"
+      image: "/vipava-valley.jpg",
+      mapLink: "https://goo.gl/maps/example"
     },
     {
       id: 5,
@@ -82,7 +107,8 @@ export default function DayTripsPage() {
       duration: "5–6 hours",
       difficulty: "Easy",
       groupSize: "2–4",
-      image: "/katarina-hike.jpg"
+      image: "/katarina-hike.jpg",
+      mapLink: "https://goo.gl/maps/example"
     },
   ]
 
@@ -145,47 +171,153 @@ export default function DayTripsPage() {
         </div>
       </section>
 
-      {/* Day Trips Grid */}
-      <section className="py-16 px-6">
+      {/* Day Trips Slider */}
+      <section className="py-16 px-6 bg-muted/30">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12">Our Day Trip Experiences</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {dayTrips.map((trip, index) => (
-              <Card key={trip.id} className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-0 shadow-lg overflow-hidden">
-                <div className="h-48 bg-cover bg-center" style={{ backgroundImage: `url('${trip.image}')` }} />
-                <CardHeader>
-                  <div className="flex items-start gap-3">
-                    <trip.icon className="h-6 w-6 text-accent mt-1 flex-shrink-0" />
-                    <div>
-                      <CardTitle className="text-primary group-hover:text-accent transition-colors duration-300 text-lg">
-                        {trip.title}
-                      </CardTitle>
-                      <div className="flex items-center gap-1 mt-1">
-                        <MapPin className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">{trip.location}</span>
+          
+          {/* Slider Container */}
+          <div className="relative">
+            {/* Navigation Arrows - Desktop */}
+            <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 left-0 right-0 z-10 justify-between pointer-events-none">
+              <button
+                onClick={() => setCurrentTripIndex(prev => Math.max(prev - 1, 0))}
+                disabled={currentTripIndex === 0}
+                className="bg-background/80 backdrop-blur-sm p-3 rounded-full shadow-lg pointer-events-auto hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed -translate-x-4"
+                aria-label="Previous trip"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              <button
+                onClick={() => setCurrentTripIndex(prev => Math.min(prev + 1, dayTrips.length - 1))}
+                disabled={currentTripIndex === dayTrips.length - 1}
+                className="bg-background/80 backdrop-blur-sm p-3 rounded-full shadow-lg pointer-events-auto hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed translate-x-4"
+                aria-label="Next trip"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </div>
+      
+            {/* Slider */}
+            <div 
+              className="overflow-hidden rounded-xl"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              <div 
+                className="flex transition-transform duration-300 ease-out"
+                style={{ transform: `translateX(-${currentTripIndex * 100}%)` }}
+              >
+                {dayTrips.map((trip, index) => (
+                  <div key={trip.id} className="w-full flex-shrink-0 px-2">
+                    <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.01] border-0 shadow-lg overflow-hidden">
+                      <div className="md:flex">
+                        <div className="md:w-1/3 overflow-hidden m-4 rounded-xl">
+                          <div
+                            className="h-64 md:h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700 rounded-xl"
+                            style={{
+                              backgroundImage: `url('${trip.image}')`
+                            }}
+                          />
+                        </div>
+                        <div className="md:w-2/3 p-8">
+                          <div className="flex items-center gap-4 mb-4">
+                            <Badge className="bg-primary text-white group-hover:bg-accent transition-colors duration-300">
+                              Trip {trip.id}
+                            </Badge>
+                            <h3 className="text-2xl font-bold group-hover:text-primary transition-colors duration-300">
+                              {trip.title}
+                            </h3>
+                          </div>
+                          <div className="flex items-center gap-2 mb-4 text-muted-foreground">
+                            <MapPin className="h-4 w-4" />
+                            <span>{trip.location}</span>
+                          </div>
+                          <p className="text-muted-foreground mb-4 leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
+                            {trip.description}
+                          </p>
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                            <div className="group-hover:translate-x-1 transition-transform duration-300">
+                              <p className="text-sm font-medium text-primary">Duration</p>
+                              <div className="flex items-center gap-1">
+                                <Clock className="h-4 w-4 text-muted-foreground" />
+                                <p className="text-sm text-muted-foreground">{trip.duration}</p>
+                              </div>
+                            </div>
+                            <div className="group-hover:translate-x-1 transition-transform duration-300 delay-100">
+                              <p className="text-sm font-medium text-primary">Difficulty</p>
+                              <Badge
+                                variant="outline"
+                                className={`text-xs transition-all duration-300 group-hover:scale-105 ${
+                                  trip.difficulty === "Moderate" || trip.difficulty === "Easy to Moderate"
+                                    ? "border-yellow-500 text-yellow-600"
+                                    : "border-green-500 text-green-600"
+                                }`}
+                              >
+                                {trip.difficulty}
+                              </Badge>
+                            </div>
+                            <div className="group-hover:translate-x-1 transition-transform duration-300 delay-200">
+                              <p className="text-sm font-medium text-primary">Group Size</p>
+                              <div className="flex items-center gap-1">
+                                <Users className="h-4 w-4 text-muted-foreground" />
+                                <p className="text-sm text-muted-foreground">{trip.groupSize}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <a
+                            href={trip.mapLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300 p-2 rounded-lg hover:bg-muted/30"
+                          >
+                            <MapPin className="h-4 w-4 flex-shrink-0" />
+                            <span className="font-medium">View on Map</span>
+                          </a>
+                        </div>
                       </div>
-                    </div>
+                    </Card>
                   </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground mb-4 text-sm">{trip.description}</p>
-                  <div className="grid grid-cols-3 gap-2 text-xs">
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-3 w-3 text-accent" />
-                      <span>{trip.duration}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Mountain className="h-3 w-3 text-accent" />
-                      <span>{trip.difficulty}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Users className="h-3 w-3 text-accent" />
-                      <span>{trip.groupSize}</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                ))}
+              </div>
+            </div>
+      
+            {/* Trip Indicators */}
+            <div className="flex justify-center mt-8 space-x-2">
+              {dayTrips.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentTripIndex(index)}
+                  className={`h-3 rounded-full transition-all duration-300 ${
+                    currentTripIndex === index 
+                      ? 'bg-primary w-8' 
+                      : 'bg-muted-foreground/30 w-3 hover:bg-primary/50'
+                  }`}
+                  aria-label={`Go to trip ${index + 1}`}
+                />
+              ))}
+            </div>
+      
+            {/* Mobile Navigation */}
+            <div className="flex md:hidden justify-center mt-6 space-x-4">
+              <button
+                onClick={() => setCurrentTripIndex(prev => Math.max(prev - 1, 0))}
+                disabled={currentTripIndex === 0}
+                className="bg-primary text-white p-3 rounded-full shadow-lg hover:bg-accent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Previous trip"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={() => setCurrentTripIndex(prev => Math.min(prev + 1, dayTrips.length - 1))}
+                disabled={currentTripIndex === dayTrips.length - 1}
+                className="bg-primary text-white p-3 rounded-full shadow-lg hover:bg-accent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Next trip"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
           </div>
         </div>
       </section>
