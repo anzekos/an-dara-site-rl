@@ -563,6 +563,55 @@ export default function TriglavTourPage() {
         </div>
       </section>
 
+      {/* Day Trips Promotion */}
+      <section className="py-16 px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl group hover:shadow-3xl transition-all duration-500">
+            <div
+              className="absolute inset-0 bg-gradient-to-br from-primary/30 via-primary/20 to-accent/30"
+              style={{
+                backgroundImage: `url('/ljubljana.jpg')`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            />
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-500" />
+            
+            <div className="relative z-10 p-8 md:p-12 text-white">
+              <div className="max-w-lg">
+                <Badge className="mb-4 bg-white text-primary hover:bg-accent hover:text-white transition-colors">
+                  Also Available
+                </Badge>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  ANDARA Nature Journeys
+                </h2>
+                <h3 className="text-xl md:text-2xl font-semibold mb-4">
+                  1-Day Trips from Ljubljana
+                </h3>
+                <p className="mb-6 text-white/90 leading-relaxed">
+                  For guests arriving in Ljubljana seeking authentic nature experiences. Instead of crowded tourist attractions, 
+                  we guide you to serene trails, forest breathing practices, and warm hospitality with homemade food.
+                </p>
+                <a
+                  href="https://andara-site.vercel.app/Nature%20Journeys"
+                  className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-medium hover:bg-accent hover:text-white transition-all duration-300 group/btn"
+                >
+                  <span>Explore Day Trips</span>
+                  <svg 
+                    className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Contact Information */}
       <section className="py-20 px-6 bg-gradient-to-br from-primary to-accent text-white relative">
         <div className="absolute inset-0 bg-black/40"></div>
