@@ -324,34 +324,6 @@ export default function DayTripsPage() {
         </div>
       </section>
 
-      {/* Booking Section */}
-      <section className="py-16 px-6 bg-muted/50">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-8">Book Your Journey</h2>
-          <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed mb-8">
-            <p>
-              Ready to experience the hidden gems of Slovenia with Anja & Darja? Our 1-day ANDARA Nature Journeys are crafted for intimacy, authenticity, and a true connection with nature. Contact us to design your personal journey.
-            </p>
-          </div>
-          
-          <div className="bg-white rounded-2xl p-8 shadow-lg max-w-md mx-auto hover:shadow-xl transition-shadow duration-300">
-            <h3 className="text-2xl font-bold mb-6 text-primary">Get in Touch</h3>
-            <div className="flex flex-col items-center gap-4">
-              <div className="flex items-center gap-3 hover:scale-105 transition-transform duration-300">
-                <Mail className="h-6 w-6 text-primary" />
-                <a
-                  href="mailto:info@andara-tours.com"
-                  className="text-xl hover:text-accent transition-colors duration-200 text-primary font-medium"
-                >
-                  info@andara-tours.com
-                </a>
-              </div>
-              <p className="text-muted-foreground">Send us an email to book your day trip</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* FAQ Section */}
       <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto">
