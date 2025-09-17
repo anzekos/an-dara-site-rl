@@ -59,7 +59,7 @@ export default function DayTripsPage() {
       duration: "5–6 hours",
       difficulty: "Easy",
       groupSize: "2–4",
-      image: "/roznik-forest.jpg",
+      image: "/Roznik_Grosuplje.JPG",
       mapLink: "https://goo.gl/maps/example"
     },
     {
@@ -71,7 +71,7 @@ export default function DayTripsPage() {
       duration: "6 hours",
       difficulty: "Moderate",
       groupSize: "2–4",
-      image: "/iska-canyon.jpg",
+      image: "/iska.jpg",
       mapLink: "https://goo.gl/maps/example"
     },
     {
@@ -83,7 +83,7 @@ export default function DayTripsPage() {
       duration: "7 hours",
       difficulty: "Moderate",
       groupSize: "2–4",
-      image: "/velika-planina.jpg",
+      image: "/velika planina.jpg",
       mapLink: "https://goo.gl/maps/example"
     },
     {
@@ -95,7 +95,7 @@ export default function DayTripsPage() {
       duration: "7 hours",
       difficulty: "Easy to Moderate",
       groupSize: "2–4",
-      image: "/vipava-valley.jpg",
+      image: "/vipava.jpg",
       mapLink: "https://goo.gl/maps/example"
     },
     {
@@ -107,7 +107,7 @@ export default function DayTripsPage() {
       duration: "5–6 hours",
       difficulty: "Easy",
       groupSize: "2–4",
-      image: "/katarina-hike.jpg",
+      image: "/katarina.jpg",
       mapLink: "https://goo.gl/maps/example"
     },
   ]
