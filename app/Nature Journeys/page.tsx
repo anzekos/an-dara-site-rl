@@ -26,6 +26,8 @@ export default function DayTripsPage() {
   const [currentTripIndex, setCurrentTripIndex] = useState(0)
   const [touchStart, setTouchStart] = useState(0)
   const [touchEnd, setTouchEnd] = useState(0)
+  const [showImageCredits, setShowImageCredits] = useState(false)
+
 
   useEffect(() => {
     setIsVisible(true)
@@ -446,6 +448,99 @@ export default function DayTripsPage() {
                 <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
               </svg>
             </a>
+          </div>
+        </div>
+      </section>
+      {/* Image Credits Section */}
+      <section className="py-8 px-6 bg-muted/20 border-t border-border/30">
+        <div className="max-w-4xl mx-auto">
+          <button
+            onClick={() => setShowImageCredits(!showImageCredits)}
+            className="flex items-center justify-center w-full gap-2 text-lg font-medium text-muted-foreground hover:text-primary transition-colors duration-300 mb-4"
+            aria-expanded={showImageCredits}
+            aria-label="Toggle image credits"
+          >
+            <span>Image Credits</span>
+            <ChevronDown
+              className={`h-5 w-5 transition-transform duration-500 ease-out ${
+                showImageCredits ? "rotate-180 text-accent" : ""
+              }`}
+            />
+          </button>
+          
+          <div
+            className={`transition-all duration-700 ease-out overflow-hidden ${
+              showImageCredits ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            <div className="text-center text-sm text-muted-foreground space-y-1">
+              <p>
+                Forest Bathing:{" "}
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Roznik_Grosuplje.JPG"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors duration-200 underline"
+                >
+                  Rožnik Grosuplje - Wikimedia Commons
+                </a>
+              </p>
+              <p>
+                Canyon of Iška:{" "}
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Iska_Vas_Slovenia_-_river.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors duration-200 underline"
+                >
+                  Iška Vas Slovenia - Wikimedia Commons
+                </a>
+              </p>
+              <p>
+                Velika Planina:{" "}
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Velika_planina_plateau,_Slovenia,_Mountain_village_in_Alps,_wooden_houses_in_traditional_style,_popular_hiking_destination_%2853004642657%29.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors duration-200 underline"
+                >
+                  Velika Planina Plateau - Wikimedia Commons
+                </a>
+              </p>
+              <p>
+                Vipava Valley:{" "}
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Vipava_Slovenia.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors duration-200 underline"
+                >
+                  Vipava Slovenia - Wikimedia Commons
+                </a>
+              </p>
+              <p>
+                Katarina Hike:{" "}
+                <a
+                  href="http://www.primorskival.si/novica.php?oid=15441"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors duration-200 underline"
+                >
+                  Primorski val - Katarina nad Ljubljano
+                </a>
+              </p>
+              <p>
+                Hero Image:{" "}
+                <a
+                  href="https://commons.wikimedia.org/wiki/File:Ljubljana_from_air.jpg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors duration-200 underline"
+                >
+                  Ljubljana from air - Wikimedia Commons
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </section>
