@@ -475,7 +475,7 @@ export default function DayTripsPage() {
           >
             <div className="text-center text-sm text-muted-foreground space-y-1">
               <p>
-                Forest Bathing:{" "}
+                Image1:{" "}
                 <a
                   href="https://commons.wikimedia.org/wiki/File:Roznik_Grosuplje.JPG"
                   target="_blank"
@@ -486,7 +486,7 @@ export default function DayTripsPage() {
                 </a>
               </p>
               <p>
-                Canyon of Iška:{" "}
+                Image2:{" "}
                 <a
                   href="https://commons.wikimedia.org/wiki/File:Iska_Vas_Slovenia_-_river.jpg"
                   target="_blank"
@@ -497,7 +497,7 @@ export default function DayTripsPage() {
                 </a>
               </p>
               <p>
-                Velika Planina:{" "}
+                Image3:{" "}
                 <a
                   href="https://commons.wikimedia.org/wiki/File:Velika_planina_plateau,_Slovenia,_Mountain_village_in_Alps,_wooden_houses_in_traditional_style,_popular_hiking_destination_%2853004642657%29.jpg"
                   target="_blank"
@@ -508,7 +508,7 @@ export default function DayTripsPage() {
                 </a>
               </p>
               <p>
-                Vipava Valley:{" "}
+                Image4:{" "}
                 <a
                   href="https://commons.wikimedia.org/wiki/File:Vipava_Slovenia.jpg"
                   target="_blank"
@@ -519,7 +519,7 @@ export default function DayTripsPage() {
                 </a>
               </p>
               <p>
-                Katarina Hike:{" "}
+                Image5:{" "}
                 <a
                   href="http://www.primorskival.si/novica.php?oid=15441"
                   target="_blank"
