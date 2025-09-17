@@ -394,10 +394,10 @@ export default function DayTripsPage() {
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-balance text-white">
-            Experience Slovenia's Hidden Nature
+            Book Your Journey
           </h2>
           <p className="text-xl mb-8 text-pretty leading-relaxed text-white">
-            Join us for an unforgettable day exploring the natural wonders around Ljubljana
+            Ready to experience the hidden gems of Slovenia with Anja & Darja? Our 1-day ANDARA Nature Journeys are crafted for intimacy, authenticity, and a true connection with nature. Contact us to design your personal journey.
           </p>
 
           <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 mb-8 hover:bg-black/30 transition-all duration-300 hover:scale-[1.02]">
