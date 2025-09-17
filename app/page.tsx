@@ -158,7 +158,12 @@ export default function TriglavTourPage() {
     {
       question: "What type of accommodation is provided?",
       answer:
-        "Our carefully selected alpine huts and guesthouses offer a warm atmosphere, welcoming hosts, and beautiful locations. Private rooms are planned for your stay, with two exceptions where only shared accommodation is available.",
+        "Our carefully selected alpine huts and guesthouses offer a warm atmosphere, welcoming hosts, and beautiful locations. Private rooms are planned for your stay, with two exceptions where only shared accommodation is available. These huts are popular not only with hikers but also with travelers seeking an authentic Alpine experience.",
+    },
+    {
+      question: "How is accommodation on arrival and departure?",
+      answer: 
+        "Accommodation on your arrival and departure days is not included and should be arranged individually. For your arrival, we recommend staying in Bohinj (e.g., Vila Majerca or Hotel Bohinj). For your final night, we suggest booking accommodation in Bled (e.g., Adora Luxury Hotel, Hotel Triglav, Vila Bled, Penzion Berc).",
     },
     {
       question: "How does luggage transport work?",
@@ -168,22 +173,27 @@ export default function TriglavTourPage() {
     {
       question: "What meals are included?",
       answer:
-        "During your stay, breakfast and dinner are included, each prepared with fresh local ingredients that showcase the rich traditions of Slovenian cuisine. Along the trail, you'll also find plenty of huts offering tasty lunch options.",
+        "During your stay, breakfast and dinner are included, each prepared with fresh local ingredients that showcase the rich traditions of Slovenian cuisine. From hearty mountain dishes to authentic regional flavors, every meal is part of the journey. Along the trail, you’ll also find plenty of huts offering tasty lunch options.",
     },
     {
       question: "What is the route information and maps?",
       answer:
-        "You'll receive detailed route descriptions, GPS tracks, and comprehensive maps covering the entire Triglav circuit. Our digital guidebook includes waypoints, alternative routes, and important safety information.",
+        "Our selected daily hikes are well-marked, and you’ll encounter fellow hikers along the way. The trails within the national park are narrow and often rocky, so sturdy footwear is essential. For your orientation and convenience, you will receive a detailed map and tour description.",
     },
     {
       question: "How difficult is the Triglav Tour?",
       answer:
-        "The Triglav Tour features demanding terrain with long ascents and descents, typically 6–8 hours of hiking per day. Routes may include stream crossings and require good orientation skills. Prior hiking experience and good physical condition are essential.",
+        "The Triglav Tour features demanding terrain with long ascents and descents, typically 6–8 hours of hiking per day. Routes may include stream crossings and require good orientation skills. Therefore, participants should have prior hiking experience and be in good physical condition.",
     },
     {
       question: "What equipment do I need?",
       answer:
-        "Essential gear includes sturdy hiking boots, weather-appropriate clothing layers, rain gear, headlamp, and basic first aid supplies. We provide a detailed packing list upon booking. Trekking poles are highly recommended for the demanding terrain.",
+        "To fully enjoy your hiking adventure in the mountains, it’s essential to be prepared for changing weather and local conditions. We recommend wearing warm, waterproof layers, hiking boots, and protecting yourself with sunscreen and sunglasses. Hiking poles are also highly recommended for added comfort. Full list available upon request.",
+    },
+    {
+      question: "When to visit Triglav with Andara?",
+      answer:
+        "The best time to hike Triglav and enjoy multi-day trekking routes in Triglav National Park is from May to September—late spring, summer, or early fall. This is the most popular Slovenia hiking season, with temperatures typically ranging between 15°C and 25°C, creating excellent conditions for both day hikes and multi-day adventures. Since Triglav is Slovenia’s most iconic peak and attracts hikers from around the world, we recommend booking your Triglav hiking tour with Andara at least 6 months in advance. This ensures the best availability in mountain huts and allows us to carefully plan your route for a safe and memorable experience."
     },
   ]
 
