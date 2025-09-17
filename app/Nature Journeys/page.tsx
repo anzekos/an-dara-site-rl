@@ -140,7 +140,7 @@ export default function DayTripsPage() {
         <div
           className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20 transition-all duration-700 ease-out"
           style={{
-            backgroundImage: `url('/ljubljana-nature.jpg')`,
+            backgroundImage: `url('/ljubljana.jpg')`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -530,14 +530,14 @@ export default function DayTripsPage() {
                 </a>
               </p>
               <p>
-                Hero Image:{" "}
+                Image6:{" "}
                 <a
-                  href="https://commons.wikimedia.org/wiki/File:Ljubljana_from_air.jpg"
+                  href="https://www.flickr.com/photos/luka78/29865021143/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-primary transition-colors duration-200 underline"
                 >
-                  Ljubljana from air - Wikimedia Commons
+                  Podpeč pond - Ljubljana marshes
                 </a>
               </p>
             </div>
