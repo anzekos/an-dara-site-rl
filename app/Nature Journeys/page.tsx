@@ -378,10 +378,10 @@ export default function DayTripsPage() {
               <div className="flex items-center gap-3 hover:scale-105 transition-transform duration-300">
                 <Mail className="h-6 w-6 text-white" />
                 <a
-                  href="mailto:info@andara-tours.com"
+                  href="mailto:info@andara.com"
                   className="text-xl hover:text-yellow-200 transition-colors duration-200 text-white"
                 >
-                  info@andara-tours.com
+                  info@andara.com
                 </a>
               </div>
               <p className="text-white/90">Contact us for availability and booking</p>
