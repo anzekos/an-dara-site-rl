@@ -91,7 +91,7 @@ export default function AboutPage() {
           className={`relative z-10 text-center text-white max-w-4xl mx-auto px-6 transition-all duration-1200 ease-out ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
         >
           <h1 className="text-4xl md:text-5xl font-bold mb-4 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            About Us ✨
+            About Us
           </h1>
           <p className="text-xl md:text-2xl max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
             Discover the Slovenian Alps with Anja & Darja – Your Local Self-Guided Hiking Experts
@@ -190,7 +190,7 @@ export default function AboutPage() {
               Together, we created a local self-guided hiking agency in Slovenia to share the magic of the Slovenian Alps. Our mission is simple: to help travelers experience authentic adventures, with the freedom to walk at their own rhythm, while discovering breathtaking landscapes and local culture.
             </p>
             <p className="text-lg text-center mt-6 text-muted-foreground">
-              ✨ Whether you dream of hiking in the Julian Alps, exploring Triglav National Park, or finding hidden alpine valleys, we'll craft routes that bring you closer to nature, adventure, and yourself.
+              Whether you dream of hiking in the Julian Alps, exploring Triglav National Park, or finding hidden alpine valleys, we'll craft routes that bring you closer to nature, adventure, and yourself.
             </p>
           </div>
         </div>
@@ -250,10 +250,10 @@ export default function AboutPage() {
               <div className="flex items-center gap-3 hover:scale-105 transition-transform duration-300">
                 <Mail className="h-6 w-6 text-white" />
                 <a
-                  href="mailto:info@andara-tours.com"
+                  href="mailto:info@andara.com"
                   className="text-xl hover:text-yellow-200 transition-colors duration-200 text-white"
                 >
-                  info@andara-tours.com
+                  info@andara.com
                 </a>
               </div>
               <p className="text-white/90">Send us an email to start planning your adventure</p>
