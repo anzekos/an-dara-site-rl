@@ -50,11 +50,7 @@ export default function TriglavTourPage() {
     "Detailed maps & route description",
     "Handpicked alpine huts & guesthouses",
     "Daily luggage transfers",
-    "Breakfast & dinner included",
-    "Local Slovenian cuisine",
-    "24/7 support",
-    "Emergency assistance",
-    "Digital guidebook",
+    "Breakfast & dinner featuring local cuisine",
   ]
 
   const itinerary = [
@@ -630,10 +626,10 @@ export default function TriglavTourPage() {
               <div className="flex items-center gap-3 hover:scale-105 transition-transform duration-300">
                 <Mail className="h-6 w-6 text-white" />
                 <a
-                  href="mailto:info@andara-tours.com"
+                  href="mailto:info@andara.com"
                   className="text-xl hover:text-yellow-200 transition-colors duration-200 text-white"
                 >
-                  info@andara-tours.com
+                  info@andara.com 
                 </a>
               </div>
               <p className="text-white/90">Send us an email for booking and inquiries</p>
