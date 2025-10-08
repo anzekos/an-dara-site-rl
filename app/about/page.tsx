@@ -123,7 +123,7 @@ export default function AboutPage() {
               <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url('/anja-profile.jpg')` }} />
               <CardHeader>
                 <CardTitle className="text-primary group-hover:text-accent transition-colors duration-300 flex items-center gap-2">
-                  <Snowflake className="h-6 w-6" /> Anja
+                  <Snowflake className="h-6 w-6" /> Anja Bervar
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -141,7 +141,7 @@ export default function AboutPage() {
               <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url('/darja-profile.jpg')` }} />
               <CardHeader>
                 <CardTitle className="text-primary group-hover:text-accent transition-colors duration-300 flex items-center gap-2">
-                  <Leaf className="h-6 w-6" /> Darja
+                  <Leaf className="h-6 w-6" /> Darja Munda
                 </CardTitle>
               </CardHeader>
               <CardContent>
