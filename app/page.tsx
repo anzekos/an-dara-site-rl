@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChevronLeft, ChevronRight } from "lucide-react"
@@ -17,7 +19,9 @@ import {
   Instagram,
   Facebook,
   Linkedin,
+  Info,
 } from "lucide-react"
+import Link from "next/link"
 
 export default function TriglavTourPage() {
   const [activeTab, setActiveTab] = useState("highlights")
@@ -131,22 +135,21 @@ export default function TriglavTourPage() {
   const [touchEnd, setTouchEnd] = useState(0)
   const [showImageCredits, setShowImageCredits] = useState(false)
 
-  
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX)
   }
-  
+
   const handleTouchMove = (e: React.TouchEvent) => {
     setTouchEnd(e.targetTouches[0].clientX)
   }
-  
+
   const handleTouchEnd = () => {
     if (touchStart - touchEnd > 50) {
       // swipe left
-      setCurrentDayIndex(prev => Math.min(prev + 1, itinerary.length - 1))
+      setCurrentDayIndex((prev) => Math.min(prev + 1, itinerary.length - 1))
     } else if (touchEnd - touchStart > 50) {
       // swipe right
-      setCurrentDayIndex(prev => Math.max(prev - 1, 0))
+      setCurrentDayIndex((prev) => Math.max(prev - 1, 0))
     }
   }
 
@@ -158,7 +161,7 @@ export default function TriglavTourPage() {
     },
     {
       question: "How is accommodation on arrival and departure?",
-      answer: 
+      answer:
         "Accommodation on your arrival and departure days is not included and should be arranged individually. For your arrival, we recommend staying in Bohinj (e.g., Vila Majerca or Hotel Bohinj). For your final night, we suggest booking accommodation in Bled (e.g., Adora Luxury Hotel, Hotel Triglav, Vila Bled, Penzion Berc).",
     },
     {
@@ -169,12 +172,12 @@ export default function TriglavTourPage() {
     {
       question: "What meals are included?",
       answer:
-        "During your stay, breakfast and dinner are included, each prepared with fresh local ingredients that showcase the rich traditions of Slovenian cuisine. From hearty mountain dishes to authentic regional flavors, every meal is part of the journey. Along the trail, you’ll also find plenty of huts offering tasty lunch options.",
+        "During your stay, breakfast and dinner are included, each prepared with fresh local ingredients that showcase the rich traditions of Slovenian cuisine. From hearty mountain dishes to authentic regional flavors, every meal is part of the journey. Along the trail, you'll also find plenty of huts offering tasty lunch options.",
     },
     {
       question: "What is the route information and maps?",
       answer:
-        "Our selected daily hikes are well-marked, and you’ll encounter fellow hikers along the way. The trails within the national park are narrow and often rocky, so sturdy footwear is essential. For your orientation and convenience, you will receive a detailed map and tour description.",
+        "Our selected daily hikes are well-marked, and you'll encounter fellow hikers along the way. The trails within the national park are narrow and often rocky, so sturdy footwear is essential. For your orientation and convenience, you will receive a detailed map and tour description.",
     },
     {
       question: "How difficult is the Triglav Tour?",
@@ -184,12 +187,12 @@ export default function TriglavTourPage() {
     {
       question: "What equipment do I need?",
       answer:
-        "To fully enjoy your hiking adventure in the mountains, it’s essential to be prepared for changing weather and local conditions. We recommend wearing warm, waterproof layers, hiking boots, and protecting yourself with sunscreen and sunglasses. Hiking poles are also highly recommended for added comfort. Full list available upon request.",
+        "To fully enjoy your hiking adventure in the mountains, it's essential to be prepared for changing weather and local conditions. We recommend wearing warm, waterproof layers, hiking boots, and protecting yourself with sunscreen and sunglasses. Hiking poles are also highly recommended for added comfort. Full list available upon request.",
     },
     {
       question: "When to visit Triglav with Andara?",
       answer:
-        "The best time to hike Triglav and enjoy multi-day trekking routes in Triglav National Park is from May to September—late spring, summer, or early fall. This is the most popular Slovenia hiking season, with temperatures typically ranging between 15°C and 25°C, creating excellent conditions for both day hikes and multi-day adventures. Since Triglav is Slovenia’s most iconic peak and attracts hikers from around the world, we recommend booking your Triglav hiking tour with Andara at least 6 months in advance. This ensures the best availability in mountain huts and allows us to carefully plan your route for a safe and memorable experience."
+        "The best time to hike Triglav and enjoy multi-day trekking routes in Triglav National Park is from May to September—late spring, summer, or early fall. This is the most popular Slovenia hiking season, with temperatures typically ranging between 15°C and 25°C, creating excellent conditions for both day hikes and multi-day adventures. Since Triglav is Slovenia's most iconic peak and attracts hikers from around the world, we recommend booking your Triglav hiking tour with Andara at least 6 months in advance. This ensures the best availability in mountain huts and allows us to carefully plan your route for a safe and memorable experience.",
     },
   ]
 
@@ -364,18 +367,17 @@ export default function TriglavTourPage() {
         </div>
       </section>
 
-      
       {/* Day by Day Itinerary */}
       <section className="py-16 px-6 bg-muted/30">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12">Day by Day Itinerary</h2>
-          
+
           {/* Slider Container */}
           <div className="relative">
             {/* Navigation Arrows - Desktop */}
             <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 left-0 right-0 z-10 justify-between pointer-events-none">
               <button
-                onClick={() => setCurrentDayIndex(prev => Math.max(prev - 1, 0))}
+                onClick={() => setCurrentDayIndex((prev) => Math.max(prev - 1, 0))}
                 disabled={currentDayIndex === 0}
                 className="bg-background/80 backdrop-blur-sm p-3 rounded-full shadow-lg pointer-events-auto hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed -translate-x-4"
                 aria-label="Previous day"
@@ -383,7 +385,7 @@ export default function TriglavTourPage() {
                 <ChevronLeft className="h-6 w-6" />
               </button>
               <button
-                onClick={() => setCurrentDayIndex(prev => Math.min(prev + 1, itinerary.length - 1))}
+                onClick={() => setCurrentDayIndex((prev) => Math.min(prev + 1, itinerary.length - 1))}
                 disabled={currentDayIndex === itinerary.length - 1}
                 className="bg-background/80 backdrop-blur-sm p-3 rounded-full shadow-lg pointer-events-auto hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed translate-x-4"
                 aria-label="Next day"
@@ -391,15 +393,15 @@ export default function TriglavTourPage() {
                 <ChevronRight className="h-6 w-6" />
               </button>
             </div>
-      
+
             {/* Slider */}
-            <div 
+            <div
               className="overflow-hidden rounded-xl"
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
             >
-              <div 
+              <div
                 className="flex transition-transform duration-300 ease-out"
                 style={{ transform: `translateX(-${currentDayIndex * 100}%)` }}
               >
@@ -480,7 +482,7 @@ export default function TriglavTourPage() {
                 ))}
               </div>
             </div>
-      
+
             {/* Day Indicators */}
             <div className="flex justify-center mt-8 space-x-2">
               {itinerary.map((_, index) => (
@@ -488,19 +490,17 @@ export default function TriglavTourPage() {
                   key={index}
                   onClick={() => setCurrentDayIndex(index)}
                   className={`h-3 rounded-full transition-all duration-300 ${
-                    currentDayIndex === index 
-                      ? 'bg-primary w-8' 
-                      : 'bg-muted-foreground/30 w-3 hover:bg-primary/50'
+                    currentDayIndex === index ? "bg-primary w-8" : "bg-muted-foreground/30 w-3 hover:bg-primary/50"
                   }`}
                   aria-label={`Go to day ${index + 1}`}
                 />
               ))}
             </div>
-      
+
             {/* Mobile Navigation */}
             <div className="flex md:hidden justify-center mt-6 space-x-4">
               <button
-                onClick={() => setCurrentDayIndex(prev => Math.max(prev - 1, 0))}
+                onClick={() => setCurrentDayIndex((prev) => Math.max(prev - 1, 0))}
                 disabled={currentDayIndex === 0}
                 className="bg-primary text-white p-3 rounded-full shadow-lg hover:bg-accent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Previous day"
@@ -508,7 +508,7 @@ export default function TriglavTourPage() {
                 <ChevronLeft className="h-5 w-5" />
               </button>
               <button
-                onClick={() => setCurrentDayIndex(prev => Math.min(prev + 1, itinerary.length - 1))}
+                onClick={() => setCurrentDayIndex((prev) => Math.min(prev + 1, itinerary.length - 1))}
                 disabled={currentDayIndex === itinerary.length - 1}
                 className="bg-primary text-white p-3 rounded-full shadow-lg hover:bg-accent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Next day"
@@ -519,8 +519,6 @@ export default function TriglavTourPage() {
           </div>
         </div>
       </section>
-
-
 
       {/* FAQ Section */}
       <section className="py-16 px-6">
@@ -572,31 +570,28 @@ export default function TriglavTourPage() {
               }}
             />
             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-500" />
-            
+
             <div className="relative z-10 p-8 md:p-12 text-white">
               <div className="max-w-lg">
                 <Badge className="mb-4 bg-white text-primary hover:bg-accent hover:text-white transition-colors">
                   Also Available
                 </Badge>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  ANDARA Nature Journeys
-                </h2>
-                <h3 className="text-xl md:text-2xl font-semibold mb-4">
-                  1-Day Trips from Ljubljana
-                </h3>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">ANDARA Nature Journeys</h2>
+                <h3 className="text-xl md:text-2xl font-semibold mb-4">1-Day Trips from Ljubljana</h3>
                 <p className="mb-6 text-white/90 leading-relaxed">
-                  For guests arriving in Ljubljana seeking authentic nature experiences. Instead of crowded tourist attractions, 
-                  we guide you to serene trails, forest breathing practices, and warm hospitality with homemade food.
+                  For guests arriving in Ljubljana seeking authentic nature experiences. Instead of crowded tourist
+                  attractions, we guide you to serene trails, forest breathing practices, and warm hospitality with
+                  homemade food.
                 </p>
                 <a
                   href="https://andara-site.vercel.app/Nature%20Journeys"
                   className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-medium hover:bg-accent hover:text-white transition-all duration-300 group/btn"
                 >
                   <span>Explore Day Trips</span>
-                  <svg 
-                    className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
+                  <svg
+                    className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform"
+                    fill="none"
+                    viewBox="0 0 24 24"
                     stroke="currentColor"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -629,14 +624,14 @@ export default function TriglavTourPage() {
                   href="mailto:info@andara.com"
                   className="text-xl hover:text-yellow-200 transition-colors duration-200 text-white"
                 >
-                  info@andara.com 
+                  info@andara.com
                 </a>
               </div>
               <p className="text-white/90">Send us an email for booking and inquiries</p>
             </div>
           </div>
 
-          <div className="flex justify-center gap-6">
+          <div className="flex justify-center gap-6 mb-8">
             <a
               href="#"
               className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-6"
@@ -650,6 +645,13 @@ export default function TriglavTourPage() {
               aria-label="Follow us on Facebook"
             >
               <Facebook className="h-6 w-6 text-white" />
+            </a>
+            <a
+              href="#"
+              className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-6"
+              aria-label="Follow us on LinkedIn"
+            >
+              <Linkedin className="h-6 w-6 text-white" />
             </a>
             {/* TikTok icon as custom SVG */}
             <a
@@ -671,8 +673,8 @@ export default function TriglavTourPage() {
               <Info className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
               <span>About Us</span>
             </Link>
+          </div>
         </div>
-       </div>
       </section>
 
       {/* Image Credits Section */}
@@ -691,7 +693,7 @@ export default function TriglavTourPage() {
               }`}
             />
           </button>
-          
+
           <div
             className={`transition-all duration-700 ease-out overflow-hidden ${
               showImageCredits ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
