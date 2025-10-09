@@ -80,7 +80,7 @@ export default function AboutPage() {
         <div
           className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20 transition-all duration-700 ease-out"
           style={{
-            backgroundImage: `url('/mountain-landscape-about.jpg')`,
+            backgroundImage: `url('/Mountains_in_Slovenian_Alps_(42882298630).jpg')`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
