@@ -651,14 +651,6 @@ export default function TriglavTourPage() {
             >
               <Facebook className="h-6 w-6 text-white" />
             </a>
-            {/* LinkedIn icon */}
-            <a
-              href="#"
-              className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-6"
-              aria-label="Follow us on LinkedIn"
-            >
-              <Linkedin className="h-6 w-6 text-white" />
-            </a>
             {/* TikTok icon as custom SVG */}
             <a
               href="#"
@@ -670,7 +662,17 @@ export default function TriglavTourPage() {
               </svg>
             </a>
           </div>
+
+          <div className="border-t border-white/20 pt-8">
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-3 bg-white text-primary px-8 py-4 rounded-full font-semibold text-lg hover:bg-accent hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-2xl group"
+            >
+              <Info className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+              <span>About Us</span>
+            </Link>
         </div>
+       </div>
       </section>
 
       {/* Image Credits Section */}
