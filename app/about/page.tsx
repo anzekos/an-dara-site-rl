@@ -128,7 +128,7 @@ export default function AboutPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-4">
-                  Grew up with climbing "in the cradle," and even became the first woman to snowboard down Denali, the highest mountain in North America. Today, she balances family life with two kids and a continued love for the outdoors.
+                  Grew up with climbing "in the cradle," and even became the first woman to snowboard down Denali, the highest mountain in North America. Anja also climbed Mt. Blanc, Matterhorn, and Eiger, among others. Today, she balances family life with two kids and a continued love for the outdoors.
                 </p>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <MapPin className="h-4 w-4" /> From the mountains of Slovenia
