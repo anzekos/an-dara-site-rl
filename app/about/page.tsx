@@ -250,10 +250,10 @@ export default function AboutPage() {
               <div className="flex items-center gap-3 hover:scale-105 transition-transform duration-300">
                 <Mail className="h-6 w-6 text-white" />
                 <a
-                  href="mailto:info@andara.com"
+                  href="mailto:info@andara.si"
                   className="text-xl hover:text-yellow-200 transition-colors duration-200 text-white"
                 >
-                  info@andara.com
+                  info@andara.si
                 </a>
               </div>
               <p className="text-white/90">Send us an email to start planning your adventure</p>
