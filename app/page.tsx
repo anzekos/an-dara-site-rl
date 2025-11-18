@@ -624,7 +624,7 @@ export default function TriglavTourPage() {
                   href="mailto:info@andara.si"
                   className="text-xl hover:text-yellow-200 transition-colors duration-200 text-white"
                 >
-                  info@andara.com
+                  info@andara.si
                 </a>
               </div>
               <p className="text-white/90">Send us an email for booking and inquiries</p>
