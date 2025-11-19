@@ -584,7 +584,7 @@ export default function TriglavTourPage() {
                   homemade food.
                 </p>
                 <a
-                  href="https://andara-site.vercel.app/Nature%20Journeys"
+                  href="/Nature%20Journeys"
                   className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-medium hover:bg-accent hover:text-white transition-all duration-300 group/btn"
                 >
                   <span>Explore Day Trips</span>
