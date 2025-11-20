@@ -13,9 +13,38 @@ export const metadata: Metadata = {
     "Experience the ultimate 7-day self-guided hiking adventure through Slovenia's Triglav National Park with Andara. Discover pristine alpine lakes, dramatic peaks, and authentic mountain huts.",
   generator: "v0.app",
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+  },
+  // Dodajte tudi Open Graph slike za boljši izgled v Google rezultatih
+  openGraph: {
+    title: "Andara - Queen of the Alps | 7-Day Triglav Tour Slovenia",
+    description: "Experience the ultimate 7-day self-guided hiking adventure through Slovenia's Triglav National Park",
+    url: 'https://andara.si',
+    siteName: 'Andara',
+    images: [
+      {
+        url: '/andara-logo-final.png', // Ustvarite 1200x630px sliko
+        width: 1200,
+        height: 630,
+        alt: 'Andara - Triglav National Park Tours',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Andara - Queen of the Alps",
+    description: "7-Day self-guided hiking adventure through Slovenia's Triglav National Park",
+    images: ['/og-image.png'],
   },
 }
 
