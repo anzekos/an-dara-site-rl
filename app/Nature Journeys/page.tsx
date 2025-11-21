@@ -390,7 +390,9 @@ export default function DayTripsPage() {
 
           <div className="flex justify-center gap-6">
             <a
-              href="#"
+              href="https://www.instagram.com/andara.si/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-6"
               aria-label="Follow us on Instagram"
             >
@@ -405,7 +407,9 @@ export default function DayTripsPage() {
             </a>
             {/* TikTok icon as custom SVG */}
             <a
-              href="#"
+              href="https://www.tiktok.com/@andara.si"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:-rotate-6"
               aria-label="Follow us on TikTok"
             >
