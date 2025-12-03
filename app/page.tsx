@@ -312,28 +312,15 @@ export default function TriglavTourPage() {
       {/* Video Section */}
       <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl group cursor-pointer">
-            <div
-              className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 transition-all duration-700 group-hover:from-primary/30 group-hover:to-accent/30"
-              style={{
-                backgroundImage: `url('/aerial-view-of-norwegian-mountain-lake-with-hiking.jpg')`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-all duration-500" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="bg-white/90 rounded-full p-6 group-hover:scale-125 group-hover:bg-white transition-all duration-500 shadow-xl group-hover:shadow-2xl">
-                <Play className="h-12 w-12 text-primary ml-1 group-hover:scale-110 transition-transform duration-300" />
-              </div>
-            </div>
-            <div className="absolute bottom-6 left-6 text-white transform group-hover:translate-y-[-4px] transition-transform duration-300">
-              <h3 className="text-2xl font-bold mb-2">Triglav Tour Slovenia</h3>
-              <p className="text-white/90">Experience the Queen of the Alps</p>
-            </div>
-          </div>
+          <video
+            src="https://res.cloudinary.com/dztjnhhps/video/upload/v1764757850/ANDARA_SPLET_mvkm5u.mov"
+            controls
+            autoPlay={false}
+            className="rounded-2xl shadow-2xl w-full h-auto"
+          />
         </div>
       </section>
+
 
       {/* Description */}
       <section className="py-16 px-6 bg-muted/30">
