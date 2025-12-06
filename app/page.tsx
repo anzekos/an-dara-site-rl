@@ -3,54 +3,46 @@
 import type React from "react"
 
 import type { Metadata } from "next"
-import TriglavTourClient from "./triglav-tour-client"
+import AboutPageClient from "./about-client"
 
 // ✅ METADATA - Dodajte tukaj za SEO
 export const metadata: Metadata = {
-  title: "Triglav Hiking Tour Slovenia 7 Days | Self-Guided Alps Trek from €890",
-  description: "Book your 7-day self-guided Triglav hiking tour in Slovenia. 100km trek around Mt. Triglav (2,864m) with accommodation, meals & luggage transfers. Best Tour du Mont Blanc alternative.",
-  keywords: "triglav hiking tour, slovenia hiking, self-guided hiking slovenia, julian alps trek, tour du mont blanc alternative, triglav national park, slovenia trekking, triglav tour price, hiking slovenia cost",
+  title: "About Andara | Local Slovenian Hiking Experts | Anja & Darja",
+  description: "Meet Anja & Darja, your local Slovenia hiking guides with 20+ years experience. Creators of self-guided tours in Julian Alps and Triglav National Park.",
+  keywords: "andara hiking, slovenia hiking guides, anja bervar, darja munda, local hiking experts slovenia, julian alps guides, triglav guides",
   
-  // Open Graph za social media sharing
   openGraph: {
-    title: "Triglav Hiking Tour Slovenia 7 Days | Self-Guided Alps Trek",
-    description: "Experience the ultimate 7-day self-guided hiking adventure through Slovenia's Triglav National Park. Best alternative to Tour du Mont Blanc.",
-    url: 'https://andara.si',
+    title: "About Andara | Local Slovenian Hiking Experts",
+    description: "Meet Anja & Darja, experienced mountaineers and creators of authentic self-guided hiking tours in Slovenia.",
+    url: 'https://andara.si/about',
     siteName: 'Andara - Hiking Tours Slovenia',
     images: [
       {
-        url: '/triglav-mountain-landscape.jpeg',
+        url: '/andara-logo-final.png',
         width: 1200,
         height: 630,
-        alt: 'Mount Triglav peak and Julian Alps hiking trail',
+        alt: 'Andara - Anja and Darja hiking experts',
       },
     ],
     locale: 'en_US',
     type: 'website',
   },
   
-  // Twitter Card
   twitter: {
     card: 'summary_large_image',
-    title: "Triglav Hiking Tour Slovenia 7 Days",
-    description: "7-day self-guided hiking adventure through Triglav National Park. Best TMB alternative.",
-    images: ['/triglav-mountain-landscape.jpeg'],
+    title: "About Andara | Slovenian Hiking Experts",
+    description: "Meet Anja & Darja - Your local guides to Slovenia's mountains",
+    images: ['/andara-logo-final.png'],
   },
   
-  // Dodatno za SEO
   alternates: {
-    canonical: 'https://andara.si',
+    canonical: 'https://andara.si/about',
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+}
+
+// ✅ Server Component
+export default function AboutPage() {
+  return <AboutPageClient />
 }
 
 import { useState, useEffect } from "react"
