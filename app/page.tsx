@@ -2,6 +2,57 @@
 
 import type React from "react"
 
+import type { Metadata } from "next"
+import TriglavTourClient from "./triglav-tour-client"
+
+// ✅ METADATA - Dodajte tukaj za SEO
+export const metadata: Metadata = {
+  title: "Triglav Hiking Tour Slovenia 7 Days | Self-Guided Alps Trek from €890",
+  description: "Book your 7-day self-guided Triglav hiking tour in Slovenia. 100km trek around Mt. Triglav (2,864m) with accommodation, meals & luggage transfers. Best Tour du Mont Blanc alternative.",
+  keywords: "triglav hiking tour, slovenia hiking, self-guided hiking slovenia, julian alps trek, tour du mont blanc alternative, triglav national park, slovenia trekking, triglav tour price, hiking slovenia cost",
+  
+  // Open Graph za social media sharing
+  openGraph: {
+    title: "Triglav Hiking Tour Slovenia 7 Days | Self-Guided Alps Trek",
+    description: "Experience the ultimate 7-day self-guided hiking adventure through Slovenia's Triglav National Park. Best alternative to Tour du Mont Blanc.",
+    url: 'https://andara.si',
+    siteName: 'Andara - Hiking Tours Slovenia',
+    images: [
+      {
+        url: '/triglav-mountain-landscape.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'Mount Triglav peak and Julian Alps hiking trail',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  
+  // Twitter Card
+  twitter: {
+    card: 'summary_large_image',
+    title: "Triglav Hiking Tour Slovenia 7 Days",
+    description: "7-day self-guided hiking adventure through Triglav National Park. Best TMB alternative.",
+    images: ['/triglav-mountain-landscape.jpeg'],
+  },
+  
+  // Dodatno za SEO
+  alternates: {
+    canonical: 'https://andara.si',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+}
+
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChevronLeft, ChevronRight } from "lucide-react"
