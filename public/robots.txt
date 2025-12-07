@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.andara.si/sitemap.xml
+
+# Block admin if you have it
+User-agent: *
+Disallow: /admin/
