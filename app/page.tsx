@@ -507,6 +507,25 @@ export default function TriglavTourPage() {
         </div>
       </section>
 
+      {/* Animated Map Section */}
+      <section className="py-16 px-6 bg-background">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-4xl font-bold mb-4">
+            Triglav Tour – Animated Map
+          </h2>
+      
+          <div className="rounded-2xl overflow-hidden shadow-2xl">
+            <video
+              src="https://res.cloudinary.com/dztjnhhps/video/upload/v1766135736/1_TRIGLAVSKI_NARODNI_PARK_4k_iy34xw.mp4"
+              controls
+              preload="metadata"
+              className="w-full h-auto"
+            />
+          </div>
+        </div>
+      </section>
+
+
       {/* FAQ Section */}
       <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto">
