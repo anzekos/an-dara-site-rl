@@ -510,7 +510,7 @@ export default function TriglavTourPage() {
       {/* Animated Map Section */}
       <section className="py-16 px-6 bg-background">
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-4">
+          <h2 className="text-4xl font-bold mb-8">
             Triglav Tour – Animated Map
           </h2>
       
