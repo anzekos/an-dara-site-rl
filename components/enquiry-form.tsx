@@ -48,20 +48,27 @@ export function EnquiryForm({ compact = false }: { compact?: boolean }) {
     try {
       /*
         Web3Forms na brezplacnem planu sprejme samo klic iz brskalnika; s
-        streznika vrne 403 in zahteva Pro. Zato gremo naravnost tja. Kljuc
-        je pri tej storitvi javen po zasnovi. Ce ga kdaj ne bo, pademo na
-        lastno koncno tocko /api/enquiry, ki zna Resend.
+        streznika vrne 403 in zahteva Pro. Zato gremo naravnost tja.
+        Kljuc je pri tej storitvi javen po zasnovi.
+
+        POZOR, dvakrat izmerjeno na zivi strani:
+        1. Njihov API NE odgovarja na CORS preflight. Na OPTIONS vrne 403
+           brez glave Access-Control-Allow-Origin, zato "Content-Type:
+           application/json" ubije oddajo z "Failed to fetch".
+        2. Na navadnem POST-u pa glavo lepo poslje.
+        Resitev je URLSearchParams: brskalnik nastavi safelistan
+        application/x-www-form-urlencoded, preflighta ni in odgovor je
+        berljiv. Ne dodajaj glav rocno, ker s tem preflight prizges nazaj.
       */
       if (web3formsKey) {
         const res = await fetch("https://api.web3forms.com/submit", {
           method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({
+          body: new URLSearchParams({
             access_key: web3formsKey,
             subject: `Triglav Circuit enquiry - ${data.name || "no name"}`,
             from_name: "Andara website",
-            replyto: data.email,
-            botcheck: false,
+            replyto: data.email || "",
+            botcheck: "",
             Name: data.name || "-",
             Email: data.email || "-",
             Country: data.country || "-",

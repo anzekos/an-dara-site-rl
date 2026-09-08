@@ -235,7 +235,8 @@ head("6. Obrazec za povprasevanje")
   const posted = []
   // prestrezi obe poti: Web3Forms (privzeto) in lastno /api/enquiry (rezerva)
   await p.route("**/api.web3forms.com/**", async (route) => {
-    posted.push(JSON.parse(route.request().postData() ?? "{}"))
+    // telo je application/x-www-form-urlencoded, ne JSON (glej enquiry-form)
+    posted.push(Object.fromEntries(new URLSearchParams(route.request().postData() ?? "")))
     await route.fulfill({
       status: 200,
       contentType: "application/json",
