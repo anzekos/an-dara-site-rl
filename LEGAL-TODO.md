@@ -73,33 +73,39 @@ strani. Napisati je treba:
 
 ---
 
-## 3b. Obrazec trenutno NE dostavlja
+## 3b. Obrazec — kako je speljan in kaj ga podre
 
-Preverjeno na produkciji 8. 9. 2026: `POST /api/enquiry` vrne
-`{"ok":false,"fallback":"mailto"}`. To pomeni, da na Vercelovem projektu
-**andara-site** (tistem z domeno www.andara.si) ni nastavljena nobena pot za
-posiljanje. Obiskovalcu se odpre predizpolnjen e-postni osnutek, ki ga mora
-poslati sam. Marsikdo tega ne stori in povprasevanje izgine.
+Preverjeno na produkciji 8. 9. 2026, v pravem brskalniku: oddaja vrne HTTP 200
+in `success: true`, obiskovalec dobi zahvalo. **Dela.**
 
-Popravek je ena spremenljivka okolja:
+Pot je Web3Forms, klican **neposredno iz brskalnika**. Ključ je v
+`lib/site.ts` in je pri tej storitvi javen po zasnovi, ker konča v brskalniku
+tako ali tako. Zamenjaš ga na web3forms.com pod Access Keys.
 
-1. Vercel → projekt **andara-site** → Settings → Environment Variables
-2. Dodaj `WEB3FORMS_ACCESS_KEY` = dostopni kljuc iz Web3Forms
-3. Environment: Production (in Preview, ce zelis)
-4. Redeploy
+Tri stvari, ki so bile izmerjene in ki obrazec takoj podrejo, če jih kdo
+"popravi" nazaj:
 
-Koda podpira obe poti: ce je nastavljen `WEB3FORMS_ACCESS_KEY`, gre prek
-Web3Forms; ce ne, poskusi `RESEND_API_KEY`; ce ni nobenega, pade na mailto.
-Klic gre s streznika, zato kljuc ni v HTML in Web3Forms ne vidi
-obiskovalcevega IP-ja.
+1. **Ne kliči Web3Forms s strežnika.** Brezplačni plan vrne 403 z
+   `Use our API in client side ... Pro plan is required`. Zato oddaja teče iz
+   brskalnika in ne prek `/api/enquiry`.
+2. **Ne nastavljaj `Content-Type: application/json`.** Njihov API ne odgovarja
+   na CORS preflight: na `OPTIONS` vrne 403 brez `Access-Control-Allow-Origin`,
+   zato oddaja umre z `Failed to fetch`. Telo mora biti `URLSearchParams`, brez
+   ročno nastavljenih glav, da brskalnik izbere safelistan
+   `application/x-www-form-urlencoded` in preflighta sploh ni.
+3. **Headless brskalnik ne more testirati te oddaje.** Web3Forms je za
+   Cloudflarom, ki headless Chromu vrne izziv "Just a moment". Test mora teči
+   `headless: false`, sicer dobiš lažni alarm.
 
-Ko je nastavljeno, preveri z:
+`/api/enquiry` ostaja kot rezervna pot prek Resenda. Če jo hočeš uporabiti,
+nastavi `RESEND_API_KEY` in `ENQUIRY_FROM` na potrjeni domeni ter izprazni
+`web3formsKey` v `lib/site.ts`.
+
+Ročna kontrola kadarkoli:
 
 ```bash
-curl -s -X POST https://www.andara.si/api/enquiry   -H "content-type: application/json"   -d '{"name":"TEST","email":"tvoj@email.si","privacyAck":true}'
+curl -s -X POST https://api.web3forms.com/submit   -H "Origin: https://www.andara.si"   -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/140.0"   -H "Content-Type: application/x-www-form-urlencoded"   --data-urlencode "access_key=<kljuc>"   --data-urlencode "subject=test" --data-urlencode "Message=test"
 ```
-
-`{"ok":true}` pomeni, da dela.
 
 ---
 
@@ -110,7 +116,11 @@ curl -s -X POST https://www.andara.si/api/enquiry   -H "content-type: applicatio
   mora tako tudi biti.
 - **Pogodba o obdelavi (DPA) z Web3Forms.** Sprejmi jo v računu Web3Forms
   (web3forms.com/dpa). Politika zasebnosti se sklicuje nanjo kot na podlago za
-  prenos v ZDA in Indijo. Enako za Resend, če ga uporabiš kot rezervo.
+  prenos v ZDA in Indijo, in navaja, da hranijo oddaje do 3 leta. Preveri, da
+  to drži za tvoj plan. Enako za Resend, če ga uporabiš kot rezervo.
+- **Hramba oddaj v Web3Forms.** Če jih ne rabiš, jih redno brisi. Politika
+  zasebnosti obljublja brisanje povpraševanj po 12 mesecih, Web3Forms pa jih
+  sam hrani do 3 leta.
 - **Dvofaktorska prijava v info@andara.si.** Politika zasebnosti trdi, da je
   vklopljena. Preveri, da res je.
 - **Objavljena verzija besedil.** Ko so polja izpolnjena, popravi `legalUpdated`
