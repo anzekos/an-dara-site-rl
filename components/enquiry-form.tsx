@@ -2,11 +2,11 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowUpRight, CheckCircle, Warning, CaretDown } from "@phosphor-icons/react/dist/ssr"
-import { site } from "@/lib/site"
+import { ArrowUpRight, CheckCircle, Warning, CaretDown, EnvelopeSimple } from "@phosphor-icons/react/dist/ssr"
+import { site, web3formsKey } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
-type State = "idle" | "sending" | "sent" | "error"
+type State = "idle" | "sending" | "sent" | "handoff" | "error"
 
 const months = [
   "May", "June", "July", "August", "September",
@@ -46,6 +46,41 @@ export function EnquiryForm({ compact = false }: { compact?: boolean }) {
     setError(null)
 
     try {
+      /*
+        Web3Forms na brezplacnem planu sprejme samo klic iz brskalnika; s
+        streznika vrne 403 in zahteva Pro. Zato gremo naravnost tja. Kljuc
+        je pri tej storitvi javen po zasnovi. Ce ga kdaj ne bo, pademo na
+        lastno koncno tocko /api/enquiry, ki zna Resend.
+      */
+      if (web3formsKey) {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: web3formsKey,
+            subject: `Triglav Circuit enquiry - ${data.name || "no name"}`,
+            from_name: "Andara website",
+            replyto: data.email,
+            botcheck: false,
+            Name: data.name || "-",
+            Email: data.email || "-",
+            Country: data.country || "-",
+            "Preferred month": data.month || "-",
+            "Group size": data.people || "-",
+            Message: data.message || "-",
+            "Privacy policy read at": payload.ackAt,
+            "Wants occasional updates": payload.marketingConsent ? "YES, consent given" : "no",
+          }),
+        })
+        const json = await res.json()
+        if (res.ok && json.success) {
+          setState("sent")
+          form.reset()
+          return
+        }
+        throw new Error(json.message || "Something went wrong")
+      }
+
       const res = await fetch("/api/enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -77,7 +112,10 @@ export function EnquiryForm({ compact = false }: { compact?: boolean }) {
           ].join("\n"),
         )
         window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`
-        setState("sent")
+        // NE "sent": posiljanja se ni bilo. Odprl se je samo predizpolnjen
+        // osnutek, ki ga mora obiskovalec se sam poslati. Trditi drugace
+        // bi pomenilo, da povprasevanja tiho izginjajo.
+        setState("handoff")
         return
       }
 
@@ -86,6 +124,23 @@ export function EnquiryForm({ compact = false }: { compact?: boolean }) {
       setState("error")
       setError(err instanceof Error ? err.message : "Something went wrong")
     }
+  }
+
+  if (state === "handoff") {
+    return (
+      <div className="flex flex-col items-start gap-4 rounded-[18px] border border-line bg-raised p-8">
+        <EnvelopeSimple size={34} weight="light" className="text-accent" />
+        <h3 className="text-[1.5rem] leading-tight">One more tap and it is on its way.</h3>
+        <p className="max-w-[46ch] text-[0.9375rem] leading-relaxed text-ink-soft">
+          Your email app should have opened with everything already filled in. Press send there and
+          it reaches Anja and Darja. If nothing opened, copy your dates straight to{" "}
+          <a href={`mailto:${site.email}`} className="text-accent underline underline-offset-4">
+            {site.email}
+          </a>{" "}
+          and you will have an answer {site.replyTime}.
+        </p>
+      </div>
+    )
   }
 
   if (state === "sent") {

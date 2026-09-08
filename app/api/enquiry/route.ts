@@ -100,11 +100,13 @@ export async function POST(req: Request) {
   const marketing = body.marketingConsent === true
   const ackAt = typeof body.ackAt === "string" ? body.ackAt : new Date().toISOString()
 
-  const key = process.env.RESEND_API_KEY
-  if (!key) {
-    // Se ni nastavljeno na Vercelu. Odjemalec pade na predizpolnjen mailto,
+  const web3key = process.env.WEB3FORMS_ACCESS_KEY
+  const resendKey = process.env.RESEND_API_KEY
+
+  if (!web3key && !resendKey) {
+    // Nobena pot ni nastavljena. Odjemalec pade na predizpolnjen mailto,
     // tako da povprasevanje ne izgine. V dnevnik ne gre noben osebni podatek.
-    console.warn("[enquiry] RESEND_API_KEY manjka, odjemalec pada na mailto")
+    console.warn("[enquiry] ni WEB3FORMS_ACCESS_KEY ne RESEND_API_KEY, odjemalec pada na mailto")
     return NextResponse.json({ ok: false, fallback: "mailto" }, { status: 200 })
   }
 
@@ -136,8 +138,49 @@ export async function POST(req: Request) {
       </p>
     </div>`
 
+  /*
+    Web3Forms ima prednost, ker ne zahteva potrjene posiljateljske domene.
+    Klic gre s streznika, ne iz brskalnika: obrazec tako ostane na lastnem
+    izvoru (form-action 'self' v CSP), kljuc ne pride v HTML, Web3Forms pa
+    nikoli ne vidi obiskovalcevega IP-ja.
+  */
+  if (web3key) {
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: web3key,
+          subject: `Triglav Circuit enquiry - ${name}`,
+          from_name: "Andara website",
+          replyto: email,
+          Name: name,
+          Email: email,
+          Country: String(body.country ?? "") || "-",
+          "Preferred month": String(body.month ?? "") || "-",
+          "Group size": String(body.people ?? "") || "-",
+          Message: String(body.message ?? "").slice(0, 4000) || "-",
+          "Privacy policy read at": ackAt,
+          "Wants occasional updates": marketing ? "YES, consent given" : "no",
+        }),
+      })
+      const json = (await res.json()) as { success?: boolean; message?: string }
+      if (!res.ok || !json.success) throw new Error(json.message ?? `HTTP ${res.status}`)
+      return NextResponse.json({ ok: true })
+    } catch (err) {
+      console.error(
+        "[enquiry] Web3Forms ni sprejel",
+        err instanceof Error ? err.message : "unknown",
+      )
+      // ce je nastavljen se Resend, poskusi z njim, sicer mailto
+      if (!resendKey) {
+        return NextResponse.json({ ok: false, fallback: "mailto" }, { status: 200 })
+      }
+    }
+  }
+
   try {
-    const resend = new Resend(key)
+    const resend = new Resend(resendKey as string)
     const { error } = await resend.emails.send({
       from: FROM,
       to: [TO],

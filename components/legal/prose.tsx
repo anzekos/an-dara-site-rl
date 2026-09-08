@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Eyebrow } from "@/components/ui/bits"
-import { isTodo } from "@/lib/legal"
+import { isTodo, showBlanks } from "@/lib/legal"
 import { cn } from "@/lib/utils"
 
 const wrap = "mx-auto w-full max-w-[1180px] px-5 sm:px-8"
@@ -20,11 +20,43 @@ export function Blank({ children }: { children: React.ReactNode }) {
   )
 }
 
-/** Izpise vrednost, ce jo imamo, sicer vidno oznako. */
+/**
+ * Izpise vrednost, ce jo imamo. Ce je nimamo, se izrise vidna oznaka
+ * samo med urejanjem (showBlanks), na produkciji pa nic.
+ */
 export function Fill({ value, label }: { value: string; label: string }) {
-  if (isTodo(value)) return <Blank>{label}</Blank>
+  if (isTodo(value)) return showBlanks ? <Blank>{label}</Blank> : null
   return <>{value}</>
 }
+
+/**
+ * Vrstica "Oznaka: vrednost" v seznamu podatkov o ponudniku.
+ *
+ * Ce vrednosti nimamo, vrstice sploh ni. Tako na produkciji ne ostane
+ * niti prazna oznaka niti viseca dvopicja, ko podatek se manjka.
+ */
+export function Row({
+  label,
+  value,
+  blank,
+  children,
+}: {
+  label: string
+  value?: string
+  blank?: string
+  children?: React.ReactNode
+}) {
+  const missing = value !== undefined && isTodo(value)
+  if (missing && !showBlanks) return null
+  return (
+    <LI>
+      <strong className="font-medium text-ink">{label}:</strong>{" "}
+      {children ?? (missing ? <Blank>{blank ?? label}</Blank> : value)}
+    </LI>
+  )
+}
+
+
 
 export function LegalHero({
   eyebrow,

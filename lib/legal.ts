@@ -13,6 +13,34 @@ export function isTodo(v: string): boolean {
   return v === TODO || v.trim() === ""
 }
 
+/**
+ * Ali naj se neizpolnjeno polje izrise kot vidna oznaka "[ ... ]".
+ *
+ * Na produkciji false: manjkajoc podatek se tiho izpusti, da stranki na
+ * zivi strani ne visijo oglati oklepaji. Med urejanjem besedil preklopi
+ * na true in takoj vidis, kaj se manjka.
+ *
+ * POZOR: skrita oznaka NE pomeni, da je podatek urejen. Dokler polja v
+ * `company` niso izpolnjena, stran se vedno ne izpolnjuje 6. clena ZEPT
+ * in 45. clena ZGD-1. Seznam je v LEGAL-TODO.md.
+ */
+export const showBlanks = false
+
+/** Vrne vrednost, ce jo imamo, sicer null. Za pogojno sestavljanje nizov. */
+export function known(v: string): string | null {
+  return isTodo(v) ? null : v
+}
+
+/**
+ * Sestavi niz iz delov in izpusti tiste, ki jih se nimamo, skupaj z
+ * njihovimi locili. Brez tega bi na strani ostalo ", , Slovenia".
+ */
+export function joinKnown(parts: (string | null | undefined | false)[], sep = ", "): string {
+  return parts
+    .filter((v): v is string => typeof v === "string" && v.trim() !== "" && !isTodo(v))
+    .join(sep)
+}
+
 /** Datum zadnje spremembe pravnih besedil. Rocno posodobi ob vsaki vsebinski spremembi. */
 export const legalUpdated = "2026-09-08"
 
@@ -51,6 +79,16 @@ export const company = {
   insolvencyProtection: TODO,
 } as const
 
+/**
+ * Postni naslov v enem kosu. Drzava je vedno znana, zato bi brez tega
+ * pogoja na strani ostalo golo "Registered address: Slovenia". Naslov
+ * ima smisel sele, ko poznamo vsaj ulico ali kraj.
+ */
+export const companyAddress: string =
+  known(company.street) || known(company.city)
+    ? joinKnown([company.street, company.city, company.country])
+    : TODO
+
 /** Nadzorni organ za varstvo osebnih podatkov. Javni podatek. */
 export const dpa = {
   name: "Informacijski pooblascenec Republike Slovenije",
@@ -85,8 +123,16 @@ export const processors: Processor[] = [
     privacyUrl: "https://vercel.com/legal/privacy-policy",
   },
   {
+    name: "Web3Creative (Web3Forms)",
+    role:
+      "Turns your enquiry into the email that reaches our inbox. Your browser sends the form straight to them, so they also receive your IP address. They keep a copy of the submission for up to three years and then delete it automatically",
+    country: "Registered in Kerala, India, with servers in the United States",
+    transfer: "EU Standard Contractual Clauses, under their Data Processing Agreement",
+    privacyUrl: "https://web3forms.com/privacy",
+  },
+  {
     name: "Resend (Plus Five Five, Inc.)",
-    role: "Delivery of the enquiry email from the website to our inbox",
+    role: "Standby route for the same enquiry email, used only if the one above is unavailable",
     country: "United States",
     transfer: "EU Standard Contractual Clauses",
     privacyUrl: "https://resend.com/legal/privacy-policy",

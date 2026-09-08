@@ -2,11 +2,19 @@
 
 Vsa pravna besedila so napisana in vgrajena. Manjkajo samo podatki, ki jih ni
 mogoče uganiti. Nikjer ni izmišljenega imena podjetja, matične številke ali
-naslova: dokler polje ni izpolnjeno, se na strani izriše rdečkasta oznaka
-`[ ... ]`, tako da nihče ne more spregledati, da manjka.
+naslova.
 
 Vse na enem mestu: **`lib/legal.ts`**, objekt `company`. Zamenjaj `TODO` z
-vrednostjo in oznaka izgine sama, na vseh treh pravnih straneh in v nogi hkrati.
+vrednostjo in podatek se pojavi na vseh treh pravnih straneh in v nogi hkrati.
+
+**Kako se manjkajoč podatek obnaša.** Ker je stran že v produkciji, se
+neizpolnjeno polje tiho izpusti: vrstica izpade skupaj z ločili, da obiskovalec
+ne vidi oglatih oklepajev. Med urejanjem besedil nastavi `showBlanks = true` v
+`lib/legal.ts` in vsa manjkajoča polja se spet izrišejo kot vidne oznake
+`[ ... ]`. Ne pozabi nazaj na `false` pred objavo.
+
+> Skrita oznaka **ne** pomeni, da je stvar urejena. Dokler polja niso
+> izpolnjena, stran ne izpolnjuje 6. člena ZEPT in 45. člena ZGD-1.
 
 ---
 
@@ -49,8 +57,13 @@ ne organizirata (npr. ker samo posredujeta ločene storitve), mi to sporoči in
 
 ## 3. Manjkajo številke v pogojih poslovanja
 
-V `app/terms/page.tsx`, razdelka 05 in 06, so tri prazna mesta. Napišeta jih
-Anja in Darja, ker so poslovna odločitev:
+Razdelka 05 in 06 v `app/terms/page.tsx` zdaj pišeta, da so ara, rok doplačila,
+načini plačila in odpovedna lestvica navedeni v pisni ponudbi in potrditvi. To
+je pravno vzdržno in na produkciji ne pušča praznih mest, **je pa treba
+poskrbeti, da v ponudbi res so**.
+
+Ko se Anja in Darja odločita za fiksne pogoje, jih je bolje napisati kar na
+strani. Napisati je treba:
 
 - **Ara**: koliko odstotkov ali koliko evrov, in kdaj zapade
 - **Doplačilo**: koliko dni pred odhodom zapade preostanek
@@ -58,8 +71,35 @@ Anja in Darja, ker so poslovna odločitev:
 - **Odpovedna lestvica**: koliko se zaračuna pri odpovedi več kot 60 dni prej,
   30–60 dni, 15–29 dni, manj kot 15 dni
 
-Vpiši jih neposredno v `app/terms/page.tsx` na mesto, kjer stoji `<Fill value={""} ... />`
-oziroma `<Blank>`.
+---
+
+## 3b. Obrazec trenutno NE dostavlja
+
+Preverjeno na produkciji 8. 9. 2026: `POST /api/enquiry` vrne
+`{"ok":false,"fallback":"mailto"}`. To pomeni, da na Vercelovem projektu
+**andara-site** (tistem z domeno www.andara.si) ni nastavljena nobena pot za
+posiljanje. Obiskovalcu se odpre predizpolnjen e-postni osnutek, ki ga mora
+poslati sam. Marsikdo tega ne stori in povprasevanje izgine.
+
+Popravek je ena spremenljivka okolja:
+
+1. Vercel → projekt **andara-site** → Settings → Environment Variables
+2. Dodaj `WEB3FORMS_ACCESS_KEY` = dostopni kljuc iz Web3Forms
+3. Environment: Production (in Preview, ce zelis)
+4. Redeploy
+
+Koda podpira obe poti: ce je nastavljen `WEB3FORMS_ACCESS_KEY`, gre prek
+Web3Forms; ce ne, poskusi `RESEND_API_KEY`; ce ni nobenega, pade na mailto.
+Klic gre s streznika, zato kljuc ni v HTML in Web3Forms ne vidi
+obiskovalcevega IP-ja.
+
+Ko je nastavljeno, preveri z:
+
+```bash
+curl -s -X POST https://www.andara.si/api/enquiry   -H "content-type: application/json"   -d '{"name":"TEST","email":"tvoj@email.si","privacyAck":true}'
+```
+
+`{"ok":true}` pomeni, da dela.
 
 ---
 
@@ -68,8 +108,9 @@ oziroma `<Blank>`.
 - **Google Analytics, hramba podatkov.** V GA4 pod *Admin → Data Settings →
   Data Retention* nastavi na **14 mesecev**. Politika zasebnosti to trdi, zato
   mora tako tudi biti.
-- **Pogodba o obdelavi (DPA) z Resendom.** Podpiši jo v Resendovem računu,
-  sicer prenos v ZDA nima podlage, ki jo navaja politika.
+- **Pogodba o obdelavi (DPA) z Web3Forms.** Sprejmi jo v računu Web3Forms
+  (web3forms.com/dpa). Politika zasebnosti se sklicuje nanjo kot na podlago za
+  prenos v ZDA in Indijo. Enako za Resend, če ga uporabiš kot rezervo.
 - **Dvofaktorska prijava v info@andara.si.** Politika zasebnosti trdi, da je
   vklopljena. Preveri, da res je.
 - **Objavljena verzija besedil.** Ko so polja izpolnjena, popravi `legalUpdated`

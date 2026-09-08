@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
-import { LegalHero, LegalBody, Section, P, UL, LI, A, Table, Note, Fill, H3 } from "@/components/legal/prose"
+import { LegalHero, LegalBody, Section, P, UL, LI, A, Table, Note, Row, H3 } from "@/components/legal/prose"
 import { CookieSettingsButton } from "@/components/consent/cookie-settings-button"
 import { site } from "@/lib/site"
-import { company, dpa, legalUpdated, processors } from "@/lib/legal"
+import { company, companyAddress, dpa, legalUpdated, processors } from "@/lib/legal"
 
 export const metadata: Metadata = {
   title: "Privacy policy",
@@ -16,8 +16,8 @@ const dataRows: React.ReactNode[][] = [
   [
     "Enquiry form",
     "Name, email, country, preferred month, group size, anything you write in the message box.",
-    "To answer your enquiry and prepare a quote. Article 6(1)(b) GDPR, steps taken at your request before entering into a contract.",
-    "12 months from our last exchange, unless it turns into a booking.",
+    "To answer your enquiry and prepare a quote. Article 6(1)(b) GDPR, steps taken at your request before entering into a contract. Your browser sends it to the form service listed below, which emails it to us.",
+    "12 months from our last exchange, unless it turns into a booking. The mail service that delivers it keeps its own copy for up to 3 years, then deletes it automatically.",
   ],
   [
     "Booking",
@@ -81,30 +81,18 @@ export default function PrivacyPage() {
             your personal data is used, and the ones you can hold to account for it.
           </P>
           <UL>
-            <LI>
-              <strong className="font-medium text-ink">Registered name:</strong>{" "}
-              <Fill value={company.legalName} label="registered company name" />
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">Trading as:</strong> {company.tradingName}
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">Registered address:</strong>{" "}
-              <Fill value={company.street} label="street and number" />,{" "}
-              <Fill value={company.city} label="postcode and town" />, {company.country}
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">Company registration number:</strong>{" "}
-              <Fill value={company.registrationNumber} label="maticna stevilka" />
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">VAT or tax number:</strong>{" "}
-              <Fill value={company.vatNumber} label="ID za DDV or davcna stevilka" />
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">Email for anything on this page:</strong>{" "}
+            <Row label="Registered name" value={company.legalName} blank="registered company name" />
+            <Row label="Trading as">{company.tradingName}</Row>
+            <Row label="Registered address" value={companyAddress} blank="registered address" />
+            <Row
+              label="Company registration number"
+              value={company.registrationNumber}
+              blank="maticna stevilka"
+            />
+            <Row label="VAT or tax number" value={company.vatNumber} blank="ID za DDV" />
+            <Row label="Email for anything on this page">
               <A href={`mailto:${company.privacyEmail}`}>{company.privacyEmail}</A>
-            </LI>
+            </Row>
           </UL>
           <P>
             We are not required to appoint a Data Protection Officer under Article 37 GDPR and we
@@ -298,10 +286,13 @@ export default function PrivacyPage() {
 
         <Section id="security" n="09" title="How we keep it safe">
           <P>
-            The site is served over HTTPS only. The enquiry form posts to our own server, never to a
-            third party, and the resulting email goes to a single mailbox that Anja and Darja use.
-            Access to that mailbox is protected by two-factor authentication. We keep no customer
-            database of our own and we hold no payment card details, ever.
+            The site is served over HTTPS only. When you press send, the form goes from your
+            browser to the form service named in the table above, which turns it into an email and
+            delivers it to us. That service is the only third party that sees what you wrote, and
+            because your browser talks to it directly, it also sees your IP address. The email
+            lands in a single mailbox that Anja and Darja use, protected by two-factor
+            authentication. We keep no customer database of our own and we hold no payment card
+            details, ever.
           </P>
           <P>
             If a breach ever occurs that is likely to put your rights at risk we will report it to

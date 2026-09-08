@@ -8,8 +8,9 @@ const isLiveSite = productionHost.endsWith("andara.si")
 
 /**
  * Politika vsebine. Nasteti so samo izvori, ki jih stran res uporablja:
- * Cloudinary za dva videa, Google Tag Manager in Analytics (naloZita se
- * sele po privolitvi), Vercelova analitika pa tece z lastne domene.
+ * Cloudinary za dva videa, api.web3forms.com za oddajo obrazca, Google Tag
+ * Manager in Analytics (naloZita se sele po privolitvi), Vercelova analitika
+ * pa tece z lastne domene.
  *
  * 'unsafe-inline' pri skriptah je nujno: Next.js ima inline bootstrap in
  * inline JSON-LD. Nonce bi zahteval middleware na vsakem zahtevku in bi
@@ -27,7 +28,7 @@ const csp = [
   "font-src 'self' data:",
   "img-src 'self' data: blob: https://res.cloudinary.com https://www.googletagmanager.com https://*.google-analytics.com",
   "media-src 'self' https://res.cloudinary.com",
-  "connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com",
+  "connect-src 'self' https://api.web3forms.com https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com",
   "upgrade-insecure-requests",
 ].join("; ")
 

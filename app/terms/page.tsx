@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
-import { LegalHero, LegalBody, Section, P, UL, LI, A, Note, Fill, Blank, H3 } from "@/components/legal/prose"
+import { LegalHero, LegalBody, Section, P, UL, LI, A, Note, Row, H3 } from "@/components/legal/prose"
 import { site, tour } from "@/lib/site"
-import { company, legalUpdated } from "@/lib/legal"
+import { company, companyAddress, isTodo, legalUpdated } from "@/lib/legal"
 
 export const metadata: Metadata = {
   title: "Terms and conditions",
@@ -30,49 +30,26 @@ export default function TermsPage() {
             before you deal with it.
           </P>
           <UL>
-            <LI>
-              <strong className="font-medium text-ink">Registered name:</strong>{" "}
-              <Fill value={company.legalName} label="registered company name" />
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">Trading as:</strong> {company.tradingName},{" "}
-              {company.tradingName === "Andara" ? "Queen of the Alps" : ""}
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">Registered address:</strong>{" "}
-              <Fill value={company.street} label="street and number" />,{" "}
-              <Fill value={company.city} label="postcode and town" />, {company.country}
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">Company registration number:</strong>{" "}
-              <Fill value={company.registrationNumber} label="maticna stevilka" />
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">VAT or tax number:</strong>{" "}
-              <Fill value={company.vatNumber} label="ID za DDV or davcna stevilka" />
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">Entered in:</strong>{" "}
-              <Fill value={company.register} label="register and registering authority" />
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">Represented by:</strong>{" "}
-              <Fill value={company.representative} label="name of the legal representative" />
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">Email:</strong>{" "}
+            <Row label="Registered name" value={company.legalName} blank="registered company name" />
+            <Row label="Trading as">{company.tradingName}, Queen of the Alps</Row>
+            <Row label="Registered address" value={companyAddress} blank="registered address" />
+            <Row
+              label="Company registration number"
+              value={company.registrationNumber}
+              blank="maticna stevilka"
+            />
+            <Row label="VAT or tax number" value={company.vatNumber} blank="ID za DDV" />
+            <Row label="Entered in" value={company.register} blank="register and authority" />
+            <Row label="Represented by" value={company.representative} blank="legal representative" />
+            <Row label="Email">
               <A href={`mailto:${company.email}`}>{company.email}</A>
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">Telephone:</strong>{" "}
-              <Fill value={company.phone} label="telephone number" />
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">
-                Licence for organising travel packages:
-              </strong>{" "}
-              <Fill value={company.travelLicence} label="licence number under ZSRT-1" />
-            </LI>
+            </Row>
+            <Row label="Telephone" value={company.phone} blank="telephone number" />
+            <Row
+              label="Licence for organising travel packages"
+              value={company.travelLicence}
+              blank="licence number under ZSRT-1"
+            />
           </UL>
         </Section>
 
@@ -159,13 +136,19 @@ export default function TermsPage() {
               You may transfer the booking to somebody else who meets the same conditions, on
               reasonable notice and against the actual transfer costs.
             </LI>
+            {/*
+              Brez znanega izdajatelja jamstva te trditve ne smemo objaviti.
+              Ko je polje izpolnjeno, se alineja pojavi sama.
+            */}
+            {!isTodo(company.insolvencyProtection) && (
+              <LI>
+                Payments you make are protected against our insolvency by{" "}
+                {company.insolvencyProtection}.
+              </LI>
+            )}
             <LI>
-              Payments you make are protected against our insolvency by{" "}
-              <Fill
-                value={company.insolvencyProtection}
-                label="name and contact of the insolvency protection provider, required by law"
-              />
-              .
+              The insolvency protection covering your payments is named in the written offer and
+              confirmation you receive before you pay anything.
             </LI>
           </UL>
           <P>
@@ -182,20 +165,11 @@ export default function TermsPage() {
             costs move with both. The price you are quoted is the price for your group, in euros,
             and it includes all taxes and unavoidable charges.
           </P>
-          <UL>
-            <LI>
-              <strong className="font-medium text-ink">Deposit:</strong>{" "}
-              <Fill value={""} label="deposit amount or percentage, and when it is due" />
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">Balance:</strong>{" "}
-              <Fill value={""} label="when the balance is due, e.g. 30 days before departure" />
-            </LI>
-            <LI>
-              <strong className="font-medium text-ink">How to pay:</strong>{" "}
-              <Fill value={""} label="accepted payment methods" />
-            </LI>
-          </UL>
+          <P>
+            The deposit, the date the balance falls due and the accepted payment methods are stated
+            in full in the written offer, and again in the confirmation. Nothing is due until you
+            have both in front of you and have said yes.
+          </P>
           <P>
             After the contract is concluded we may increase the price only for the reasons the
             package travel rules allow, which in practice means a change in the cost of fuel or
@@ -211,14 +185,14 @@ export default function TermsPage() {
           <H3>If you cancel</H3>
           <P>
             You may cancel at any time before departure. Because we pay the huts and the drivers in
-            advance, a cancellation close to your start date costs real money, and the following
-            scale applies to the total price:
+            advance, a cancellation close to your start date costs real money, and a scale of
+            cancellation charges applies to the total price.
           </P>
-          <UL>
-            <LI>
-              <Blank>cancellation scale by days before departure, e.g. more than 60 days, 30 to 60 days, 15 to 29 days, fewer than 15 days</Blank>
-            </LI>
-          </UL>
+          <P>
+            The exact scale, by number of days before your start date, is set out in the written
+            offer and repeated in the confirmation, so you know the cost of changing your mind
+            before you commit to anything.
+          </P>
           <P>
             If unavoidable and extraordinary circumstances at the destination make the trek
             impossible or seriously affect it, you may cancel without paying any fee and you get a

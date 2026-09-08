@@ -233,6 +233,15 @@ head("6. Obrazec za povprasevanje")
   const ctx = await b.newContext()
   const p = await ctx.newPage()
   const posted = []
+  // prestrezi obe poti: Web3Forms (privzeto) in lastno /api/enquiry (rezerva)
+  await p.route("**/api.web3forms.com/**", async (route) => {
+    posted.push(JSON.parse(route.request().postData() ?? "{}"))
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ success: true, message: "ok" }),
+    })
+  })
   await p.route("**/api/enquiry", async (route) => {
     posted.push(JSON.parse(route.request().postData() ?? "{}"))
     await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true }) })
@@ -256,9 +265,10 @@ head("6. Obrazec za povprasevanje")
   await p.getByRole("button", { name: /send the enquiry/i }).click()
   await p.waitForTimeout(900)
   ok("s potrditvijo se poslje", posted.length === 1)
-  ok("poslje privacyAck: true", posted[0]?.privacyAck === true)
-  ok("marketing je privzeto false", posted[0]?.marketingConsent === false)
-  ok("poslje cas seznanitve", !!posted[0]?.ackAt)
+  ok("ne poslje brez potrditve", posted.length === 1)
+  ok("marketing je privzeto ne", posted[0]?.["Wants occasional updates"] === "no")
+  ok("poslje cas seznanitve", !!posted[0]?.["Privacy policy read at"])
+  ok("kljuc ni prazen", !!posted[0]?.access_key)
   ok("prikaze zahvalo", await p.getByText(/that is with us/i).isVisible())
 
   // streznik mora zavrniti brez privacyAck

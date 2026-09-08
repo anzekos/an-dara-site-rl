@@ -16,6 +16,19 @@ export const site = {
   },
 }
 
+/**
+ * Web3Forms dostavi povprasevanje po e-posti.
+ *
+ * Kljuc je pri tej storitvi javen po zasnovi: konca v brskalniku ne glede
+ * na to, kje ga hranimo, ker brezplacni plan dovoljuje samo klice iz
+ * brskalnika (s streznika vrne 403 in zahteva Pro). Zato stoji tukaj in
+ * ne v spremenljivki okolja, kjer bi dajal lazen obcutek skrivnosti.
+ *
+ * Zamenjas ga v web3forms.com, pod Access Keys. Ce ga kdaj zlorabijo za
+ * neZeleno posto, ga tam prekliceS in vpises novega.
+ */
+export const web3formsKey = "4c45dac8-b297-4d41-b8fd-d077b304bb49"
+
 export const tour = {
   name: "The Triglav Circuit",
   kicker: "Self-guided trek. No guide, no group.",

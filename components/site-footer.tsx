@@ -2,8 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { EnvelopeSimple, InstagramLogo, TiktokLogo, Plus } from "@phosphor-icons/react/dist/ssr"
 import { site, imageCredits } from "@/lib/site"
-import { company, legalNav } from "@/lib/legal"
-import { Fill } from "@/components/legal/prose"
+import { company, companyAddress, joinKnown, known, legalNav } from "@/lib/legal"
 import { CookieSettingsButton } from "@/components/consent/cookie-settings-button"
 
 const nav = [
@@ -18,6 +17,20 @@ const secondary = [
   { href: "/about", label: "About Anja and Darja" },
   { href: "/contact", label: "Contact" },
 ]
+
+/*
+  Obvezna identifikacija ponudnika: 6. clen ZEPT in 45. clen ZGD-1.
+  Deli, ki jih se nimamo, izpadejo skupaj s svojimi locili, da na zivi
+  strani ne ostane ", , Slovenia" ali viseci "Reg. no.".
+*/
+const imprint = joinKnown(
+  [
+    joinKnown([company.legalName, companyAddress]),
+    known(company.registrationNumber) && `Reg. no. ${company.registrationNumber}`,
+    known(company.vatNumber) && `VAT ${company.vatNumber}`,
+  ],
+  ` ${String.fromCharCode(183)} `,
+)
 
 export function SiteFooter() {
   return (
@@ -159,18 +172,8 @@ export function SiteFooter() {
             Mora biti dosegljiva brez klika, zato ni skrita v <details>.
           */}
           <address className="mt-6 max-w-[70ch] not-italic text-[0.75rem] leading-[1.8] text-ink-faint">
-            <Fill value={company.legalName} label="registered company name" />
-            {", "}
-            <Fill value={company.street} label="street and number" />
-            {", "}
-            <Fill value={company.city} label="postcode and town" />
-            {", "}
-            {company.country}
-            {` ${String.fromCharCode(183)} Reg. no. `}
-            <Fill value={company.registrationNumber} label="maticna stevilka" />
-            {` ${String.fromCharCode(183)} VAT `}
-            <Fill value={company.vatNumber} label="ID za DDV" />
-            {` ${String.fromCharCode(183)} `}
+            {imprint}
+            {imprint && ` ${String.fromCharCode(183)} `}
             <a
               href={`mailto:${company.email}`}
               className="underline underline-offset-4 transition-colors duration-[var(--dur-ui)] hover:text-accent"
