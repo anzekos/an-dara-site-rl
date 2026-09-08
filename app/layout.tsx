@@ -1,251 +1,222 @@
-import type React from "react"
 import type { Metadata } from "next"
+import type React from "react"
+import Script from "next/script"
+import { Newsreader } from "next/font/google"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
-import { Analytics } from "@vercel/analytics/next"
-import { Suspense } from "react"
-import Script from "next/script"
+import { SiteHeader } from "@/components/site-header"
+import { SiteFooter } from "@/components/site-footer"
+import { MobileActionBar } from "@/components/mobile-action-bar"
+import { ConsentProvider } from "@/components/consent/consent-provider"
+import { CookieBanner } from "@/components/consent/cookie-banner"
+import { AnalyticsGate } from "@/components/consent/analytics-gate"
+import { site, faq, itinerary } from "@/lib/site"
 import "./globals.css"
 
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-newsreader",
+  style: ["normal", "italic"],
+})
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.andara.si'),
+  metadataBase: new URL(site.url),
   title: {
-    default: "Triglav Hiking Tour Slovenia | 7-Day Self-Guided Trek | Andara",
-    template: "%s | Andara - Self-Guided Hiking Tours Slovenia"
+    default: "Triglav Circuit | 7-Day Self-Guided Trek in Slovenia | Andara",
+    template: "%s | Andara - Self-Guided Treks in Slovenia",
   },
   description:
-    "Experience the ultimate 7-day self-guided Triglav hiking tour through Slovenia's Triglav National Park. Circle Mount Triglav (2,864m) on a 100km trek with luggage transfers, alpine huts & local cuisine. Best alternative to Tour du Mont Blanc.",
+    "A 7-day self-guided trek around Mount Triglav. No guide, no group, no fixed dates. We book the huts, move your luggage and map all 100 km. You just walk it.",
   keywords: [
+    "self guided hiking slovenia",
     "triglav tour",
     "triglav hiking tour",
-    "triglav national park tour",
-    "self guided hiking slovenia",
+    "self guided trek julian alps",
     "slovenia hiking tours",
-    "julian alps hiking",
-    "triglav trek",
-    "mount triglav tour",
+    "triglav national park tour",
     "best alternative to tour du mont blanc",
     "7 day triglav tour",
     "triglav lakes valley",
-    "slovenia self guided tours",
     "hiking triglav national park",
-    "slovenian alps hiking",
-    "triglav circuit trek"
+    "triglav circuit trek",
+    "luggage transfer hiking slovenia",
   ],
   authors: [{ name: "Andara" }],
-  creator: "Andara - Anja Bervar & Darja Munda",
+  creator: "Andara - Anja Bervar and Darja Munda",
   publisher: "Andara",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  generator: "v0.app",
-  applicationName: "Andara Hiking Tours",
-  referrer: 'origin-when-cross-origin',
+  applicationName: "Andara",
+  generator: undefined,
+  referrer: "origin-when-cross-origin",
+  formatDetection: { email: false, address: false, telephone: false },
   robots: {
     index: true,
     follow: true,
-    nocache: false,
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
     ],
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
-    shortcut: '/favicon.ico',
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: "/favicon.ico",
   },
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://www.andara.si',
-    siteName: 'Andara - Self-Guided Hiking Tours Slovenia',
-    title: "Triglav Hiking Tour | 7-Day Self-Guided Trek Slovenia | Andara",
-    description: "Experience a 7-day self-guided hiking adventure through Slovenia's Triglav National Park. Circle Mount Triglav on a 100km trek - the best alternative to Tour du Mont Blanc.",
+    type: "website",
+    locale: "en_US",
+    url: site.url,
+    siteName: "Andara - Self-Guided Treks in Slovenia",
+    title: "Triglav Circuit | 7-Day Self-Guided Trek in Slovenia",
+    description:
+      "No guide, no group, no fixed dates. A 7-day self-guided trek around Slovenia's highest mountain, with huts, meals and luggage transfers arranged.",
     images: [
       {
-        url: '/triglav-mountain-landscape.jpeg',
+        url: "/triglav-mountain-landscape.jpg",
         width: 1200,
         height: 630,
-        alt: 'Triglav National Park hiking tour - 7 day self-guided trek in Slovenia',
-        type: 'image/jpeg',
-      },
-      {
-        url: '/andara-logo-final.png',
-        width: 800,
-        height: 600,
-        alt: 'Andara - Queen of the Alps | Self-Guided Hiking Tours Slovenia',
-        type: 'image/png',
+        alt: "The Triglav massif, the 7 day self-guided trek in Slovenia",
+        type: "image/jpeg",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: "Triglav Hiking Tour | 7-Day Self-Guided Trek Slovenia",
-    description: "Experience a 7-day self-guided hiking adventure through Slovenia's Triglav National Park. Best alternative to Tour du Mont Blanc.",
-    images: ['/triglav-mountain-landscape.jpeg'],
-    creator: '@andara.si',
+    card: "summary_large_image",
+    title: "Triglav Circuit | 7-Day Self-Guided Trek in Slovenia",
+    description:
+      "No guide, no group, no fixed dates. 100 km around Mount Triglav, with everything but the walking arranged.",
+    images: ["/triglav-mountain-landscape.jpg"],
+    creator: "@andara.si",
   },
-  alternates: {
-    canonical: 'https://www.andara.si',
-    languages: {
-      'en-US': 'https://www.andara.si',
-      'sl-SI': 'https://www.andara.si/sl',
-    },
-  },
-  category: 'travel',
-  classification: 'Hiking Tours, Adventure Travel, Outdoor Activities',
+  alternates: { canonical: site.url },
+  category: "travel",
   other: {
-    'geo.region': 'SI',
-    'geo.placename': 'Slovenia',
-    'geo.position': '46.3777;13.8430',
-  }
+    "geo.region": "SI",
+    "geo.placename": "Slovenia",
+    "geo.position": "46.3777;13.8430",
+  },
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    name: "Andara",
+    alternateName: "Andara - Queen of the Alps",
+    description:
+      "Self-guided hiking tours in Slovenia. Multi-day treks in Triglav National Park and the Julian Alps, arranged end to end but walked without a guide.",
+    url: site.url,
+    logo: `${site.url}/andara-lockup.png`,
+    image: `${site.url}/triglav-mountain-landscape.jpg`,
+    email: site.email,
+    founder: [
+      { "@type": "Person", name: "Anja Bervar" },
+      { "@type": "Person", name: "Darja Munda" },
+    ],
+    address: { "@type": "PostalAddress", addressCountry: "SI" },
+    areaServed: { "@type": "Place", name: "Triglav National Park, Julian Alps, Slovenia" },
+    sameAs: [site.socials.instagram, site.socials.tiktok],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      email: site.email,
+      availableLanguage: ["English", "Slovenian"],
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "TouristTrip",
+    name: "The Triglav Circuit, 7-day self-guided trek",
+    description:
+      "A 100 km self-guided trek circling Mount Triglav over seven days. Walked without a guide and without a group. Alpine huts, half board and daily luggage transfers arranged.",
+    url: site.url,
+    touristType: ["Experienced hikers", "Independent travellers"],
+    provider: { "@type": "TravelAgency", name: "Andara", url: site.url },
+    itinerary: {
+      "@type": "ItemList",
+      numberOfItems: itinerary.length,
+      itemListElement: itinerary.map((d) => ({
+        "@type": "ListItem",
+        position: d.day,
+        item: { "@type": "TouristDestination", name: d.title, description: d.description },
+      })),
+    },
+    offers: {
+      "@type": "Offer",
+      availability: "https://schema.org/InStock",
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        description: "Priced per group and per dates. Full quote within 24 hours.",
+      },
+      url: `${site.url}/contact`,
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+]
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${newsreader.variable} ${GeistSans.variable} ${GeistMono.variable}`}
+    >
       <head>
-        {/* Google Analytics */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-E46C40SZKN"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-E46C40SZKN');
-          `}
-        </Script>
+        {/*
+          Blokirajoce, pred prvim izrisom. Scroll reveali se skrijejo samo, ce
+          JS tece. Brez tega bi obiskovalec brez JS videl prazno stran.
 
-        {/* Structured Data - Organization */}
-        <Script
-          id="structured-data-organization"
-          type="application/ld+json"
-          strategy="afterInteractive"
+          V isti skripti postavimo tudi Google Consent Mode v2 na "denied".
+          To mora biti v <head> in pred katerimkoli Googlovim skriptom, sicer
+          privzeto stanje ne velja. Sam gtag.js se nalozi sele po privolitvi,
+          v komponenti AnalyticsGate.
+        */}
+        <script
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "TourOperator",
-              "name": "Andara",
-              "description": "Self-guided hiking tours in Slovenia specializing in Triglav National Park adventures",
-              "url": "https://www.andara.si",
-              "logo": "https://www.andara.si/andara-logo-final.png",
-              "image": "https://www.andara.si/triglav-mountain-landscape.jpeg",
-              "email": "info@andara.si",
-              "address": {
-                "@type": "PostalAddress",
-                "addressCountry": "SI",
-                "addressRegion": "Slovenia"
-              },
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": "46.3777",
-                "longitude": "13.8430"
-              },
-              "sameAs": [
-                "https://www.instagram.com/andara.si/",
-                "https://www.tiktok.com/@andara.si"
-              ],
-              "contactPoint": {
-                "@type": "ContactPoint",
-                "contactType": "customer service",
-                "email": "info@andara.si",
-                "availableLanguage": ["English", "Slovenian"]
-              }
-            })
+            __html: `document.documentElement.classList.add('js');
+window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});`,
           }}
         />
-
-        {/* Structured Data - LocalBusiness */}
-        <Script
-          id="structured-data-local-business"
-          type="application/ld+json"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "LocalBusiness",
-              "name": "Andara - Self-Guided Hiking Tours Slovenia",
-              "description": "Experience authentic self-guided hiking adventures in Slovenia's Triglav National Park with Andara",
-              "url": "https://www.andara.si",
-              "telephone": "+386-XX-XXX-XXX",
-              "email": "info@andara.si",
-              "priceRange": "€€",
-              "address": {
-                "@type": "PostalAddress",
-                "addressCountry": "SI"
-              },
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": "46.3777",
-                "longitude": "13.8430"
-              },
-              "openingHoursSpecification": {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": [
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday"
-                ],
-                "opens": "09:00",
-                "closes": "17:00"
-              }
-            })
-          }}
-        />
-
-        {/* Breadcrumb Schema */}
-        <Script
-          id="structured-data-breadcrumb"
-          type="application/ld+json"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              "itemListElement": [
-                {
-                  "@type": "ListItem",
-                  "position": 1,
-                  "name": "Home",
-                  "item": "https://www.andara.si"
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 2,
-                  "name": "Triglav Hiking Tour",
-                  "item": "https://www.andara.si/#triglav-tour"
-                }
-              ]
-            })
-          }}
-        />
-
-        {/* FAQ Schema - will be dynamically added on page */}
       </head>
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Suspense fallback={null}>{children}</Suspense>
-        <Analytics />
+      <body className="grain">
+        <ConsentProvider>
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-[0.875rem] focus:text-paper"
+          >
+            Skip to content
+          </a>
+          <div id="top-sentinel" aria-hidden className="absolute top-0 h-1 w-full" />
+          <SiteHeader />
+          <main id="main">{children}</main>
+          <SiteFooter />
+          <MobileActionBar />
+
+          <CookieBanner />
+
+          <Script
+            id="ld-json"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          />
+          <AnalyticsGate />
+        </ConsentProvider>
       </body>
     </html>
   )

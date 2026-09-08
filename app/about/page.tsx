@@ -1,296 +1,196 @@
-"use client"
+import type { Metadata } from "next"
+import Image from "next/image"
+import { MapPin, Compass, Heart, Leaf, Boot } from "@phosphor-icons/react/dist/ssr"
+import { Reveal } from "@/components/reveal"
+import { FaqList } from "@/components/faq-list"
+import { Cta } from "@/components/ui/cta"
+import { Eyebrow, Bezel, SectionHead } from "@/components/ui/bits"
+import { site, about } from "@/lib/site"
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import {
-  MapPin,
-  Mountain,
-  Users,
-  ChevronDown,
-  Mail,
-  Instagram,
-  Facebook,
-  Linkedin,
-  Heart,
-  Globe,
-  Leaf,
-  Snowflake,
-  Footprints,
-} from "lucide-react"
+export const metadata: Metadata = {
+  title: "About Anja and Darja",
+  description:
+    "Andara is Anja Bervar and Darja Munda, two Slovenian hikers who plan self-guided treks in the Julian Alps. Every hut and every turn is tested by them first.",
+  alternates: { canonical: `${site.url}/about` },
+}
+
+const wrap = "mx-auto w-full max-w-[1180px] px-5 sm:px-8"
+const valueIcons = [Compass, Heart, Leaf, Boot]
 
 export default function AboutPage() {
-  const [isVisible, setIsVisible] = useState(false)
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
-
-  useEffect(() => {
-    setIsVisible(true)
-  }, [])
-
-  const values = [
-    {
-      icon: Globe,
-      title: "Local Expertise",
-      description: "Deep knowledge of Slovenian Alps trails and hidden gems",
-    },
-    {
-      icon: Heart,
-      title: "Personal Connection",
-      description: "We craft experiences that resonate with your hiking dreams",
-    },
-    {
-      icon: Leaf,
-      title: "Sustainable Tourism",
-      description: "Respecting nature and supporting local communities",
-    },
-    {
-      icon: Footprints,
-      title: "Adventure with Comfort",
-      description: "Challenging hikes with comfortable accommodations",
-    },
-  ]
-
-  const faqData = [
-    {
-      question: "Why choose self-guided hiking?",
-      answer:
-        "Self-guided hiking offers the perfect balance of structure and freedom. We handle all the logistics—accommodations, luggage transfers, and detailed route planning—so you can explore at your own pace, linger at beautiful viewpoints, and have authentic encounters with locals without being tied to a group schedule.",
-    },
-    {
-      question: "How do you create your hiking routes?",
-      answer:
-        "Each route is personally tested and curated by us. We combine our extensive local knowledge with our experiences hiking across Europe's most iconic trails. We select paths that offer the most breathtaking scenery, cultural immersion, and appropriate challenge levels for different hiking abilities.",
-    },
-    {
-      question: "What makes Slovenian Alps special?",
-      answer:
-        "The Slovenian Alps offer pristine natural beauty without the crowds of other European alpine destinations. You'll discover crystal-clear lakes, emerald rivers, charming mountain villages, and warm hospitality. It's a hidden gem that perfectly combines adventure with authentic cultural experiences.",
-    },
-    {
-      question: "How experienced do I need to be?",
-      answer:
-        "We offer routes for various fitness levels. While some tours require good physical condition and previous hiking experience, we also have options for beginners or those who prefer gentler trails. We'll help you choose the perfect route based on your experience and preferences.",
-    },
-  ]
-
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20 transition-all duration-700 ease-out"
-          style={{
-            backgroundImage: `url('/Mountains_in_Slovenian_Alps_(42882298630).jpg')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
+    <>
+      {/* ------------------------------------------------------------- HERO */}
+      <section className="relative flex min-h-[62dvh] flex-col justify-end overflow-hidden pb-14 pt-36">
+        <Image
+          src="/slovenian-alps.jpg"
+          alt="A wide view over the Slovenian Alps"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-black/30" />
-
-        <div
-          className={`relative z-10 text-center text-white max-w-4xl mx-auto px-6 transition-all duration-1200 ease-out ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
-        >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            About Us
-          </h1>
-          <p className="text-xl md:text-2xl max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
-            Discover the Slovenian Alps with Anja & Darja – Your Local Self-Guided Hiking Experts
-          </p>
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-ink/25 to-ink/80" />
+        <div className={`relative ${wrap}`}>
+          <Reveal>
+            <Eyebrow tone="light">Two people, no office</Eyebrow>
+            <h1 className="mt-6 max-w-[18ch] text-[2.6rem] leading-[0.98] text-white sm:text-[3.4rem] md:text-[4.25rem]">
+              The women who walk it first.
+            </h1>
+            <p className="mt-6 max-w-[52ch] text-[1.0625rem] leading-[1.7] text-white/85">
+              Andara is Anja and Darja. Every hut, every transfer and every turn on the Triglav
+              circuit was tested by the two of them before it reached your itinerary.
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      {/* Story Section */}
-      <section className="py-16 px-6 bg-muted/30">
-        <div className="max-w-4xl mx-auto">
-          <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed">
-            <p className="text-xl mb-6">
-              We began our story as two friends who found freedom and joy in exploring mountains and hidden getaways. Our adventures took us across Europe's most iconic trails – from the legendary Tour du Mont Blanc, to the fjords of Norway, and the classic Dolomites. On these journeys, we discovered the beauty of self-guided hiking – a way to explore new countries, meet locals, and move at our own pace.
-            </p>
-            <p className="mb-6">
-              With backgrounds in science and more than 20 years of experience in the pharmaceutical industry, we are driven by curiosity, transformation, and the desire to follow new paths. Hiking has become not just a passion, but a way of life – one that combines adventure, freedom, and deep connection to nature.
-            </p>
+      {/* ------------------------------------------------------------ STORY */}
+      <section className="py-24 md:py-32">
+        <div className={wrap}>
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+            <Reveal className="lg:col-span-4">
+              <SectionHead index="01" eyebrow="How it started" title="Two friends, a lot of trails" />
+            </Reveal>
+            <Reveal delay={100} className="lg:col-span-8">
+              <div className="flex flex-col gap-5">
+                <p className="text-[1.1875rem] leading-[1.7] text-ink">{about.intro}</p>
+                <p className="text-[1.0625rem] leading-[1.75] text-ink-soft">{about.intro2}</p>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* Team Profiles */}
-      <section className="py-16 px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">Meet Your Guides</h2>
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Anja */}
-            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-0 shadow-lg overflow-hidden">
-              <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url('/anja-profile.jpg')` }} />
-              <CardHeader>
-                <CardTitle className="text-primary group-hover:text-accent transition-colors duration-300 flex items-center gap-2">
-                  <Snowflake className="h-6 w-6" /> Anja Bervar
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground mb-4">
-                  Grew up with climbing "in the cradle," and even became the first woman to snowboard down Denali, the highest mountain in North America. Anja also climbed Mt. Blanc, Matterhorn, and Eiger, among others. Today, she balances family life with two kids and a continued love for the outdoors.
-                </p>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <MapPin className="h-4 w-4" /> From the mountains of Slovenia
-                </div>
-              </CardContent>
-            </Card>
+      {/* ------------------------------------------------------------ PEOPLE */}
+      <section className="border-y border-line bg-paper-2 py-24 md:py-32">
+        <div className={wrap}>
+          <Reveal>
+            <SectionHead
+              index="02"
+              eyebrow="Who you are writing to"
+              title="Anja and Darja"
+              lead="Your enquiry does not land in a shared inbox somewhere. One of these two reads it and answers it."
+            />
+          </Reveal>
 
-            {/* Darja */}
-            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-0 shadow-lg overflow-hidden">
-              <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url('/darja-profile.jpg')` }} />
-              <CardHeader>
-                <CardTitle className="text-primary group-hover:text-accent transition-colors duration-300 flex items-center gap-2">
-                  <Leaf className="h-6 w-6" /> Darja Munda
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground mb-4">
-                  Started life on the flatlands of eastern Slovenia, far from the peaks. Yet over the years, the mountains became a place for self-growth and discovery. A true animal lover, especially devoted to her dog, she finds peace and joy in every trail.
-                </p>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <MapPin className="h-4 w-4" /> From the plains of Eastern Slovenia
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
+          <div className="mt-14 grid gap-6 lg:grid-cols-2 lg:gap-8">
+            {about.people.map((p, i) => (
+              <Reveal key={p.name} delay={i * 100}>
+                <Bezel tone="raised" className="h-full">
+                  <div className="flex h-full flex-col p-8 md:p-10">
+                    {/*
+                      Fotografiji Anje in Darje se se nista prispeli. Ko prideta,
+                      se ta monogram zamenja z <Image> v istem kvadratu.
+                    */}
+                    <span
+                      aria-hidden
+                      className="flex h-20 w-20 items-center justify-center rounded-full bg-accent-quiet font-display text-[1.75rem] tracking-[0.06em] text-accent"
+                    >
+                      {p.initials}
+                    </span>
 
-      {/* Values Section */}
-      <section className="py-16 px-6 bg-muted/50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">Our Values</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
-              <Card key={index} className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-0 shadow-lg text-center">
-                <CardHeader>
-                  <div className="flex justify-center">
-                    <value.icon className="h-12 w-12 text-accent group-hover:scale-110 transition-transform duration-300" />
+                    <h3 className="mt-7 text-[1.75rem] leading-tight">{p.name}</h3>
+                    <p className="mt-2 text-[0.8125rem] uppercase tracking-[0.14em] text-accent">
+                      {p.role}
+                    </p>
+                    <p className="mt-5 text-[0.9375rem] leading-[1.75] text-ink-soft">{p.bio}</p>
+                    <p className="mt-6 flex items-center gap-2 border-t border-line pt-5 text-[0.8125rem] text-ink-faint">
+                      <MapPin size={15} weight="light" />
+                      {p.place}
+                    </p>
                   </div>
-                  <CardTitle className="text-primary group-hover:text-accent transition-colors duration-300">
-                    {value.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">{value.description}</p>
-                </CardContent>
-              </Card>
+                </Bezel>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Mission Section */}
-      <section className="py-16 px-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-br from-primary/5 to-accent/5 p-8 rounded-2xl shadow-lg">
-            <h2 className="text-3xl font-bold text-center mb-8 text-primary">Our Mission</h2>
-            <p className="text-xl text-center text-muted-foreground leading-relaxed">
-              Together, we created a local self-guided hiking agency in Slovenia to share the magic of the Slovenian Alps. Our mission is simple: to help travelers experience authentic adventures, with the freedom to walk at their own rhythm, while discovering breathtaking landscapes and local culture.
-            </p>
-            <p className="text-lg text-center mt-6 text-muted-foreground">
-              Whether you dream of hiking in the Julian Alps, exploring Triglav National Park, or finding hidden alpine valleys, we'll craft routes that bring you closer to nature, adventure, and yourself.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-16 px-6 bg-muted/30">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">Common Questions</h2>
-          <div className="space-y-1">
-            {faqData.map((faq, index) => (
-              <div
-                key={index}
-                className="border border-border/50 rounded-lg overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-md"
-              >
-                <button className="w-full text-left" onClick={() => setOpenFaq(openFaq === index ? null : index)}>
-                  <div className="flex items-center justify-between py-3 px-4 hover:bg-muted/30 transition-all duration-300">
-                    <h3 className="text-primary text-base font-medium hover:text-accent transition-colors duration-300 pr-4">
-                      {faq.question}
-                    </h3>
-                    <ChevronDown
-                      className={`h-4 w-4 text-muted-foreground transition-all duration-700 ease-out flex-shrink-0 ${
-                        openFaq === index ? "rotate-180 text-accent" : "hover:text-primary"
-                      }`}
-                    />
-                  </div>
-                </button>
-                <div
-                  className={`transition-all duration-700 ease-out overflow-hidden ${
-                    openFaq === index ? "max-h-96 opacity-100 border-t border-border/30" : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <div className="px-4 py-3 bg-muted/20">
-                    <p className="text-muted-foreground text-sm leading-relaxed">{faq.answer}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-6 bg-gradient-to-br from-primary to-accent text-white relative">
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-balance text-white">
-            Ready to Explore the Slovenian Alps?
-          </h2>
-          <p className="text-xl mb-8 text-pretty leading-relaxed text-white">
-            Let us create your perfect self-guided hiking adventure through Slovenia's most spectacular landscapes
-          </p>
-
-          <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 mb-8 hover:bg-black/30 transition-all duration-300 hover:scale-[1.02]">
-            <h3 className="text-2xl font-bold mb-6 text-white">Get in Touch</h3>
-            <div className="flex flex-col items-center gap-4">
-              <div className="flex items-center gap-3 hover:scale-105 transition-transform duration-300">
-                <Mail className="h-6 w-6 text-white" />
-                <a
-                  href="mailto:info@andara.si"
-                  className="text-xl hover:text-yellow-200 transition-colors duration-200 text-white"
-                >
-                  info@andara.si
-                </a>
-              </div>
-              <p className="text-white/90">Send us an email to start planning your adventure</p>
+      {/* ------------------------------------------------------------ VALUES */}
+      <section className="py-24 md:py-32">
+        <div className={wrap}>
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+            <Reveal className="lg:col-span-4">
+              <SectionHead index="03" eyebrow="What we hold to" title="Four things we do not bend on" />
+            </Reveal>
+            <div className="lg:col-span-8">
+              <ul className="grid gap-px overflow-hidden rounded-[24px] bg-line-soft sm:grid-cols-2">
+                {about.values.map((v, i) => {
+                  const Icon = valueIcons[i]
+                  return (
+                    <Reveal as="li" key={v.title} delay={i * 80}>
+                      <div className="flex h-full flex-col gap-4 bg-paper p-7 md:p-8">
+                        <Icon size={22} weight="light" className="text-accent" />
+                        <h3 className="text-[1.25rem] leading-snug">{v.title}</h3>
+                        <p className="text-[0.9375rem] leading-[1.7] text-ink-soft">{v.body}</p>
+                      </div>
+                    </Reveal>
+                  )
+                })}
+              </ul>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="flex justify-center gap-6">
-            <a
-              href="https://www.instagram.com/andara.si/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-6"
-              aria-label="Follow us on Instagram"
-            >
-              <Instagram className="h-6 w-6 text-white" />
-            </a>
-            <a
-              href="#"
-              className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:-rotate-6"
-              aria-label="Follow us on Facebook"
-            >
-              <Facebook className="h-6 w-6 text-white" />
-            </a>
-             <a
-              href="https://www.tiktok.com/@andara.si"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:-rotate-6"
-              aria-label="Follow us on TikTok"
-            >
-              <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-              </svg>
-             </a>
+      {/* ----------------------------------------------------------- MISSION */}
+      <section className="relative overflow-hidden py-28 md:py-36">
+        <Image src="/velika-planina.jpg" alt="" fill sizes="100vw" className="object-cover object-center" />
+        <div className="absolute inset-0 bg-ink/72" />
+        <div className={`relative ${wrap}`}>
+          <Reveal>
+            <div className="max-w-[62ch]">
+              <Eyebrow tone="light">Our mission</Eyebrow>
+              <blockquote className="mt-7 text-[1.625rem] leading-[1.35] text-white sm:text-[2rem] md:text-[2.375rem]">
+                {about.mission}
+              </blockquote>
+              <p className="mt-7 max-w-[54ch] text-[1.0625rem] leading-[1.7] text-white/80">
+                {about.mission2}
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* --------------------------------------------------------------- FAQ */}
+      <section className="py-24 md:py-32">
+        <div className={wrap}>
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+            <Reveal className="lg:col-span-4">
+              <SectionHead index="04" eyebrow="Common questions" title="About the way we work" />
+            </Reveal>
+            <Reveal delay={100} className="lg:col-span-8">
+              <FaqList items={about.faq} />
+            </Reveal>
           </div>
         </div>
       </section>
-    </div>
+
+      {/* --------------------------------------------------------------- CTA */}
+      <section className="border-t border-line bg-paper-2 py-20 md:py-24">
+        <div className={wrap}>
+          <Reveal>
+            <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
+              <div>
+                <h2 className="max-w-[20ch] text-[2rem] leading-[1.1] sm:text-[2.5rem]">
+                  Ready to walk the Julian Alps your own way?
+                </h2>
+                <p className="mt-4 max-w-[48ch] text-[1rem] leading-relaxed text-ink-soft">
+                  Send us your dates and group size. You get real hut availability and a full price{" "}
+                  {site.replyTime}.
+                </p>
+              </div>
+              <div className="flex shrink-0 flex-wrap gap-3">
+                <Cta href="/contact">Plan your dates</Cta>
+                <Cta href="/#itinerary" variant="outline">
+                  See the trek
+                </Cta>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+    </>
   )
 }

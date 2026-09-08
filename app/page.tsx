@@ -1,755 +1,633 @@
-"use client"
-
-import type React from "react"
-
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import Image from "next/image"
 import {
-  MapPin,
-  Mountain,
-  Camera,
-  Play,
-  Clock,
-  TrendingUp,
-  Users,
-  ChevronDown,
-  Mail,
-  Instagram,
-  Facebook,
-  Linkedin,
-  Info,
-} from "lucide-react"
-import Link from "next/link"
+  ArrowRight,
+  MapTrifold,
+  Check,
+  X,
+  Mountains,
+  Path,
+  Sun,
+  UsersThree,
+} from "@phosphor-icons/react/dist/ssr"
+import { Reveal } from "@/components/reveal"
+import { FaqList } from "@/components/faq-list"
+import { EnquiryForm } from "@/components/enquiry-form"
+import { Cta } from "@/components/ui/cta"
+import { Eyebrow, Bezel, SectionHead, Stat } from "@/components/ui/bits"
+import {
+  site,
+  heroStats,
+  selfGuidedPoints,
+  comparison,
+  steps,
+  included,
+  notIncluded,
+  highlights,
+  routeProse,
+  itinerary,
+  videos,
+  faq,
+} from "@/lib/site"
 
-export default function TriglavTourPage() {
-  const [activeTab, setActiveTab] = useState("highlights")
-  const [isVisible, setIsVisible] = useState(false)
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
+const wrap = "mx-auto w-full max-w-[1180px] px-5 sm:px-8"
 
-  useEffect(() => {
-    setIsVisible(true)
-  }, [])
+const levelDots: Record<string, number> = {
+  Demanding: 3,
+  Moderate: 2,
+  "Easy to moderate": 2,
+  Easy: 1,
+  Flexible: 0,
+}
 
-  const highlights = [
-    {
-      icon: Mountain,
-      title: "Circle Slovenia's highest mountain",
-      description: "100 km trekking route around Mount Triglav (2,864 m)",
-    },
-    {
-      icon: Camera,
-      title: "Crystal-clear alpine lakes",
-      description: "Triglav Lakes, emerald Soča River, and Lake Jasna",
-    },
-    {
-      icon: MapPin,
-      title: "Best alternative to Tour du Mont Blanc",
-      description: "Hidden gem in the heart of Slovenian Alps",
-    },
-  ]
+const heroIcons = [Sun, Path, Mountains, UsersThree]
 
-  const included = [
-    "Detailed maps & route description",
-    "Handpicked alpine huts & guesthouses",
-    "Daily luggage transfers",
-    "Breakfast & dinner featuring local cuisine",
-  ]
-
-  const itinerary = [
-    {
-      day: 1,
-      title: "Bohinj → Prehodavci",
-      description:
-        "Starting from Planina Blato, the trail winds across alpine pastures and through the valley of the Triglav Lakes. Step by step, the horizon opens until Prehodavci greets you with your first true touch of the high mountains.",
-      stats: "6-8 hours | ~14 km | +1,150 m | –220 m",
-      difficulty: "Demanding",
-      mapLink:
-        "https://www.google.com/maps/dir/Ob%C4%8Dina+Bohinj/Zasavska+ko%C4%8Da+na+Prehodavcih,+5232+So%C4%8Da/@46.3150527,13.7919491,12z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x477a8d690162778d:0x400f81c823fec60!2m2!1d13.9563992!2d46.2715959!1m5!1m1!1s0x477a8a0b2e8da561:0x2c49e12588417d5b!2m2!1d13.7922622!2d46.3585131!3e2?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
-    },
-    {
-      day: 2,
-      title: "Prehodavci → Bovec",
-      description:
-        "A long descent through the enchanting Trenta Valley brings you closer to the emerald Soča. Towering cliffs and alpine meadows guide the way, until the friendly town of Bovec welcomes you at day's end.",
-      stats: "5-7 hours | ~10 km | +150 m | –1,400 m",
-      difficulty: "Moderate",
-      mapLink:
-        "https://www.google.com/maps/dir/Zasavska+ko%C4%8Da+na+Prehodavcih,+5232+So%C4%8Da/Bovec/@46.3346884,13.591115,12z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x477a8a0b2e8da561:0x2c49e12588417d5b!2m2!1d13.7922622!2d46.3585131!1m5!1m1!1s0x477a683c5d0fdefb:0x5d345816713d53fd!2m2!1d13.5516829!2d46.3376387!3e2?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
-    },
-    {
-      day: 3,
-      title: "Bovec → Vršič",
-      description:
-        "Following the Soča upstream, the path climbs steadily toward the legendary Vršič Pass. Serpentine trails and a short detour across Špička reveal panoramas that reward every step.",
-      stats: "6-8 hours | ~12 km | +1,200 m | –250 m",
-      difficulty: "Demanding",
-      mapLink:
-        "https://www.google.com/maps/dir/Bovec/Vr%C5%A1i%C4%8D,+5232+So%C4%8Da/@46.383106,13.5649735,12z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x477a683c5d0fdefb:0x5d345816713d53fd!2m2!1d13.5516829!2d46.3376387!1m5!1m1!1s0x477a639e901fe117:0x62434b431f29ec06!2m2!1d13.7430709!2d46.432897!3e2?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
-    },
-    {
-      day: 4,
-      title: "Vršič → Kranjska Gora",
-      description:
-        "A gentle descent opens into the crystal-clear Jasna Valley, leading you into Kranjska Gora. This alpine village is perfect for slowing down, exploring, and soaking in the mountain spirit.",
-      stats: "~12 km | +100 m | –850 m",
-      difficulty: "Easy–moderate",
-      mapLink:
-        "https://www.google.com/maps/dir/Vr%C5%A1i%C4%8D,+5232+So%C4%8Da/Kranjska+Gora,+4280/@46.4593832,13.7252755,13z/data=!3m1!4b1!4m6!3m5!1s0x477a7ce5980f8af5:0xdc10e282bbdf9dde!8m2!3d46.485884!4d13.7898423!16zL20vMHE5X2w?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
-    },
-    {
-      day: 5,
-      title: "Rest Day in Kranjska Gora",
-      description:
-        "A day to recover or explore at your own pace. Take a relaxed walk, cycle to nearby lakes, or climb surrounding peaks for wide-open views. Optional activities include Vitranc peak or cycling to Italian lakes.",
-      stats: "Optional activities available",
-      difficulty: "Flexible",
-      mapLink:
-        "https://www.google.com/maps/place/4280+Kranjska+Gora/@46.4603615,13.6883718,12z/data=!3m1!4b1!4m6!3m5!1s0x477a7ce5980f8af5:0xdc10e282bbdf9dde!8m2!3d46.485884!4d13.7898423!16zL20vMHE5X2w?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
-    },
-    {
-      day: 6,
-      title: "Kranjska Gora → Mojstrana",
-      description:
-        "Begin with a hike to the hidden Martuljek waterfalls, sparkling gems in the forest. Later, a short bus transfer takes you to Mojstrana, the welcoming gateway to the Vrata Valley.",
-      stats: "3-4 hours | ~8 km | +200m | –200m",
-      difficulty: "Easy",
-      mapLink:
-        "https://www.google.com/maps/dir/Kranjska+Gora,+4280/Mojstrana,+4281/@46.4774508,13.817046,12.74z/data=!4m14!4m13!1m5!1m1!1s0x477a7ce5980f8af5:0xdc10e282bbdf9dde!2m2!1d13.7898423!2d46.485884!1m5!1m1!1s0x477a86744015ed1d:0xa00f81eceaab6f0!2m2!1d13.9395387!2d46.461301!3e2?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
-    },
-    {
-      day: 7,
-      title: "Mojstrana → Bled",
-      description:
-        "The journey culminates in the Vrata Valley beneath the mighty north face of Triglav. A final transfer brings you to Bled, where lake and castle complete this alpine fairy tale.",
-      stats: "3-4 hours | ~8 km | +200m | –200m",
-      difficulty: "Easy",
-      mapLink:
-        "https://www.google.com/maps/dir/Mojstrana,+4281/Bled,+4260/@46.4139546,13.9561348,12z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x477a86744015ed1d:0xa00f81eceaab6f0!2m2!1d13.9395387!2d46.461301!1m5!1m1!1s0x477a8e1dd7139961:0x400f81c823fec50!2m2!1d14.1145798!2d46.3683266!3e2?entry=ttu&g_ep=EgoyMDI1MDkwMi4wIKXMDSoASAFQAw%3D%3D",
-    },
-  ]
-
-  const [currentDayIndex, setCurrentDayIndex] = useState(0)
-  const [touchStart, setTouchStart] = useState(0)
-  const [touchEnd, setTouchEnd] = useState(0)
-  const [showImageCredits, setShowImageCredits] = useState(false)
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX)
-  }
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX)
-  }
-
-  const handleTouchEnd = () => {
-    if (touchStart - touchEnd > 50) {
-      // swipe left
-      setCurrentDayIndex((prev) => Math.min(prev + 1, itinerary.length - 1))
-    } else if (touchEnd - touchStart > 50) {
-      // swipe right
-      setCurrentDayIndex((prev) => Math.max(prev - 1, 0))
-    }
-  }
-
-  const faqData = [
-    {
-      question: "What type of accommodation is provided?",
-      answer:
-        "Our carefully selected alpine huts and guesthouses offer a warm atmosphere, welcoming hosts, and beautiful locations. Private rooms are planned for your stay, with two exceptions where only shared accommodation is available. These huts are popular not only with hikers but also with travelers seeking an authentic Alpine experience.",
-    },
-    {
-      question: "How is accommodation on arrival and departure?",
-      answer:
-        "Accommodation on your arrival and departure days is not included and should be arranged individually. For your arrival, we recommend staying in Bohinj (e.g., Vila Majerca or Hotel Bohinj). For your final night, we suggest booking accommodation in Bled (e.g., Adora Luxury Hotel, Hotel Triglav, Vila Bled, Penzion Berc).",
-    },
-    {
-      question: "How does luggage transport work?",
-      answer:
-        "We will transfer your luggage from cabin to cabin, so you only need to carry a daypack. The only exception is Day 1, when you'll need to bring extra clothes, as the cabin is located in the heart of the mountains with no road access.",
-    },
-    {
-      question: "What meals are included?",
-      answer:
-        "During your stay, breakfast and dinner are included, each prepared with fresh local ingredients that showcase the rich traditions of Slovenian cuisine. From hearty mountain dishes to authentic regional flavors, every meal is part of the journey. Along the trail, you'll also find plenty of huts offering tasty lunch options.",
-    },
-    {
-      question: "What is the route information and maps?",
-      answer:
-        "Our selected daily hikes are well-marked, and you'll encounter fellow hikers along the way. The trails within the national park are narrow and often rocky, so sturdy footwear is essential. For your orientation and convenience, you will receive a detailed map and tour description.",
-    },
-    {
-      question: "How difficult is the Triglav Tour?",
-      answer:
-        "The Triglav Tour features demanding terrain with long ascents and descents, typically 6–8 hours of hiking per day. Routes may include stream crossings and require good orientation skills. Therefore, participants should have prior hiking experience and be in good physical condition.",
-    },
-    {
-      question: "What equipment do I need?",
-      answer:
-        "To fully enjoy your hiking adventure in the mountains, it's essential to be prepared for changing weather and local conditions. We recommend wearing warm, waterproof layers, hiking boots, and protecting yourself with sunscreen and sunglasses. Hiking poles are also highly recommended for added comfort. Full list available upon request.",
-    },
-    {
-      question: "When to visit Triglav with Andara?",
-      answer:
-        "The best time to hike Triglav and enjoy multi-day trekking routes in Triglav National Park is from May to September—late spring, summer, or early fall. This is the most popular Slovenia hiking season, with temperatures typically ranging between 15°C and 25°C, creating excellent conditions for both day hikes and multi-day adventures. Since Triglav is Slovenia's most iconic peak and attracts hikers from around the world, we recommend booking your Triglav hiking tour with Andara at least 6 months in advance. This ensures the best availability in mountain huts and allows us to carefully plan your route for a safe and memorable experience.",
-    },
-  ]
-
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20 transition-all duration-700 ease-out"
-          style={{
-            backgroundImage: `url('/triglav-mountain-landscape.jpeg')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
+    <>
+      {/* ------------------------------------------------------------- HERO */}
+      <section className="relative flex min-h-[94dvh] flex-col justify-end overflow-hidden pb-14 pt-32 sm:pb-16">
+        <Image
+          src="/triglav-mountain-landscape.jpg"
+          alt="The Triglav massif seen from the Vrata valley"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/45 to-ink/15" />
+        <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-ink/85 via-ink/35 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-ink/45 to-transparent" />
 
-        <div
-          className={`relative z-10 text-center text-white max-w-4xl mx-auto px-6 transition-all duration-1200 ease-out ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
-        >
-          <div className="mb-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
-            <img
-              src="/andara-logo-final.png"
-              alt="Andara - Queen of the Alps"
-              className="mx-auto max-w-2xl w-full h-auto hover:scale-105 transition-transform duration-500"
-            />
+        <div className={`relative ${wrap}`}>
+          <div className="grid items-end gap-10 lg:grid-cols-12">
+            <div className="lg:col-span-7">
+              <Reveal>
+                <Eyebrow tone="light">Self-guided trek {String.fromCharCode(183)} No guide, no group</Eyebrow>
+              </Reveal>
+
+              <Reveal delay={80}>
+                <h1 className="mt-6 text-[2.6rem] leading-[0.98] text-white sm:text-[3.6rem] md:text-[4.4rem] lg:text-[4.75rem]">
+                  Seven days around Triglav.
+                  <span className="block italic text-white/85">Nobody walking ahead of you.</span>
+                </h1>
+              </Reveal>
+
+              <Reveal delay={160}>
+                <p className="mt-7 max-w-[52ch] text-[1.0625rem] leading-[1.7] text-white/85 sm:text-[1.1875rem]">
+                  A 100 km self-guided trek around Slovenia&apos;s highest mountain. You pick the
+                  dates and set the pace. We book the huts, move your luggage from door to door and
+                  map every turn, then get out of your way.
+                </p>
+              </Reveal>
+
+              <Reveal delay={240}>
+                <div className="mt-9 flex flex-wrap items-center gap-3">
+                  <Cta href="/contact">Get your dates and price</Cta>
+                  <Cta href="/#itinerary" variant="ghost-light">
+                    See the seven days
+                  </Cta>
+                </div>
+              </Reveal>
+
+              <Reveal delay={300}>
+                <p className="mt-6 text-[0.875rem] text-white/65">
+                  Or write to{" "}
+                  <a
+                    href={`mailto:${site.email}`}
+                    className="text-white underline decoration-white/40 underline-offset-4 transition-colors duration-[var(--dur-ui)] hover:decoration-white"
+                  >
+                    {site.email}
+                  </a>
+                  . We answer {site.replyTime}.
+                </p>
+              </Reveal>
+            </div>
+
+            <Reveal delay={360} className="lg:col-span-5">
+              <div className="rounded-[24px] bg-white/[0.09] p-1.5 ring-1 ring-white/20 backdrop-blur-xl">
+                <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[18px] bg-white/15">
+                  {heroStats.map((s, i) => {
+                    const Icon = heroIcons[i]
+                    return (
+                      <div key={s.label} className="bg-ink/25 px-5 py-6">
+                        <Icon size={19} weight="light" className="mb-3 text-white/70" aria-hidden />
+                        <dt className="text-[10px] uppercase tracking-[0.18em] text-white/60">
+                          {s.label}
+                        </dt>
+                        <dd className="mt-2 text-[1.0625rem] font-medium tracking-[-0.01em] text-white">
+                          {s.value}
+                        </dd>
+                      </div>
+                    )
+                  })}
+                </dl>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* Quick Info Cards */}
-      <section className="py-16 px-6 bg-muted/50">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Highlights */}
-            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] border-0 shadow-lg">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-primary text-xl group-hover:text-accent transition-colors duration-300">
-                  Tour Highlights
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {highlights.map((highlight, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start gap-3 group-hover:translate-x-1 transition-transform duration-300"
-                    style={{ transitionDelay: `${index * 100}ms` }}
-                  >
-                    <highlight.icon className="h-5 w-5 text-accent mt-1 flex-shrink-0 group-hover:scale-110 transition-transform duration-300" />
-                    <div>
-                      <p className="font-medium text-sm">{highlight.title}</p>
-                      <p className="text-muted-foreground text-xs">{highlight.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
+      {/* -------------------------------------------------- SELF-GUIDED */}
+      <section id="self-guided" className="scroll-mt-24 py-24 md:py-32">
+        <div className={wrap}>
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+            <Reveal className="lg:col-span-5">
+              <SectionHead
+                index="01"
+                eyebrow="Read this first"
+                title={
+                  <>
+                    This is not a{" "}
+                    <span className="italic text-accent">guided group tour.</span>
+                  </>
+                }
+                lead="Most people booking a week in the Alps picture a guide at the front and fourteen strangers behind. That is not what this is, and the difference is the whole reason people book it."
+              />
 
-            {/* Including */}
-            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] border-0 shadow-lg">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-primary text-xl group-hover:text-accent transition-colors duration-300">
-                  What's Included
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  {included.map((item, index) => (
-                    <li
-                      key={index}
-                      className="flex items-center gap-2 text-sm group-hover:translate-x-1 transition-transform duration-300"
-                      style={{ transitionDelay: `${index * 50}ms` }}
-                    >
-                      <div className="h-1.5 w-1.5 bg-accent rounded-full flex-shrink-0 group-hover:scale-150 transition-transform duration-300" />
-                      {item}
+              <div className="mt-10 border-t border-line pt-8">
+                <h3 className="text-[10px] uppercase tracking-[0.2em] text-ink-faint">
+                  So what do we actually do
+                </h3>
+                <ul className="mt-5 flex flex-col gap-3.5">
+                  {[
+                    "Book and pay for every hut and guesthouse",
+                    "Move your luggage while you walk",
+                    "Hand you the maps, the notes and our number",
+                  ].map((t) => (
+                    <li key={t} className="flex gap-3">
+                      <span
+                        aria-hidden
+                        className="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+                      />
+                      <span className="text-[0.9375rem] leading-[1.6] text-ink">{t}</span>
                     </li>
                   ))}
                 </ul>
-              </CardContent>
-            </Card>
-
-            {/* Season & Price */}
-            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:scale-[1.02] border-0 shadow-lg bg-gradient-to-br from-primary/5 to-accent/5 hover:from-primary/10 hover:to-accent/10">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-primary text-xl group-hover:text-accent transition-colors duration-300">
-                  Tour Details
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300">
-                  <Clock className="h-4 w-4 text-accent group-hover:rotate-12 transition-transform duration-300" />
-                  <div>
-                    <p className="font-medium text-sm">Duration</p>
-                    <p className="text-muted-foreground text-sm">7 days, 100 km route</p>
-                  </div>
+                <div className="mt-8">
+                  <Cta href="/#how" variant="outline">
+                    See how it works
+                  </Cta>
                 </div>
-                <div className="flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300 delay-100">
-                  <TrendingUp className="h-4 w-4 text-accent group-hover:scale-110 transition-transform duration-300" />
-                  <div>
-                    <p className="font-medium text-sm">Difficulty</p>
-                    <p className="text-muted-foreground text-sm">Demanding terrain</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300 delay-200">
-                  <Users className="h-4 w-4 text-accent group-hover:scale-110 transition-transform duration-300" />
-                  <div>
-                    <p className="font-medium text-sm">Group Size</p>
-                    <p className="text-muted-foreground text-sm">Self-guided</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
+              </div>
+            </Reveal>
 
-      {/* Video Section */}
-      <section className="py-16 px-6">
-        <div className="max-w-4xl mx-auto">
-          <video
-            src="https://res.cloudinary.com/dztjnhhps/video/upload/v1764757850/ANDARA_SPLET_mvkm5u.mov"
-            controls
-            autoPlay={false}
-            className="rounded-2xl shadow-2xl w-full h-auto"
-          />
-        </div>
-      </section>
-
-
-      {/* Description */}
-      <section className="py-16 px-6 bg-muted/30">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 text-balance">
-            More Than Mountains — It's About Moments
-          </h2>
-          <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed">
-            <p className="text-xl mb-6">
-              Embark on a self-guided hiking adventure in Slovenia through the stunning Triglav National Park Hiking
-              Tour. This trail offers more than just breathtaking Alpine scenery — it's about unforgettable moments
-              along the way.
-            </p>
-            <p className="mb-6">
-              Towering peaks, crystal-clear lakes, hidden mountain villages, warm encounters with locals, and timeless
-              Alpine traditions make this journey a true hidden gem. If you've completed the Tour du Mont Blanc, the
-              Triglav Slovenia Hike is the best alternative to TMB.
-            </p>
-            <p className="mb-6">
-              Nestled in the heart of the Slovenian Alps, this 100 km trekking route circles Slovenia's highest
-              mountain, Mount Triglav (2,864 m). Recognized as one of Europe's classic multi-day treks, it belongs on
-              every serious hiker's bucket list.
-            </p>
-            <p>
-              On this self-guided Alps hiking Slovenia experience, everything is arranged from day one: detailed maps of
-              the entire route, handpicked accommodation in charming alpine huts and guesthouses, hearty local cuisine,
-              and seamless daily luggage transfers. That means you can enjoy the trail with just a light daypack —
-              leaving you free to savor every step, every view, and every moment of your Slovenia hiking adventure.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Day by Day Itinerary */}
-      <section className="py-16 px-6 bg-muted/30">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">Day by Day Itinerary</h2>
-
-          {/* Slider Container */}
-          <div className="relative">
-            {/* Navigation Arrows - Desktop */}
-            <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 left-0 right-0 z-10 justify-between pointer-events-none">
-              <button
-                onClick={() => setCurrentDayIndex((prev) => Math.max(prev - 1, 0))}
-                disabled={currentDayIndex === 0}
-                className="bg-background/80 backdrop-blur-sm p-3 rounded-full shadow-lg pointer-events-auto hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed -translate-x-4"
-                aria-label="Previous day"
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
-              <button
-                onClick={() => setCurrentDayIndex((prev) => Math.min(prev + 1, itinerary.length - 1))}
-                disabled={currentDayIndex === itinerary.length - 1}
-                className="bg-background/80 backdrop-blur-sm p-3 rounded-full shadow-lg pointer-events-auto hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed translate-x-4"
-                aria-label="Next day"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
-            </div>
-
-            {/* Slider */}
-            <div
-              className="overflow-hidden rounded-xl"
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-            >
-              <div
-                className="flex transition-transform duration-300 ease-out"
-                style={{ transform: `translateX(-${currentDayIndex * 100}%)` }}
-              >
-                {itinerary.map((day, index) => (
-                  <div key={index} className="w-full flex-shrink-0 px-2">
-                    <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.01] border-0 shadow-lg overflow-hidden">
-                      <div className="md:flex">
-                        <div className="md:w-1/3 overflow-hidden m-4 rounded-xl">
-                          <div
-                            className="h-64 md:h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700 rounded-xl"
-                            style={{
-                              backgroundImage:
-                                day.day === 1
-                                  ? `url('/lake-bohinj.png')`
-                                  : day.day === 2
-                                    ? `url('/zasavska-koca.png')`
-                                    : day.day === 3
-                                      ? `url('/soca-valley-bovec.png')`
-                                      : day.day === 4
-                                        ? `url('/vrsic-pass.jpeg')`
-                                        : day.day === 5
-                                          ? `url('/Kranjska_Gora,_Slovenia_(49547008976).jpg')`
-                                          : day.day === 6
-                                            ? `url('/Mojstrana_sunset.jpg')`
-                                            : day.day === 7
-                                              ? `url('/Lake_bled_2021.jpg')`
-                                              : undefined,
-                            }}
-                          />
-                        </div>
-                        <div className="md:w-2/3 p-8">
-                          <div className="flex items-center gap-4 mb-4">
-                            <Badge className="bg-primary text-white group-hover:bg-accent transition-colors duration-300">
-                              Day {day.day}
-                            </Badge>
-                            <h3 className="text-2xl font-bold group-hover:text-primary transition-colors duration-300">
-                              {day.title}
-                            </h3>
-                          </div>
-                          <p className="text-muted-foreground mb-4 leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
-                            {day.description}
-                          </p>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                            <div className="group-hover:translate-x-1 transition-transform duration-300">
-                              <p className="text-sm font-medium text-primary">Stats</p>
-                              <p className="text-sm text-muted-foreground">{day.stats}</p>
-                            </div>
-                            <div className="group-hover:translate-x-1 transition-transform duration-300 delay-100">
-                              <p className="text-sm font-medium text-primary">Difficulty</p>
-                              <Badge
-                                variant="outline"
-                                className={`text-xs transition-all duration-300 group-hover:scale-105 ${
-                                  day.difficulty === "Demanding"
-                                    ? "border-red-500 text-red-600"
-                                    : day.difficulty === "Moderate"
-                                      ? "border-yellow-500 text-yellow-600"
-                                      : "border-green-500 text-green-600"
-                                }`}
-                              >
-                                {day.difficulty}
-                              </Badge>
-                            </div>
-                          </div>
-                          <a
-                            href={day.mapLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300 p-2 rounded-lg hover:bg-muted/30"
-                          >
-                            <MapPin className="h-4 w-4 flex-shrink-0" />
-                            <span className="font-medium">Map:</span>
-                            <span className="hover:underline">{day.title} route</span>
-                          </a>
-                        </div>
+            <div className="lg:col-span-7">
+              <ul className="flex flex-col gap-px overflow-hidden rounded-[24px] bg-line-soft">
+                {selfGuidedPoints.map((p, i) => (
+                  <Reveal as="li" key={p.title} delay={i * 90}>
+                    <div className="flex gap-5 bg-paper px-6 py-8 sm:px-8">
+                      <span className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-quiet text-accent">
+                        <X size={14} weight="bold" />
+                      </span>
+                      <div>
+                        <h3 className="text-[1.3125rem] leading-snug">{p.title}</h3>
+                        <p className="mt-2.5 max-w-[52ch] text-[0.9375rem] leading-[1.7] text-ink-soft">
+                          {p.body}
+                        </p>
                       </div>
-                    </Card>
-                  </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* primerjalna tabela */}
+          <Reveal className="mt-16 md:mt-20">
+            <Bezel tone="raised">
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[640px] border-collapse text-left">
+                  <caption className="sr-only">
+                    Self-guided with Andara compared with a guided group tour
+                  </caption>
+                  <thead>
+                    <tr className="border-b border-line">
+                      {comparison.headers.map((h, i) => (
+                        <th
+                          key={h || i}
+                          scope="col"
+                          className={`px-5 py-5 align-bottom text-[0.9375rem] font-medium sm:px-7 ${
+                            i === 1 ? "text-accent" : i === 0 ? "text-ink-faint" : "text-ink-faint"
+                          }`}
+                        >
+                          {i === 0 ? (
+                            <span className="text-[10px] uppercase tracking-[0.18em]">
+                              What changes
+                            </span>
+                          ) : (
+                            h
+                          )}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {comparison.rows.map((row) => (
+                      <tr key={row[0]} className="border-b border-line-soft last:border-0">
+                        <th
+                          scope="row"
+                          className="px-5 py-4 text-[0.875rem] font-normal text-ink-faint sm:px-7"
+                        >
+                          {row[0]}
+                        </th>
+                        <td className="bg-accent-quiet/40 px-5 py-4 text-[0.9375rem] text-ink sm:px-7">
+                          {row[1]}
+                        </td>
+                        <td className="px-5 py-4 text-[0.9375rem] text-ink-soft sm:px-7">{row[2]}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Bezel>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ------------------------------------------------------ HOW IT WORKS */}
+      <section id="how" className="scroll-mt-24 border-y border-line bg-paper-2 py-24 md:py-32">
+        <div className={wrap}>
+          <Reveal>
+            <SectionHead
+              index="02"
+              eyebrow="How it works"
+              title="You do the walking. We do everything else."
+              lead="Four steps from a rough idea of a week in Slovenia to a booked trek that is entirely yours."
+            />
+          </Reveal>
+
+          <ol className="mt-14 grid gap-px overflow-hidden rounded-[24px] bg-line-soft sm:grid-cols-2 lg:grid-cols-4">
+            {steps.map((s, i) => (
+              <Reveal as="li" key={s.n} delay={i * 80}>
+                <div className="flex h-full flex-col gap-4 bg-paper-2 p-7 md:p-8">
+                  <span className="font-mono text-[0.75rem] tracking-[0.2em] text-accent">{s.n}</span>
+                  <h3 className="text-[1.375rem] leading-snug">{s.title}</h3>
+                  <p className="text-[0.9375rem] leading-[1.7] text-ink-soft">{s.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </ol>
+
+          <Reveal delay={120} className="mt-12">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
+              <Cta href="/contact">Start with your dates</Cta>
+              <p className="text-[0.875rem] text-ink-soft">
+                Nothing is asked of you until you have the full price in writing.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ------------------------------------------------------------- ROUTE */}
+      <section id="route" className="scroll-mt-24 py-24 md:py-32">
+        <div className={wrap}>
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+            <Reveal className="lg:col-span-5">
+              <SectionHead
+                index="03"
+                eyebrow="The route"
+                title={
+                  <>
+                    More than mountains.
+                    <span className="block italic">It is about the moments.</span>
+                  </>
+                }
+              />
+              <ul className="mt-10 flex flex-col gap-6 border-t border-line pt-8">
+                {highlights.map((h) => (
+                  <li key={h.title} className="flex gap-4">
+                    <ArrowRight
+                      size={17}
+                      weight="light"
+                      className="mt-1 shrink-0 text-accent"
+                      aria-hidden
+                    />
+                    <div>
+                      <h3 className="text-[1.0625rem] font-medium leading-snug">{h.title}</h3>
+                      <p className="mt-1 text-[0.9375rem] leading-relaxed text-ink-soft">{h.body}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+
+            <Reveal delay={120} className="lg:col-span-7">
+              <div className="flex flex-col gap-5 text-[1.0625rem] leading-[1.75] text-ink-soft">
+                {routeProse.map((p, i) => (
+                  <p key={i} className={i === 0 ? "text-[1.1875rem] leading-[1.65] text-ink" : ""}>
+                    {p}
+                  </p>
                 ))}
               </div>
-            </div>
 
-            {/* Day Indicators */}
-            <div className="flex justify-center mt-8 space-x-2">
-              {itinerary.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentDayIndex(index)}
-                  className={`h-3 rounded-full transition-all duration-300 ${
-                    currentDayIndex === index ? "bg-primary w-8" : "bg-muted-foreground/30 w-3 hover:bg-primary/50"
-                  }`}
-                  aria-label={`Go to day ${index + 1}`}
-                />
-              ))}
-            </div>
-
-            {/* Mobile Navigation */}
-            <div className="flex md:hidden justify-center mt-6 space-x-4">
-              <button
-                onClick={() => setCurrentDayIndex((prev) => Math.max(prev - 1, 0))}
-                disabled={currentDayIndex === 0}
-                className="bg-primary text-white p-3 rounded-full shadow-lg hover:bg-accent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label="Previous day"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <button
-                onClick={() => setCurrentDayIndex((prev) => Math.min(prev + 1, itinerary.length - 1))}
-                disabled={currentDayIndex === itinerary.length - 1}
-                className="bg-primary text-white p-3 rounded-full shadow-lg hover:bg-accent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label="Next day"
-              >
-                <ChevronRight className="h-5 w-5" />
-              </button>
-            </div>
+              <div className="mt-10">
+                <Bezel tone="raised">
+                  {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                  <video
+                    src={videos.intro.src}
+                    poster={videos.intro.poster}
+                    controls
+                    preload="none"
+                    playsInline
+                    aria-label="A short film from the trail, shot by Anja and Darja"
+                    className="aspect-video w-full bg-ink object-cover"
+                  />
+                </Bezel>
+                <p className="mt-3 text-[0.8125rem] text-ink-faint">
+                  A short film from the trail, by Anja and Darja.
+                </p>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* Animated Map Section */}
-      <section className="py-16 px-6 bg-background">
-        <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-12">
-            Triglav Tour – Animated Map
-          </h2>
-      
-          <div className="rounded-2xl overflow-hidden shadow-2xl">
-            <video
-              src="https://res.cloudinary.com/dztjnhhps/video/upload/v1766135736/1_TRIGLAVSKI_NARODNI_PARK_4k_iy34xw.mp4"
-              controls
-              preload="metadata"
-              className="w-full h-auto"
+      {/* --------------------------------------------------------- ITINERARY */}
+      <section id="itinerary" className="scroll-mt-24 border-t border-line py-24 md:py-32">
+        <div className={wrap}>
+          <Reveal>
+            <SectionHead
+              index="04"
+              eyebrow="Day by day"
+              title="Seven days, and what each one asks of you"
+              lead="Every day below is walked at your own pace. The times are what an averagely fit hiker takes, not a schedule you have to keep."
             />
-          </div>
-        </div>
-      </section>
+          </Reveal>
 
+          <ol className="mt-16 flex flex-col">
+            {itinerary.map((day, i) => (
+              <Reveal as="li" key={day.day} delay={40}>
+                <article className="grid gap-8 border-t border-line py-10 md:grid-cols-12 md:gap-10 md:py-12 lg:gap-12">
+                  <div className="relative md:col-span-5">
+                    <Bezel tone="raised">
+                      <div className="relative aspect-[4/3] w-full">
+                        <Image
+                          src={day.image}
+                          alt={day.alt}
+                          fill
+                          sizes="(min-width: 1024px) 42vw, 100vw"
+                          loading={i < 2 ? "eager" : "lazy"}
+                          className="object-cover"
+                        />
+                      </div>
+                    </Bezel>
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute -left-1 -top-6 font-display text-[4.5rem] leading-none text-ink/12 md:-left-3 md:-top-9 md:text-[6rem]"
+                    >
+                      {String(day.day).padStart(2, "0")}
+                    </span>
+                  </div>
 
-      {/* FAQ Section */}
-      <section className="py-16 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
-          <div className="space-y-1">
-            {faqData.map((faq, index) => (
-              <div
-                key={index}
-                className="border border-border/50 rounded-lg overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-md"
-              >
-                <button className="w-full text-left" onClick={() => setOpenFaq(openFaq === index ? null : index)}>
-                  <div className="flex items-center justify-between py-3 px-4 hover:bg-muted/30 transition-all duration-300">
-                    <h3 className="text-primary text-base font-medium hover:text-accent transition-colors duration-300 pr-4">
-                      {faq.question}
+                  <div className="md:col-span-7 lg:pt-2">
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono text-[0.75rem] uppercase tracking-[0.18em] text-accent">
+                        Day {day.day}
+                      </span>
+                      <span className="h-px flex-1 bg-line" aria-hidden />
+                      <span className="flex items-center gap-2 text-[0.75rem] uppercase tracking-[0.14em] text-ink-faint">
+                        {day.difficulty}
+                        {(levelDots[day.difficulty] ?? 0) > 0 && (
+                          <span className="flex gap-1" aria-hidden>
+                            {[0, 1, 2].map((d) => (
+                              <span
+                                key={d}
+                                className={`h-1.5 w-1.5 rounded-full ${
+                                  d < (levelDots[day.difficulty] ?? 0) ? "bg-accent" : "bg-line"
+                                }`}
+                              />
+                            ))}
+                          </span>
+                        )}
+                      </span>
+                    </div>
+
+                    <h3 className="mt-4 text-[1.875rem] leading-[1.1] md:text-[2.25rem]">
+                      {day.title}
                     </h3>
-                    <ChevronDown
-                      className={`h-4 w-4 text-muted-foreground transition-all duration-700 ease-out flex-shrink-0 ${
-                        openFaq === index ? "rotate-180 text-accent" : "hover:text-primary"
-                      }`}
-                    />
+                    <p className="mt-4 max-w-[58ch] text-[1rem] leading-[1.75] text-ink-soft">
+                      {day.description}
+                    </p>
+
+                    <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-line pt-6 sm:grid-cols-4">
+                      <Stat label="On foot" value={day.hours} />
+                      <Stat label="Distance" value={day.distance} />
+                      <Stat label="Ascent" value={day.up} />
+                      <Stat label="Descent" value={day.down} />
+                    </dl>
+
+                    <a
+                      href={day.mapLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group mt-5 -ml-2 inline-flex min-h-11 items-center gap-2.5 rounded-full px-2 py-2 text-[0.875rem] text-ink-soft transition-colors duration-[var(--dur-ui)] hover:text-accent"
+                    >
+                      <MapTrifold size={17} weight="light" />
+                      <span className="underline decoration-line underline-offset-4 transition-colors duration-[var(--dur-ui)] group-hover:decoration-accent">
+                        Open this day on the map
+                      </span>
+                    </a>
                   </div>
-                </button>
-                <div
-                  className={`transition-all duration-700 ease-out overflow-hidden ${
-                    openFaq === index ? "max-h-96 opacity-100 border-t border-border/30" : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <div className="px-4 py-3 bg-muted/20">
-                    <p className="text-muted-foreground text-sm leading-relaxed">{faq.answer}</p>
-                  </div>
-                </div>
-              </div>
+                </article>
+              </Reveal>
             ))}
-          </div>
-        </div>
-      </section>
-      
+          </ol>
 
-      {/* Contact Information */}
-      <section className="py-20 px-6 bg-gradient-to-br from-primary to-accent text-white relative">
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-balance text-white">
-            Ready for Your Alpine Adventure?
-          </h2>
-          <p className="text-xl mb-8 text-pretty leading-relaxed text-white">
-            Contact us to book your unforgettable self-guided journey through Slovenia's most spectacular mountain
-            landscapes
-          </p>
-
-          <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 mb-8 hover:bg-black/30 transition-all duration-300 hover:scale-[1.02]">
-            <h3 className="text-2xl font-bold mb-6 text-white">Get in Touch</h3>
-            <div className="flex flex-col items-center gap-4">
-              <div className="flex items-center gap-3 hover:scale-105 transition-transform duration-300">
-                <Mail className="h-6 w-6 text-white" />
-                <a
-                  href="mailto:info@andara.si"
-                  className="text-xl hover:text-yellow-200 transition-colors duration-200 text-white"
-                >
-                  info@andara.si
-                </a>
-              </div>
-              <p className="text-white/90">Send us an email for booking and inquiries</p>
-            </div>
-          </div>
-
-          <div className="flex justify-center gap-6 mb-8">
-            <a
-              href="https://www.instagram.com/andara.si/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-6"
-              aria-label="Follow us on Instagram"
-            >
-              <Instagram className="h-6 w-6 text-white" />
-            </a>
-            <a
-              href="#"
-              className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:-rotate-6"
-              aria-label="Follow us on Facebook"
-            >
-              <Facebook className="h-6 w-6 text-white" />
-            </a>
-            {/* TikTok icon as custom SVG */}
-            <a
-              href="https://www.tiktok.com/@andara.si"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-black/20 hover:bg-black/30 p-4 rounded-full transition-all duration-300 hover:scale-110 hover:-rotate-6"
-              aria-label="Follow us on TikTok"
-            >
-              <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-              </svg>
-            </a>
-          </div>
-
-          <div className="border-t border-white/20 pt-8">
-            <Link
-              href="/about"
-              className="inline-flex items-center gap-3 bg-white text-primary px-8 py-4 rounded-full font-semibold text-lg hover:bg-accent hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-2xl group"
-            >
-              <Info className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
-              <span>About Us</span>
-            </Link>
-          </div>
+          <Reveal className="mt-14">
+            <Bezel tone="raised">
+              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+              <video
+                src={videos.map.src}
+                poster={videos.map.poster}
+                controls
+                preload="none"
+                playsInline
+                aria-label="An animated flight over the full Triglav circuit route"
+                className="aspect-video w-full bg-ink object-cover"
+              />
+            </Bezel>
+            <p className="mt-3 text-[0.8125rem] text-ink-faint">
+              The full circuit, animated over the terrain of Triglav National Park.
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      {/* Image Credits Section */}
-      <section className="py-8 px-6 bg-muted/20 border-t border-border/30">
-        <div className="max-w-4xl mx-auto">
-          <button
-            onClick={() => setShowImageCredits(!showImageCredits)}
-            className="flex items-center justify-center w-full gap-2 text-lg font-medium text-muted-foreground hover:text-primary transition-colors duration-300 mb-4"
-            aria-expanded={showImageCredits}
-            aria-label="Toggle image credits"
-          >
-            <span>Image Credits</span>
-            <ChevronDown
-              className={`h-5 w-5 transition-transform duration-500 ease-out ${
-                showImageCredits ? "rotate-180 text-accent" : ""
-              }`}
+      {/* ---------------------------------------------------------- INCLUDED */}
+      <section id="included" className="scroll-mt-24 border-y border-line bg-paper-2 py-24 md:py-32">
+        <div className={wrap}>
+          <Reveal>
+            <SectionHead
+              index="05"
+              eyebrow="What you get"
+              title="Everything except the walking"
+              lead="One price covers the whole week on the ground. Here is exactly where the line sits, so nothing surprises you later."
             />
-          </button>
+          </Reveal>
 
-          <div
-            className={`transition-all duration-700 ease-out overflow-hidden ${
-              showImageCredits ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-            }`}
-          >
-            <div className="text-center text-sm text-muted-foreground space-y-1">
-              <p>
-                Image1:{" "}
-                <a
-                  href="https://commons.wikimedia.org/wiki/File:Triglav_y_Valle_de_Vrata_%2814202569306%29_%282%29.jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-primary transition-colors duration-200 underline"
-                >
-                  Triglav y Valle de Vrata - Wikimedia Commons
-                </a>
+          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:gap-8">
+            <Reveal>
+              <Bezel tone="raised" className="h-full">
+                <div className="h-full p-7 md:p-9">
+                  <h3 className="text-[1.5rem] leading-snug">Included</h3>
+                  <ul className="mt-7 flex flex-col gap-4">
+                    {included.map((item) => (
+                      <li key={item} className="flex gap-3.5">
+                        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-white">
+                          <Check size={12} weight="bold" />
+                        </span>
+                        <span className="text-[0.9375rem] leading-[1.65] text-ink">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Bezel>
+            </Reveal>
+
+            <Reveal delay={100}>
+              <Bezel className="h-full">
+                <div className="h-full p-7 md:p-9">
+                  <h3 className="text-[1.5rem] leading-snug text-ink-soft">Not included</h3>
+                  <ul className="mt-7 flex flex-col gap-4">
+                    {notIncluded.map((item, i) => (
+                      <li key={item} className="flex gap-3.5">
+                        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-line text-ink-faint">
+                          <X size={11} weight="bold" />
+                        </span>
+                        <span
+                          className={`text-[0.9375rem] leading-[1.65] ${
+                            i === 0 ? "font-medium text-ink" : "text-ink-soft"
+                          }`}
+                        >
+                          {item}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Bezel>
+            </Reveal>
+          </div>
+
+          <Reveal delay={140} className="mt-10">
+            <p className="max-w-[62ch] text-[0.9375rem] leading-[1.7] text-ink-soft">
+              The price depends on your dates and how many of you there are, because hut rates and
+              transfers move with both. Tell us those two things and you get a full, itemised price{" "}
+              {site.replyTime}.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ---------------------------------------------------------- CTA BAND */}
+      <section className="relative overflow-hidden py-28 md:py-36">
+        <Image
+          src="/slovenian-alps.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-ink/70" />
+        <div className={`relative ${wrap}`}>
+          <Reveal>
+            <div className="max-w-[46ch]">
+              <Eyebrow tone="light">May to September</Eyebrow>
+              <h2 className="mt-6 text-[2.25rem] leading-[1.05] text-white sm:text-[2.9rem] md:text-[3.4rem]">
+                Tell us your week.
+                <span className="block italic text-white/80">We will tell you if it is free.</span>
+              </h2>
+              <p className="mt-6 max-w-[48ch] text-[1.0625rem] leading-[1.7] text-white/80">
+                Huts in Triglav National Park fill up months ahead. Send us a rough window and how
+                many of you there are, and you get availability and a full price {site.replyTime}.
               </p>
-              <p>
-                Image2:{" "}
-                <a
-                  href="https://commons.wikimedia.org/wiki/File:Slovenia%27s_Lake_Bohinj,_facing_south.jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-primary transition-colors duration-200 underline"
-                >
-                  Slovenia's Lake Bohinj, facing south - Wikimedia Commons
-                </a>
-              </p>
-              <p>
-                Image3:{" "}
-                <a
-                  href="https://commons.wikimedia.org/wiki/File:Zasavska_ko%C4%8Da_na_Prehodavcih.jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-primary transition-colors duration-200 underline"
-                >
-                  Zasavska koča na Prehodavcih - Wikimedia Commons
-                </a>
-              </p>
-              <p>
-                Image4:{" "}
-                <a
-                  href="https://commons.wikimedia.org/wiki/File:So%C4%8Da_in_Bovec.jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-primary transition-colors duration-200 underline"
-                >
-                  Soča in Bovec - Wikimedia Commons
-                </a>
-              </p>
-              <p>
-                Image5:{" "}
-                <a
-                  href="https://commons.wikimedia.org/wiki/File:Vr%C5%A1i%C4%8D_%289782808046%29.jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-primary transition-colors duration-200 underline"
-                >
-                  Vršič Pass - Wikimedia Commons
-                </a>
-              </p>
-              <p>
-                Image6:{" "}
-                <a
-                  href="https://commons.wikimedia.org/wiki/File:Kranjska_Gora,_Slovenia_%2849547008976%29.jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-primary transition-colors duration-200 underline"
-                >
-                  Kranjska Gora, Slovenia - Wikimedia Commons
-                </a>
-              </p>
-              <p>
-                Image7:{" "}
-                <a
-                  href="https://commons.wikimedia.org/wiki/File:Mojstrana_sunset.jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-primary transition-colors duration-200 underline"
-                >
-                  Mojstrana sunset - Wikimedia Commons
-                </a>
-              </p>
-              <p>
-                Image8:{" "}
-                <a
-                  href="https://commons.wikimedia.org/wiki/File:Lake_bled_2021.jpg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-primary transition-colors duration-200 underline"
-                >
-                  Lake Bled - Wikimedia Commons
-                </a>
-              </p>
+              <div className="mt-9 flex flex-wrap items-center gap-3">
+                <Cta href="/#enquiry">Send your dates</Cta>
+                <Cta href={`mailto:${site.email}`} variant="ghost-light">
+                  {site.email}
+                </Cta>
+              </div>
             </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* --------------------------------------------------------------- FAQ */}
+      <section id="faq" className="scroll-mt-24 py-24 md:py-32">
+        <div className={wrap}>
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+            <Reveal className="lg:col-span-4">
+              <SectionHead
+                index="06"
+                eyebrow="Questions"
+                title="Asked before every booking"
+                lead="If yours is not here, write to us. We answer properly, not with a brochure."
+              />
+              <div className="mt-8">
+                <Cta href={`mailto:${site.email}`} variant="outline">
+                  Ask us directly
+                </Cta>
+              </div>
+            </Reveal>
+            <Reveal delay={100} className="lg:col-span-8">
+              <FaqList items={faq} />
+            </Reveal>
           </div>
         </div>
       </section>
-    </div>
+
+      {/* ----------------------------------------------------------- ENQUIRY */}
+      <section id="enquiry" className="scroll-mt-24 border-t border-line bg-paper-2 py-24 md:py-32">
+        <div className={wrap}>
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+            <Reveal className="lg:col-span-5">
+              <SectionHead
+                index="07"
+                eyebrow="Plan your dates"
+                title="Start the conversation"
+                lead="No booking engine, no deposit, no automated reply. Anja or Darja read every message and write back with real availability."
+              />
+
+              <dl className="mt-10 flex flex-col gap-6 border-t border-line pt-8">
+                <div>
+                  <dt className="text-[10px] uppercase tracking-[0.18em] text-ink-faint">Email</dt>
+                  <dd className="mt-2">
+                    <a
+                      href={`mailto:${site.email}`}
+                      className="text-[1.125rem] text-ink underline decoration-line underline-offset-4 transition-colors duration-[var(--dur-ui)] hover:text-accent hover:decoration-accent"
+                    >
+                      {site.email}
+                    </a>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[10px] uppercase tracking-[0.18em] text-ink-faint">
+                    Reply time
+                  </dt>
+                  <dd className="mt-2 text-[0.9375rem] text-ink-soft">
+                    Usually the same day, always {site.replyTime}.
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[10px] uppercase tracking-[0.18em] text-ink-faint">Season</dt>
+                  <dd className="mt-2 text-[0.9375rem] text-ink-soft">
+                    May to September. Book about six months ahead for the best huts.
+                  </dd>
+                </div>
+              </dl>
+            </Reveal>
+
+            <Reveal delay={100} className="lg:col-span-7">
+              <Bezel tone="raised">
+                <div className="p-7 md:p-9">
+                  <EnquiryForm />
+                </div>
+              </Bezel>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+    </>
   )
 }
